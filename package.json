@@ -1,7 +1,7 @@
 {
   "name": "tab-stash",
   "version": "1.0.0",
-  "description": "a chrome extension to save your tab list",
+  "description": "a chrome extension to stash your tab list",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

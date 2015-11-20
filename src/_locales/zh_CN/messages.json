@@ -1,0 +1,14 @@
+{
+	"extName":{
+		"message":"zvTabs(一键关闭左侧标签)",
+		"description":"插件名称"
+	},
+	"extDescription":{
+		"message":"zvTabs可以一键关闭左侧所有标签，使用方式有两种：一、在网页上点击右键选择“关闭左侧标签” ；二、点击Chrome工具栏上“关闭左侧”",
+		"description":"插件名称"
+	},
+	"extMenuTitle":{
+		"message":"关闭左侧标签",
+		"description":"菜单项标题"
+	}
+}
