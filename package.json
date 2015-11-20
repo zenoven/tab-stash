@@ -1,0 +1,14 @@
+{
+  "name": "tab-stash",
+  "version": "1.0.0",
+  "description": "a chrome extension to save your tab list",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "zenoven@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "webpack": "^1.12.6"
+  }
+}
