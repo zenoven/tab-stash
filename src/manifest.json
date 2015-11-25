@@ -13,7 +13,7 @@
     "48": "images/48.png",
     "128": "images/128.png"
   },
-  "permissions": ["contextMenus","tabs"],
+  "permissions": ["contextMenus","tabs","bookmarks"],
   "background":{
     "scripts": ["js/background.js"]
   }

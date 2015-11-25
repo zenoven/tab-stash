@@ -4,7 +4,7 @@ module.exports = {
     // plugins: {commonsPlugin},
 
     entry: {
-        index: './src/js/index.js'
+        background: './src/js/background.js'
     },
 
     output: {

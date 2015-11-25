@@ -9,6 +9,7 @@
   "author": "zenoven@gmail.com",
   "license": "MIT",
   "dependencies": {
+    "jsx-loader": "^0.13.2",
     "webpack": "^1.12.6"
   }
 }

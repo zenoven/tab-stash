@@ -1,14 +1,14 @@
 {
 	"extName":{
-		"message":"zvTabs(Close left side tabs)",
+		"message":"tab-stasher",
 		"description":"Plugin name"
 	},
 	"extDescription":{
-		"message":"zvTabs can close all the tabs on the left side with just one click by two ways, 1:right click on the web page and select 'Close left side tabs' , 2:click on the plugin icon(on the top right of Chrome)",
-		"description":"Plugin Name"
+		"message":"stash all your tabs in current window with one click",
+		"description":"Plugin Description"
 	},
 	"extMenuTitle":{
-		"message":"Close left side tabs",
+		"message":"stash all tabs",
 		"description":"Menu Title"
 	}
 }
