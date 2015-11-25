@@ -6,6 +6,8 @@ var u = {
         this.bindEvents();
     },
 
+    bookmarkTitle: "tab-stash",
+
     bindEvents: function () {
         this.iconEvent();
         this.contextMenuEvent();
@@ -33,7 +35,7 @@ var u = {
         var self = this;
         this.getAllTabs(function (tabs) {
             console.log(tabs);
-            self.saveToBookmark(function () {
+            self.saveToBookmark(tabs, function () {
                 self.close();
             });
         });
@@ -52,8 +54,52 @@ var u = {
         });
     },
 
-    saveToBookmark: function (callback) {
-        // todo: save
+    saveToBookmark: function (tabs,callback) {
+        var self = this;
+
+        function saveTabToBookmark(tab, parentBookmarkId){
+            c.bookmarks.create({
+                "title": tab.title,
+                "index": tab.index,
+                "url":   tab.url
+            });
+        }
+
+        function saveTabsToBookmark(tabs, parentBookmarkId){
+            for(var i = 0; i < tabs.length; i++) {
+                saveTabToBookmark(tabs[i], parentBookmarkId);
+            }
+        }
+
+        function createBookmarks(currentTab){
+            if(!self.bookmarkCreated){
+                // 创建插件书签文件夹
+                c.bookmarks.create({"title": self.bookmarkTitle}, function (parentBookmarkTreeNode) {
+                    self.bookmarkCreated = true;
+                    // todo: 创建子文件夹，存储当前窗口所有tab
+                    c.bookmarks.create({"title": currentTab.title}, function (childBookmarkTreeNode) {
+                        saveTabsToBookmark(tabs, childBookmarkTreeNode.id);
+                    });
+                });
+                
+            }else{
+                c.bookmarks.search({"title": self.bookmarkTitle}, function (parentBookmarkTreeNode) {
+                    // todo: 创建子文件夹，存储当前窗口所有tab
+                    c.bookmarks.create({"title": currentTab.title}, function (childBookmarkTreeNode) {
+                        saveTabsToBookmark(tabs, childBookmarkTreeNode.id);
+                    });
+                })
+            }
+        }
+
+        c.tabs.getCurrent(function(currentTab){
+            console.log(currentTab);
+            // todo: currentTab is undefined
+            // createBookmarks(currentTab);
+        });
+
+        
+
         console.log('saving to bookmarks...');
         callback && callback();
     }
