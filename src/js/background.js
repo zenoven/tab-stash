@@ -62,15 +62,13 @@ var u = {
         var self = this;
         this.getAllTabs(function (tabs) {
             console.log(tabs);
-            self.saveToBookmark(tabs, function () {
-                self.close();
-            });
+            self.saveToBookmark(tabs);
         });
     },
 
-    close: function(tabId, callback){
+    closeTab: function(tabId, callback){
         console.log('closing...');
-        // c.tabs.remove(tabId, callback);
+        c.tabs.remove(tabId, callback);
     },
 
     getAllTabs: function (callback) {
@@ -84,7 +82,7 @@ var u = {
     saveToBookmark: function (tabs,callback) {
         var self = this;
 
-        function saveTabToBookmark(tab, parentBookmarkId){
+        function saveTab(tab, parentBookmarkId, callback){
             console.log(tab);
             c.bookmarks.create({
                 title: tab.title,
@@ -92,26 +90,22 @@ var u = {
                 url:   tab.url,
                 parentId: parentBookmarkId
             },function (result) {
-                console.log(result);
+                callback && callback(tab, result);
             });
         }
 
-        function saveTabsToBookmark(tabs, parentBookmarkId){
-            for(var i = 0; i < tabs.length; i++) {
-                saveTabToBookmark(tabs[i], parentBookmarkId);
-            }
-        }
-
-        function createBookmarks(currentTab){
-            console.log(currentTab);
+        function saveAllTabs(currentTab){
             c.bookmarks.create({title: currentTab.title, parentId: self.bookmark.id}, function (bm) {
-                console.log(bm);
-                saveTabsToBookmark(tabs, bm.id);
+                for(var i = 0; i < tabs.length; i++) {
+                    saveTab(tabs[i], bm.id, function(tab){
+                        self.closeTab(tab.id);
+                    });
+                }
             });
         }
 
         c.tabs.query({active:true, currentWindow: true},function(tabs){
-            createBookmarks(tabs[0]);
+            saveAllTabs(tabs[0]);
         });
 
         
