@@ -97,9 +97,14 @@ var u = {
         function saveAllTabs(currentTab){
             c.bookmarks.create({title: currentTab.title, parentId: self.bookmark.id}, function (bm) {
                 for(var i = 0; i < tabs.length; i++) {
-                    saveTab(tabs[i], bm.id, function(tab){
-                        self.closeTab(tab.id);
-                    });
+                    (function(index,length){
+                        saveTab(tabs[i], bm.id, function(tab){
+                            self.closeTab(tab.id);
+                            if(index===length-1){
+                                c.tabs.create({active: true});
+                            }
+                        });
+                    })(i, tabs.length);
                 }
             });
         }
@@ -108,13 +113,7 @@ var u = {
             saveAllTabs(tabs[0]);
         });
 
-        
-
-        console.log('saving to bookmarks...');
-        callback && callback();
     }
-
-
 }
 
 u.init();
