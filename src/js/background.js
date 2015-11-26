@@ -6,11 +6,38 @@ var u = {
         this.bindEvents();
     },
 
-    bookmarkTitle: "tab-stash",
+    bookmark: {
+        id: null,
+        title:  "tab-stash",
+        children: null
+    },
 
     bindEvents: function () {
+        this.initBookmarkFolder();
         this.iconEvent();
         this.contextMenuEvent();
+    },
+
+    initBookmarkFolder: function(){
+        var self = this;
+        // ���û�д�����ǩ�ļ��У��ȴ���һ��
+        c.bookmarks.search({title: self.bookmark.title}, function (bookmark) {
+            console.log(bookmark);
+            if(bookmark.length ===0){
+                c.bookmarks.create({title: self.bookmark.title}, function(bm){
+                    self.bookmark.id = bm.id;
+                    if(bm.children && bm.children.length) {
+                        self.bookmark.children = bm.children;
+                    }
+                });
+            }else{
+                bookmark = bookmark[0];
+                self.bookmark.id = bookmark.id;
+                if(bookmark.children && bookmark.children.length) {
+                    self.bookmark.children = bookmark.children;
+                }
+            }
+        })
     },
 
     iconEvent: function(){
@@ -58,10 +85,14 @@ var u = {
         var self = this;
 
         function saveTabToBookmark(tab, parentBookmarkId){
+            console.log(tab);
             c.bookmarks.create({
-                "title": tab.title,
-                "index": tab.index,
-                "url":   tab.url
+                title: tab.title,
+                index: tab.index,
+                url:   tab.url,
+                parentId: parentBookmarkId
+            },function (result) {
+                console.log(result);
             });
         }
 
@@ -72,30 +103,15 @@ var u = {
         }
 
         function createBookmarks(currentTab){
-            if(!self.bookmarkCreated){
-                // 创建插件书签文件夹
-                c.bookmarks.create({"title": self.bookmarkTitle}, function (parentBookmarkTreeNode) {
-                    self.bookmarkCreated = true;
-                    // todo: 创建子文件夹，存储当前窗口所有tab
-                    c.bookmarks.create({"title": currentTab.title}, function (childBookmarkTreeNode) {
-                        saveTabsToBookmark(tabs, childBookmarkTreeNode.id);
-                    });
-                });
-                
-            }else{
-                c.bookmarks.search({"title": self.bookmarkTitle}, function (parentBookmarkTreeNode) {
-                    // todo: 创建子文件夹，存储当前窗口所有tab
-                    c.bookmarks.create({"title": currentTab.title}, function (childBookmarkTreeNode) {
-                        saveTabsToBookmark(tabs, childBookmarkTreeNode.id);
-                    });
-                })
-            }
+            console.log(currentTab);
+            c.bookmarks.create({title: currentTab.title, parentId: self.bookmark.id}, function (bm) {
+                console.log(bm);
+                saveTabsToBookmark(tabs, bm.id);
+            });
         }
 
-        c.tabs.getCurrent(function(currentTab){
-            console.log(currentTab);
-            // todo: currentTab is undefined
-            // createBookmarks(currentTab);
+        c.tabs.query({active:true, currentWindow: true},function(tabs){
+            createBookmarks(tabs[0]);
         });
 
         
