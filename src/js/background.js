@@ -16,13 +16,13 @@ var u = {
         this.initBookmarkFolder();
         this.iconEvent();
         this.contextMenuEvent();
+        this.bookmarkModifyEvent();
     },
 
     initBookmarkFolder: function(){
         var self = this;
         // 如果没有创建书签文件夹，先创建一个
         c.bookmarks.search({title: self.bookmark.title}, function (bookmark) {
-            console.log(bookmark);
             if(bookmark.length ===0){
                 c.bookmarks.create({title: self.bookmark.title}, function(bm){
                     self.bookmark.id = bm.id;
@@ -113,6 +113,19 @@ var u = {
             saveAllTabs(tabs[0]);
         });
 
+    },
+
+    bookmarkModifyEvent: function(){
+        var self = this;
+        c.bookmarks.onRemoved.addListener(function () {
+            self.initBookmarkFolder();
+        });
+        c.bookmarks.onChanged.addListener(function () {
+            self.initBookmarkFolder();
+        });
+        c.bookmarks.onMoved.addListener(function () {
+            self.initBookmarkFolder();
+        });
     }
 }
 
