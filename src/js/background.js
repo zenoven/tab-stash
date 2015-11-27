@@ -99,9 +99,6 @@ var u = {
                 for(var i = 0; i < tabs.length; i++) {
                     (function(index,length){
                         saveTab(tabs[i], bm.id, function(tab){
-                            if(index===0){
-                                c.tabs.create({active: true});
-                            }
                             self.closeTab(tab.id);
                         });
                     })(i, tabs.length);
@@ -110,6 +107,7 @@ var u = {
         }
 
         c.tabs.query({active:true, currentWindow: true},function(tabs){
+            c.tabs.create({active: true});
             saveAllTabs(tabs[0]);
         });
 
