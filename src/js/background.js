@@ -99,10 +99,10 @@ var u = {
                 for(var i = 0; i < tabs.length; i++) {
                     (function(index,length){
                         saveTab(tabs[i], bm.id, function(tab){
-                            self.closeTab(tab.id);
-                            if(index===length-1){
+                            if(index===0){
                                 c.tabs.create({active: true});
                             }
+                            self.closeTab(tab.id);
                         });
                     })(i, tabs.length);
                 }
