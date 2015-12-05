@@ -4,11 +4,12 @@ module.exports = {
     // plugins: {commonsPlugin},
 
     entry: {
-        background: './src/js/background.js'
+        background: './src/js/background.js',
+        popup: './src/js/popup.js'
     },
 
     output: {
-        path: './dist/js',
+        path: './src/js',
         filename: '[name].bundle.js'
     },
 
