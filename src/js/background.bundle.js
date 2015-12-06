@@ -44,62 +44,30 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var c = chrome;
-	var u = __webpack_require__(1);
+	var c     = chrome;
+	var tab   = __webpack_require__(1);
+	var stash = __webpack_require__(2);
 
-	u.init();
-
-/***/ },
-/* 1 */
-/***/ function(module, exports) {
-
-	var c = chrome;
-
-	var u = {
-
-	    init: function  (argument) {
-	        this.bindEvents();
-	    },
-
-	    bookmark: {
+	var bookmark = {
 	        id: null,
 	        title:  "tab-stash",
 	        children: null
+	    };
+
+	var background = {
+
+	    init: function() {
+	        this.bindEvents();
 	    },
 
 	    bindEvents: function () {
-	        this.initBookmarkFolder();
-	        this.iconEvent();
+	        this.initStash();
 	        this.contextMenuEvent();
 	        this.bookmarkModifyEvent();
 	    },
 
-	    initBookmarkFolder: function(){
-	        var self = this;
-	        // 如果没有创建书签文件夹，先创建一个
-	        c.bookmarks.search({title: self.bookmark.title}, function (bookmark) {
-	            if(bookmark.length ===0){
-	                c.bookmarks.create({title: self.bookmark.title}, function(bm){
-	                    self.bookmark.id = bm.id;
-	                    if(bm.children && bm.children.length) {
-	                        self.bookmark.children = bm.children;
-	                    }
-	                });
-	            }else{
-	                bookmark = bookmark[0];
-	                self.bookmark.id = bookmark.id;
-	                if(bookmark.children && bookmark.children.length) {
-	                    self.bookmark.children = bookmark.children;
-	                }
-	            }
-	        })
-	    },
-
-	    iconEvent: function(){
-	        var self = this;
-	        c.browserAction.onClicked.addListener(function (argument) {
-	            self.stash();
-	        });
+	    initStash: function(){
+	        stash.init();
 	    },
 
 	    contextMenuEvent: function () {
@@ -108,81 +76,127 @@
 	            title:chrome.i18n.getMessage("extMenuTitle"),
 	            contexts:['all'],
 	            onclick: function (argument) {
-	                self.stash();
+	                stash.create();
 	            }
 	        });
 	    },
 
-	    stash: function(argument) {
-	        var self = this;
-	        this.getAllTabs(function (tabs) {
-	            console.log(tabs);
-	            self.saveToBookmark(tabs);
-	        });
-	    },
-
-	    closeTab: function(tabId, callback){
-	        console.log('closing...');
-	        c.tabs.remove(tabId, callback);
-	    },
-
-	    getAllTabs: function (callback) {
-	        c.windows.getCurrent(function (win) {
-	            c.tabs.query( {'windowId': win.id}, function (tabs) {
-	                callback && callback(tabs);
-	            });
-	        });
-	    },
-
-	    saveToBookmark: function (tabs,callback) {
-	        var self = this;
-
-	        function saveTab(tab, parentBookmarkId, callback){
-	            console.log(tab);
-	            c.bookmarks.create({
-	                title: tab.title,
-	                index: tab.index,
-	                url:   tab.url,
-	                parentId: parentBookmarkId
-	            },function (result) {
-	                callback && callback(tab, result);
-	            });
-	        }
-
-	        function saveAllTabs(currentTab){
-	            c.bookmarks.create({title: currentTab.title, parentId: self.bookmark.id}, function (bm) {
-	                for(var i = 0; i < tabs.length; i++) {
-	                    (function(index,length){
-	                        saveTab(tabs[i], bm.id, function(tab){
-	                            self.closeTab(tab.id);
-	                        });
-	                    })(i, tabs.length);
-	                }
-	            });
-	        }
-
-	        c.tabs.query({active:true, currentWindow: true},function(tabs){
-	            c.tabs.create({active: true});
-	            saveAllTabs(tabs[0]);
-	        });
-
-	    },
-
 	    bookmarkModifyEvent: function(){
-	        var self = this;
 	        c.bookmarks.onRemoved.addListener(function () {
-	            self.initBookmarkFolder();
+	            stash.init();
 	        });
 	        c.bookmarks.onChanged.addListener(function () {
-	            self.initBookmarkFolder();
+	            stash.init();
 	        });
 	        c.bookmarks.onMoved.addListener(function () {
-	            self.initBookmarkFolder();
+	            stash.init();
 	        });
 	    }
 	}
 
-	module.exports = u
+	background.init();
+
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
+
+	var c = chrome;
+
+	function getAll(callback) {
+	    c.windows.getCurrent(function (win) {
+	        c.tabs.query( {'windowId': win.id}, function (tabs) {
+	            for(var i = 0, len = tabs.length; i < len; i++) {
+	                if(tabs[i].active) break;
+	            }
+	            callback && callback(tabs, i);
+	        });
+	    });
+	}
+
+	function close(tabId, callback){
+	    c.tabs.remove(tabId, callback);
+	}
+
+	module.exports = {
+	    getAll: getAll,
+	    close: close
+	};
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var c   = chrome;
+	var tab = __webpack_require__(1);
+
+	// stash使用的书签文件夹对象，用于存储数据
+	var bookmarkConfig = {
+	    id: null,
+	    title:  "tab-stash",
+	    children: null
+	};
+
+	function saveTabToBookmark(tab, parentBookmarkId, callback){
+	    c.bookmarks.create({
+	        title: tab.title,
+	        index: tab.index,
+	        url:   tab.url,
+	        parentId: parentBookmarkId
+	    },function (result) {
+	        callback && callback(tab, result);
+	    });
+	}
+
+	function saveAllTabsToBookmark(tabs, activeTabIndex){
+	    c.bookmarks.create({title: tabs[activeTabIndex].title, parentId: bookmarkConfig.id}, function (result) {
+	        for(var i = 0; i < tabs.length; i++) {
+	            (function(index,length){
+	                saveTabToBookmark(tabs[i], result.id, function(tab){
+	                    self.closeTab(tab.id);
+	                });
+	            })(i, tabs.length);
+	        }
+	    });
+	}
+
+	module.exports = {
+
+	    init: function(){
+	        // 如果没有创建书签文件夹，先创建一个
+	        c.bookmarks.search({title: bookmarkConfig.title}, function (bookmark) {
+	            if(bookmark.length ===0){
+	                c.bookmarks.create({title: bookmarkConfig.title}, function(result){
+	                    bookmarkConfig.id = result.id;
+	                    if(result.children && result.children.length) {
+	                        bookmarkConfig.children = result.children;
+	                    }
+	                });
+	            }else{
+	                bookmark = bookmark[0];
+	                bookmarkConfig.id = bookmark.id;
+	                if(bookmark.children && bookmark.children.length) {
+	                    bookmarkConfig.children = bookmark.children;
+	                }
+	            }
+	        })
+	    },
+
+	    get: function(){
+
+	    },
+
+	    create: function(options) {
+	        tab.getAll(function (tabs, i) {
+	            saveAllTabsToBookmark(tabs, i);
+	        });
+	    },
+
+	    modify: function(stash) {
+	        
+	    }
+	    
+	}
+
 
 /***/ }
 /******/ ]);
