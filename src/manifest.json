@@ -14,7 +14,12 @@
     "48": "images/48.png",
     "128": "images/128.png"
   },
-  "permissions": ["contextMenus","tabs","bookmarks"],
+  "permissions": [
+    "contextMenus",
+    "tabs",
+    "storage",
+    "bookmarks"
+  ],
   "background":{
     "scripts": ["js/background.bundle.js"]
   }

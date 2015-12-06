@@ -1,27 +1,41 @@
 var c     = chrome;
 var tab   = require('./lib/tab');
 var stash = require('./lib/stash');
-
-var bookmark = {
-        id: null,
-        title:  "tab-stash",
-        children: null
-    };
+var utils = require('./lib/utils');
+var st    = c.storage;
 
 var background = {
 
     init: function() {
+        this.initStash();
+        this.initOptions();
         this.bindEvents();
     },
 
     bindEvents: function () {
-        this.initStash();
         this.contextMenuEvent();
         this.bookmarkModifyEvent();
     },
 
     initStash: function(){
         stash.init();
+    },
+
+    initOptions: function(){
+        st.sync.get('options', function(result){
+            if(utils.isEmpty(result)){
+                st.sync.set({
+                    options: {
+                        preservTab: "blank"
+                    }
+                }, function(res){
+                    console.log('set initial options finished');
+                });
+            }else{
+                console.log('opions loaded');
+                console.log(result);
+            }
+        });
     },
 
     contextMenuEvent: function () {

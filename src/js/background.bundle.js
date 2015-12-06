@@ -40,34 +40,49 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
 	var c     = chrome;
 	var tab   = __webpack_require__(1);
 	var stash = __webpack_require__(2);
-
-	var bookmark = {
-	        id: null,
-	        title:  "tab-stash",
-	        children: null
-	    };
+	var utils = __webpack_require__(12);
+	var st    = c.storage;
 
 	var background = {
 
 	    init: function() {
+	        this.initStash();
+	        this.initOptions();
 	        this.bindEvents();
 	    },
 
 	    bindEvents: function () {
-	        this.initStash();
 	        this.contextMenuEvent();
 	        this.bookmarkModifyEvent();
 	    },
 
 	    initStash: function(){
 	        stash.init();
+	    },
+
+	    initOptions: function(){
+	        st.sync.get('options', function(result){
+	            if(utils.isEmpty(result)){
+	                st.sync.set({
+	                    options: {
+	                        preservTab: "blank"
+	                    }
+	                }, function(res){
+	                    console.log('set initial options finished');
+	                });
+	            }else{
+	                console.log('opions loaded');
+	                console.log(result);
+	            }
+	        });
 	    },
 
 	    contextMenuEvent: function () {
@@ -97,7 +112,8 @@
 	background.init();
 
 /***/ },
-/* 1 */
+
+/***/ 1:
 /***/ function(module, exports) {
 
 	var c = chrome;
@@ -123,11 +139,13 @@
 	};
 
 /***/ },
-/* 2 */
+
+/***/ 2:
 /***/ function(module, exports, __webpack_require__) {
 
 	var c   = chrome;
 	var tab = __webpack_require__(1);
+	var st  = c.storage; // 存储
 
 	// stash使用的书签文件夹对象，用于存储数据
 	var bookmarkConfig = {
@@ -152,7 +170,7 @@
 	        for(var i = 0; i < tabs.length; i++) {
 	            (function(index,length){
 	                saveTabToBookmark(tabs[i], result.id, function(tab){
-	                    self.closeTab(tab.id);
+	                    // self.closeTab(tab.id);
 	                });
 	            })(i, tabs.length);
 	        }
@@ -181,22 +199,58 @@
 	        })
 	    },
 
-	    get: function(){
-
-	    },
-
 	    create: function(options) {
 	        tab.getAll(function (tabs, i) {
 	            saveAllTabsToBookmark(tabs, i);
 	        });
 	    },
 
-	    modify: function(stash) {
+	    getAll: function(){
+
+	    },
+
+	    modify: function(stashId) {
 	        
+	    },
+
+	    delete: function(stashId) {
+
 	    }
 	    
 	}
 
 
+/***/ },
+
+/***/ 12:
+/***/ function(module, exports) {
+
+	module.exports = {
+	    isEmpty: function(value) {
+	        var type;
+
+	        if(value == null) { // 等同于 value === undefined || value === null
+	            return true;
+	        }
+
+	        type = Object.prototype.toString.call(value).slice(8, -1);
+
+	        switch(type) {
+	            case 'String':
+	                return !!$.trim(value);
+	            case 'Array':
+	                return !value.length;
+	            case 'Object':
+	                for(var v in value) {
+	                    return false;
+	                }
+	                return true; 
+	            default:
+	                return false; // 其他对象均视作非空
+	            }
+	    }
+	}
+
 /***/ }
-/******/ ]);
+
+/******/ });

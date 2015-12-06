@@ -1,5 +1,6 @@
 var c   = chrome;
 var tab = require('./tab');
+var st  = c.storage; // 存储
 
 // stash使用的书签文件夹对象，用于存储数据
 var bookmarkConfig = {
