@@ -40,15 +40,14 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 0:
+/******/ ([
+/* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var c     = chrome;
 	var tab   = __webpack_require__(1);
 	var stash = __webpack_require__(2);
-	var utils = __webpack_require__(12);
+	var utils = __webpack_require__(3);
 	var st    = c.storage;
 
 	var background = {
@@ -112,8 +111,7 @@
 	background.init();
 
 /***/ },
-
-/***/ 1:
+/* 1 */
 /***/ function(module, exports) {
 
 	var c = chrome;
@@ -139,8 +137,7 @@
 	};
 
 /***/ },
-
-/***/ 2:
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var c   = chrome;
@@ -221,8 +218,7 @@
 
 
 /***/ },
-
-/***/ 12:
+/* 3 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -252,5 +248,4 @@
 	}
 
 /***/ }
-
-/******/ });
+/******/ ]);

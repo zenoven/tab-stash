@@ -9,7 +9,14 @@
   "author": "zenoven@gmail.com",
   "license": "MIT",
   "dependencies": {
-    "jsx-loader": "^0.13.2",
+    "jquery": "^2.1.4",
     "webpack": "^1.12.6"
+  },
+  "devDependencies": {
+    "css-loader": "^0.23.0",
+    "jsx-loader": "^0.13.2",
+    "less": "^2.5.3",
+    "less-loader": "^2.2.2",
+    "style-loader": "^0.13.0"
   }
 }
