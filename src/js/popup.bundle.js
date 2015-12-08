@@ -198,7 +198,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  width: 280px;\n  height: 300px;\n}\n.btn {\n  box-sizing: border-box;\n  display: block;\n  margin: 5px;\n  border: 1px solid red;\n}\n", ""]);
+	exports.push([module.id, "*,\n*:before,\n*:after {\n  box-sizing: border-box;\n}\nh2 {\n  margin: 0;\n}\nbody {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  width: 280px;\n  height: 360px;\n  padding: 0;\n  margin: 0;\n  background: #F2F2F2;\n}\n.header,\n.main {\n  position: fixed;\n  left: 5px;\n  right: 5px;\n}\n.header {\n  top: 5px;\n  height: 48px;\n  line-height: 48px;\n}\n.header .btn {\n  display: block;\n  height: 100%;\n  background: #398DE3;\n  font-family: 'PingFangTC-Regular';\n  font-size: 18px;\n  color: #fff;\n  text-align: center;\n  border-radius: 2px;\n}\n.main {\n  top: 58px;\n  bottom: 5px;\n  border: 1px solid #DCDCDC;\n  background: #fff;\n  border-radius: 2px;\n}\n.main .tips {\n  height: 25px;\n  line-height: 25px;\n  padding: 0 10px;\n  font-family: 'STHeitiSC-Light';\n  font-size: 12px;\n  color: #B8B8B8;\n}\n.main .stash-list {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.main .stash-list .item {\n  height: 36px;\n  line-height: 36px;\n  margin: 0;\n  padding: 0 10px;\n  border-top: 1px solid  #F2F2F2;\n}\n.main .stash-list .item:last-of-child {\n  border-bottom: 1px solid  #F2F2F2;\n}\n.main .count {\n  display: inline-block;\n  padding: 0 5px;\n  height: 14px;\n  line-height: 14px;\n  font-family: 'STHeitiSC-Light';\n  font-size: 10px;\n  color: #FFFFFF;\n  background: rgba(73, 143, 225, 0.4);\n  border-radius: 4px;\n}\n.main .title {\n  display: inline-block;\n}\n", ""]);
 
 	// exports
 
