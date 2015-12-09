@@ -25,5 +25,13 @@ module.exports = {
 
     resolve: {
         extensions: ['','.js', '.json', '.scss', '.less']
-    }
+    },
+
+    plugins: [
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery'
+        }),
+        new webpack.optimize.CommonsChunkPlugin('vender', './verder/vender.bundle.js')
+    ]
 }
