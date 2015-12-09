@@ -1,6 +1,16 @@
 var c   = chrome;
 var tab = require('./tab');
 var st  = c.storage; // 存储
+var options;
+
+st.sync.get('options',function (rs) {
+    options = rs.options;
+    console.log(options);
+});
+
+st.onChanged.addListener(function(changes, areaName) {
+    options = changes.newValue.options;
+});
 
 // stash使用的书签文件夹对象，用于存储数据
 var bookmarkConfig = {
@@ -20,12 +30,18 @@ function saveTabToBookmark(tab, parentBookmarkId, callback){
     });
 }
 
-function saveAllTabsToBookmark(tabs, activeTabIndex){
+function saveAllTabsToBookmark(tabs, activeTabIndex, config, callback){
+    console.log('config');
+    console.log(config);
     c.bookmarks.create({title: tabs[activeTabIndex].title, parentId: bookmarkConfig.id}, function (result) {
         for(var i = 0; i < tabs.length; i++) {
             (function(index,length){
+                // todo: 根据options来判断保留的tab
+                // if(config.preservTab ==='blank' && index === 0) {
+                //     c.tab.create();
+                // }
                 saveTabToBookmark(tabs[i], result.id, function(tab){
-                    // self.closeTab(tab.id);
+                    
                 });
             })(i, tabs.length);
         }
@@ -54,9 +70,9 @@ module.exports = {
         })
     },
 
-    create: function(options) {
+    create: function(callback) {
         tab.getAll(function (tabs, i) {
-            saveAllTabsToBookmark(tabs, i);
+            saveAllTabsToBookmark(tabs, i, options, callback);
         });
     },
 

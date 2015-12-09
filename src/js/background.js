@@ -28,7 +28,7 @@ var background = {
                     options: {
                         preservTab: "blank"
                     }
-                }, function(res){
+                }, function(){
                     console.log('set initial options finished');
                 });
             }else{

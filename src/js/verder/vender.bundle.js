@@ -125,6 +125,15 @@
 	var c   = chrome;
 	var tab = __webpack_require__(1);
 	var st  = c.storage; // 存储
+	var options;
+
+	st.get('options',function (rs) {
+	    options = rs;
+	});
+
+	st.onChange.addEventListener(function(changes, areaName) {
+	    options = changes;
+	});
 
 	// stash使用的书签文件夹对象，用于存储数据
 	var bookmarkConfig = {
@@ -144,7 +153,9 @@
 	    });
 	}
 
-	function saveAllTabsToBookmark(tabs, activeTabIndex){
+	function saveAllTabsToBookmark(tabs, activeTabIndex, config){
+	    console.log('config');
+	    console.log(config);
 	    c.bookmarks.create({title: tabs[activeTabIndex].title, parentId: bookmarkConfig.id}, function (result) {
 	        for(var i = 0; i < tabs.length; i++) {
 	            (function(index,length){
@@ -180,7 +191,7 @@
 
 	    create: function(options) {
 	        tab.getAll(function (tabs, i) {
-	            saveAllTabsToBookmark(tabs, i);
+	            saveAllTabsToBookmark(tabs, i, options);
 	        });
 	    },
 
