@@ -37,11 +37,24 @@ function saveAllTabsToBookmark(tabs, activeTabIndex, config, callback){
         for(var i = 0; i < tabs.length; i++) {
             (function(index,length){
                 // todo: 根据options来判断保留的tab
-                // if(config.preservTab ==='blank' && index === 0) {
-                //     c.tab.create();
-                // }
-                saveTabToBookmark(tabs[i], result.id, function(tab){
-                    
+                if(config.preservTab ==='blank' && index === 0) {
+                    c.tabs.create({active: false},null);
+                }
+                saveTabToBookmark(tabs[index], result.id, function(tab){
+                    console.log(config)
+                    if(config.preservTab ==='first' && index === 0) {
+                        return;
+                    }
+                    if(config.preservTab ==='last' && index === length-1) {
+                        return;
+                    }
+                    if(config.preservTab ==='fixed' && tab.pinned) {
+                        return;
+                    }
+                    if(config.preservTab ==='all') {
+                        return;
+                    }
+                    c.tabs.remove(tab.id);
                 });
             })(i, tabs.length);
         }
