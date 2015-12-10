@@ -122,8 +122,7 @@
 	}
 
 	function saveAllTabsToBookmark(tabs, activeTabIndex, config, callback){
-	    console.log('config');
-	    console.log(config);
+	    
 	    c.bookmarks.create({title: tabs[activeTabIndex].title, parentId: bookmarkConfig.id}, function (result) {
 	        for(var i = 0; i < tabs.length; i++) {
 	            (function(index,length){
