@@ -2,7 +2,7 @@ var normalize = require('normalize.css');
 var style     = require('../styles/popup.less');
 var stash     = require('./lib/stash');
 
-stash.init();
+stash.init(true);
 
 $('.js-add-stash').on('click', function () {
     stash.create(function (argument) {

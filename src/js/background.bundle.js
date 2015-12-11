@@ -68,6 +68,16 @@
 	    },
 
 	    initOptions: function(){
+	st.sync.set({
+	                    options: {
+	                        preservTab: "all"
+	                    }
+	                }, function(){
+	                    console.log('set initial options finished');
+	                });
+
+
+
 	        st.sync.get('options', function(result){
 	            if(utils.isEmpty(result)){
 	                st.sync.set({
@@ -204,7 +214,8 @@
 
 	module.exports = {
 
-	    init: function(){
+	    init: function(render,callback){
+	        var self = this;
 	        // 如果没有创建书签文件夹，先创建一个
 	        c.bookmarks.search({title: bookmarkConfig.title}, function (bookmark) {
 	            if(bookmark.length ===0){
@@ -213,6 +224,8 @@
 	                    if(result.children && result.children.length) {
 	                        bookmarkConfig.children = result.children;
 	                    }
+	                    render && self.render();
+	                    callback && callback();
 	                });
 	            }else{
 	                bookmark = bookmark[0];
@@ -220,6 +233,8 @@
 	                if(bookmark.children && bookmark.children.length) {
 	                    bookmarkConfig.children = bookmark.children;
 	                }
+	                render && self.render();
+	                callback && callback();
 	            }
 	        })
 	    },
@@ -230,8 +245,35 @@
 	        });
 	    },
 
-	    getAll: function(){
+	    render: function(callback){
+	        var self = this;
+	        c.bookmarks.getSubTree(bookmarkConfig.id, function(tree) {
+	            console.log(tree);
+	            console.log(self.convertTreeToData(tree));
+	            callback && callback(tree);
+	        });
+	    },
 
+	    convertTreeToData: function (tree) {
+	        var data = {
+	            summary: {
+	                groupCount: tree[0].children.length,
+	                itemsCount: 0
+	            },
+	            list: []
+	        };
+	        var temp = {};
+
+	        tree[0].children.map(function(item, index){
+	            data.summary.itemsCount += item.children.length;
+	            temp = {
+	                title: item.title,
+	                dataAdded: item.dataAdded,
+	                // todo:
+	            }
+	        });
+
+	        return data;
 	    },
 
 	    modify: function(stashId) {

@@ -22,6 +22,16 @@ var background = {
     },
 
     initOptions: function(){
+st.sync.set({
+                    options: {
+                        preservTab: "all"
+                    }
+                }, function(){
+                    console.log('set initial options finished');
+                });
+
+
+
         st.sync.get('options', function(result){
             if(utils.isEmpty(result)){
                 st.sync.set({
