@@ -68,15 +68,6 @@
 	    },
 
 	    initOptions: function(){
-	st.sync.set({
-	                    options: {
-	                        preservTab: "all"
-	                    }
-	                }, function(){
-	                    console.log('set initial options finished');
-	                });
-
-
 
 	        st.sync.get('options', function(result){
 	            if(utils.isEmpty(result)){
@@ -194,7 +185,7 @@
 	                }
 	                saveTabToBookmark(tabs[index], result.id, function(tab){
 	                    index===length-1 && callback && callback();
-	                    
+
 	                    if(config.preservTab ==='first' && index === 0) {
 	                        return;
 	                    }
@@ -220,25 +211,30 @@
 
 	    init: function(callback){
 	        var self = this;
-	        // 如果没有创建书签文件夹，先创建一个
-	        c.bookmarks.search({title: bookmarkConfig.title}, function (bookmark) {
-	            if(bookmark.length ===0){
-	                c.bookmarks.create({title: bookmarkConfig.title}, function(result){
-	                    bookmarkConfig.id = result.id;
-	                    if(result.children && result.children.length) {
-	                        bookmarkConfig.children = result.children;
+	        self.initTimer && clearTimeout(self.initTimer);
+
+	        self.initTimer = setTimeout(function(){
+	            // 如果没有创建书签文件夹，先创建一个
+	            c.bookmarks.search({title: bookmarkConfig.title}, function (bookmark) {
+	                if(bookmark.length ===0){
+	                    c.bookmarks.create({title: bookmarkConfig.title}, function(result){
+	                        bookmarkConfig.id = result.id;
+	                        if(result.children && result.children.length) {
+	                            bookmarkConfig.children = result.children;
+	                        }
+	                        callback && callback();
+	                    });
+	                }else{
+	                    bookmark = bookmark[0];
+	                    bookmarkConfig.id = bookmark.id;
+	                    if(bookmark.children && bookmark.children.length) {
+	                        bookmarkConfig.children = bookmark.children;
 	                    }
 	                    callback && callback();
-	                });
-	            }else{
-	                bookmark = bookmark[0];
-	                bookmarkConfig.id = bookmark.id;
-	                if(bookmark.children && bookmark.children.length) {
-	                    bookmarkConfig.children = bookmark.children;
 	                }
-	                callback && callback();
-	            }
-	        })
+	            })
+	        },100);
+	        
 	    },
 
 	    create: function(callback) {

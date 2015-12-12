@@ -50,27 +50,61 @@
 	var tpl       = __webpack_require__(98);
 	var $         = __webpack_require__(99);
 	var html      = '';
+	var c         = chrome;
 
 
-	function render(){
-	    stash.getAll(function(obj){
-	        console.log('start rendering...');
-	        console.log(obj);
-	        html = tpl('stash-template', obj);
-	        $('.main').html(html);
-	    });
+	var popup = {
+
+	    init: function(){
+	        var self = this;
+	        stash.init(function(){
+	            self.render();
+	        });
+	        self.bindEvents();
+	    },
+
+	    bindEvents: function(){
+	        this.onStash();
+	        this.bookmarkModifyEvent();
+	    },
+
+	    onStash: function(){
+	        var self = this;
+	        $('.js-add-stash').on('click', function () {
+	            stash.create(function(){
+	                self.render();
+	            });
+	        });
+	    },
+
+	    bookmarkModifyEvent: function(){
+	        var self = this;
+	        c.bookmarks.onRemoved.addListener(function () {
+	            stash.init(function(){
+	                self.render();
+	            });
+	        });
+	        c.bookmarks.onChanged.addListener(function () {
+	            stash.init(function(){
+	                self.render();
+	            });
+	        });
+	        c.bookmarks.onMoved.addListener(function () {
+	            stash.init(function(){
+	                self.render();
+	            });
+	        });
+	    },
+
+	    render: function(){
+	        stash.getAll(function(obj){
+	            html = tpl('stash-template', obj);
+	            $('.main').html(html);
+	        });
+	    }
 	}
 
-	stash.init(function(){
-	    render();
-	});
-
-	$('.js-add-stash').on('click', function () {
-	    stash.create(function(){
-	        render();
-	        console.log('sdfasdf');
-	    });
-	});
+	popup.init();
 
 
 /***/ },
@@ -147,7 +181,7 @@
 	                }
 	                saveTabToBookmark(tabs[index], result.id, function(tab){
 	                    index===length-1 && callback && callback();
-	                    
+
 	                    if(config.preservTab ==='first' && index === 0) {
 	                        return;
 	                    }
@@ -173,25 +207,30 @@
 
 	    init: function(callback){
 	        var self = this;
-	        // 如果没有创建书签文件夹，先创建一个
-	        c.bookmarks.search({title: bookmarkConfig.title}, function (bookmark) {
-	            if(bookmark.length ===0){
-	                c.bookmarks.create({title: bookmarkConfig.title}, function(result){
-	                    bookmarkConfig.id = result.id;
-	                    if(result.children && result.children.length) {
-	                        bookmarkConfig.children = result.children;
+	        self.initTimer && clearTimeout(self.initTimer);
+
+	        self.initTimer = setTimeout(function(){
+	            // 如果没有创建书签文件夹，先创建一个
+	            c.bookmarks.search({title: bookmarkConfig.title}, function (bookmark) {
+	                if(bookmark.length ===0){
+	                    c.bookmarks.create({title: bookmarkConfig.title}, function(result){
+	                        bookmarkConfig.id = result.id;
+	                        if(result.children && result.children.length) {
+	                            bookmarkConfig.children = result.children;
+	                        }
+	                        callback && callback();
+	                    });
+	                }else{
+	                    bookmark = bookmark[0];
+	                    bookmarkConfig.id = bookmark.id;
+	                    if(bookmark.children && bookmark.children.length) {
+	                        bookmarkConfig.children = bookmark.children;
 	                    }
 	                    callback && callback();
-	                });
-	            }else{
-	                bookmark = bookmark[0];
-	                bookmarkConfig.id = bookmark.id;
-	                if(bookmark.children && bookmark.children.length) {
-	                    bookmarkConfig.children = bookmark.children;
 	                }
-	                callback && callback();
-	            }
-	        })
+	            })
+	        },100);
+	        
 	    },
 
 	    create: function(callback) {
