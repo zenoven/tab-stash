@@ -11,100 +11,25 @@
         <span class="btn btn-primary js-add-stash">暂存</span>
     </section>
     
-    <section class="main">
-        <h2 class="tips">当前共4组，22个tab</h2>
-        <ul class="stash-list">
+    <section class="main"></section>
+
+<script type="text/html" id="stash-template">
+    <h2 class="tips">当前共{{summary.groupCount}}组，{{summary.itemsCount}}个tab</h2>
+    <ul class="stash-list">
+        {{each list as item i}}
             <li class="item">
-                <span class="count">99</span>
-                <h3 class="title">
-                    <span class="date">12-15</span>
-                    <span class="text">百度一下，你就知道你就知道你就知道你就知道你就知道你就知道你就知道</span>
+                <span class="count">
+                    <span class="inner">{{item.tabs.length}}</span>
+                </span>
+                <h3 class="title"  title="{{item.dateAddedFull}} | {{item.title}}">
+                    <span class="date">{{item.dateAddedShort}}</span> | 
+                    <span class="text">{{item.title}}</span>
                 </h3>
-                <span class="control-bar"></span>
             </li>
-            <li class="item">
-                <span class="count">99</span>
-                <h3 class="title">
-                    <span class="date">12-15</span>
-                    <span class="text">百度一下，你就知道你就知道你就知道你就知道你就知道你就知道你就知道</span>
-                </h3>
-                <span class="control-bar"></span>
-            </li>
-            <li class="item">
-                <span class="count">99</span>
-                <h3 class="title">
-                    <span class="date">12-15</span>
-                    <span class="text">百度一下，你就知道你就知道你就知道你就知道你就知道你就知道你就知道</span>
-                </h3>
-                <span class="control-bar"></span>
-            </li>
-            <li class="item">
-                <span class="count">99</span>
-                <h3 class="title">
-                    <span class="date">12-15</span>
-                    <span class="text">百度一下，你就知道你就知道你就知道你就知道你就知道你就知道你就知道</span>
-                </h3>
-                <span class="control-bar"></span>
-            </li>
-            <li class="item">
-                <span class="count">99</span>
-                <h3 class="title">
-                    <span class="date">12-15</span>
-                    <span class="text">百度一下，你就知道你就知道你就知道你就知道你就知道你就知道你就知道</span>
-                </h3>
-                <span class="control-bar"></span>
-            </li>
-            <li class="item">
-                <span class="count">99</span>
-                <h3 class="title">
-                    <span class="date">12-15</span>
-                    <span class="text">百度一下，你就知道你就知道你就知道你就知道你就知道你就知道你就知道</span>
-                </h3>
-                <span class="control-bar"></span>
-            </li>
-            <li class="item">
-                <span class="count">99</span>
-                <h3 class="title">
-                    <span class="date">12-15</span>
-                    <span class="text">百度一下，你就知道你就知道你就知道你就知道你就知道你就知道你就知道</span>
-                </h3>
-                <span class="control-bar"></span>
-            </li>
-            <li class="item">
-                <span class="count">99</span>
-                <h3 class="title">
-                    <span class="date">12-15</span>
-                    <span class="text">百度一下，你就知道你就知道你就知道你就知道你就知道你就知道你就知道</span>
-                </h3>
-                <span class="control-bar"></span>
-            </li>
-            <li class="item">
-                <span class="count">99</span>
-                <h3 class="title">
-                    <span class="date">12-15</span>
-                    <span class="text">百度一下，你就知道你就知道你就知道你就知道你就知道你就知道你就知道</span>
-                </h3>
-                <span class="control-bar"></span>
-            </li>
-            <li class="item">
-                <span class="count">99</span>
-                <h3 class="title">
-                    <span class="date">12-15</span>
-                    <span class="text">百度一下，你就知道你就知道你就知道你就知道你就知道你就知道你就知道</span>
-                </h3>
-                <span class="control-bar"></span>
-            </li>
-            <li class="item">
-                <span class="count">99</span>
-                <h3 class="title">
-                    <span class="date">12-15</span>
-                    <span class="text">百度一下，你就知道你就知道你就知道你就知道你就知道你就知道你就知道</span>
-                </h3>
-                <span class="control-bar"></span>
-            </li>
-            
-        </ul>
-    </section>
+        {{/each}}
+    </ul>
+</script>
+
 <script src="../js/popup.bundle.js"></script>
 </body>
 </html>

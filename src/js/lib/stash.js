@@ -1,6 +1,7 @@
-var c   = chrome;
-var tab = require('./tab');
-var st  = c.storage; // 存储
+var c      = chrome;
+var tab    = require('./tab');
+var st     = c.storage; // 存储
+var moment = require('moment');
 var options;
 
 st.sync.get('options',function (rs) {
@@ -62,7 +63,7 @@ function saveAllTabsToBookmark(tabs, activeTabIndex, config, callback){
 
 module.exports = {
 
-    init: function(render,callback){
+    init: function(callback){
         var self = this;
         // 如果没有创建书签文件夹，先创建一个
         c.bookmarks.search({title: bookmarkConfig.title}, function (bookmark) {
@@ -72,7 +73,6 @@ module.exports = {
                     if(result.children && result.children.length) {
                         bookmarkConfig.children = result.children;
                     }
-                    render && self.render();
                     callback && callback();
                 });
             }else{
@@ -81,7 +81,6 @@ module.exports = {
                 if(bookmark.children && bookmark.children.length) {
                     bookmarkConfig.children = bookmark.children;
                 }
-                render && self.render();
                 callback && callback();
             }
         })
@@ -93,12 +92,11 @@ module.exports = {
         });
     },
 
-    render: function(callback){
+    getAll: function(callback){
         var self = this;
         c.bookmarks.getSubTree(bookmarkConfig.id, function(tree) {
             console.log(tree);
-            console.log(self.convertTreeToData(tree));
-            callback && callback(tree);
+            callback && callback(self.convertTreeToData(tree));
         });
     },
 
@@ -116,9 +114,12 @@ module.exports = {
             data.summary.itemsCount += item.children.length;
             temp = {
                 title: item.title,
-                dataAdded: item.dataAdded,
-                // todo:
+                dateAdded: item.dateAdded,
+                dateAddedFull: moment(item.dateAdded).format('YYYY-MM-DD hh:mm:ss'),
+                dateAddedShort: moment(item.dateAdded).format('MM-DD'),
+                tabs: item.children
             }
+            data.list.push(temp);
         });
 
         return data;

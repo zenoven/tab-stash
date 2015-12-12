@@ -1,0 +1,22 @@
+{
+  "name": "tab-stash",
+  "description": "a chrome extension to stash your tab list",
+  "main": "index.js",
+  "authors": [
+    "zenoven@gmail.com"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/js/venders",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "art-template": "~3.0.1"
+  }
+}

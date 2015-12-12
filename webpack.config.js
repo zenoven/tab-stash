@@ -1,4 +1,12 @@
-var webpack = require('webpack');
+var webpack    = require('webpack');
+var vendersDir = __dirname + '/src/js/venders';
+var alias      = [];
+
+function addPlugin(name, venderPath){
+    alias[name] = vendersDir + venderPath;
+}
+
+addPlugin('art-template', '/art-template/dist/template-debug.js');
 
 module.exports = {
     // plugins: {commonsPlugin},
@@ -24,13 +32,7 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['','.js', '.json', '.scss', '.less']
-    },
-
-    plugins: [
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery'
-        })
-    ]
+        extensions: ['','.js', '.json', '.scss', '.less'],
+        alias: alias
+    }
 }
