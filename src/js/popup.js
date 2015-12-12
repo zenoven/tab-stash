@@ -19,7 +19,7 @@ var popup = {
 
     bindEvents: function(){
         this.onStash();
-        this.bookmarkModifyEvent();
+        this.onChromeEvent();
     },
 
     onStash: function(){
@@ -31,22 +31,29 @@ var popup = {
         });
     },
 
-    bookmarkModifyEvent: function(){
+    onChromeEvent: function(){
         var self = this;
+
+        function rerender(){
+            stash.init(function(){
+                self.render();
+            });
+        }
+
         c.bookmarks.onRemoved.addListener(function () {
-            stash.init(function(){
-                self.render();
-            });
+            rerender();
         });
+
         c.bookmarks.onChanged.addListener(function () {
-            stash.init(function(){
-                self.render();
-            });
+            rerender();
         });
+
         c.bookmarks.onMoved.addListener(function () {
-            stash.init(function(){
-                self.render();
-            });
+            rerender();
+        });
+        
+        c.contextMenus.onClicked.addListener(function (){
+            rerender();
         });
     },
 

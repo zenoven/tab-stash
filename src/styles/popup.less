@@ -58,6 +58,7 @@ body {
         font-family: 'STHeitiSC-Light';
         font-size: 12px;
         color: #B8B8B8;
+        background: #f8f8f8;
     }
     .stash-list {
         list-style: none;
@@ -72,10 +73,10 @@ body {
             margin: 0;
             padding: 0 10px;
             border-top: 1px solid  #F2F2F2;
-            &:last-of-child{
+            &:last-child{
                 border-bottom: 1px solid  #F2F2F2;
             } 
-
+            
             .count {
                 width: 20px;
                 margin-right: 5px;
@@ -96,10 +97,28 @@ body {
 
             .title {
                 flex: 1;
+                font-size: 12px;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 cursor: pointer;
+                color: #555;
+            }
+
+            &:hover {
+                background: rgba(73, 143, 225, 0.1);
+                border-color: rgba(73, 143, 226, 0.16);
+                .count {
+                    .inner {
+                        background: rgba(73,143,225,0.70);
+                    }
+                }
+                .title {
+                    color: #000;
+                }
+            }
+            &:hover + .item{
+                border-top-color: rgba(73, 143, 226, 0.16);
             }
         }
     }
