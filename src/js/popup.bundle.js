@@ -51,18 +51,24 @@
 	var $         = __webpack_require__(99);
 	var html      = '';
 
-	stash.init(function(){
+
+	function render(){
 	    stash.getAll(function(obj){
 	        console.log('start rendering...');
 	        console.log(obj);
 	        html = tpl('stash-template', obj);
 	        $('.main').html(html);
 	    });
+	}
+
+	stash.init(function(){
+	    render();
 	});
 
 	$('.js-add-stash').on('click', function () {
-	    stash.create(function (argument) {
-	        // body...
+	    stash.create(function(){
+	        render();
+	        console.log('sdfasdf');
 	    });
 	});
 
@@ -140,7 +146,8 @@
 	                    c.tabs.create({active: false},null);
 	                }
 	                saveTabToBookmark(tabs[index], result.id, function(tab){
-	                    console.log(config)
+	                    index===length-1 && callback && callback();
+	                    
 	                    if(config.preservTab ==='first' && index === 0) {
 	                        return;
 	                    }
@@ -153,7 +160,9 @@
 	                    if(config.preservTab ==='all') {
 	                        return;
 	                    }
+
 	                    c.tabs.remove(tab.id);
+	                    
 	                });
 	            })(i, tabs.length);
 	        }
@@ -216,7 +225,7 @@
 	                dateAdded: item.dateAdded,
 	                dateAddedFull: moment(item.dateAdded).format('YYYY-MM-DD hh:mm:ss'),
 	                dateAddedShort: moment(item.dateAdded).format('MM-DD'),
-	                tabs: item.children
+	                children: item.children
 	            }
 	            data.list.push(temp);
 	        });
@@ -229,6 +238,10 @@
 	    },
 
 	    delete: function(stashId) {
+
+	    },
+
+	    getChildren: function(stashId){
 
 	    }
 	    
