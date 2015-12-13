@@ -139,10 +139,6 @@ module.exports = {
 
     delete: function(stashId) {
 
-    },
-
-    getChildren: function(stashId){
-
     }
     
 }

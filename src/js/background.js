@@ -51,14 +51,12 @@ var background = {
     },
 
     bookmarkModifyEvent: function(){
-        c.bookmarks.onRemoved.addListener(function () {
-            stash.init();
-        });
-        c.bookmarks.onChanged.addListener(function () {
-            stash.init();
-        });
-        c.bookmarks.onMoved.addListener(function () {
-            stash.init();
+        var bookmarkEventArr = ['onRemoved','onChanged','onMoved'];
+        
+        bookmarkEventArr.forEach(function(event, i){
+            c.bookmarks[event].addListener(function(){
+                stash.init();
+            });
         });
     }
 }

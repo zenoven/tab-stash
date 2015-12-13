@@ -18,21 +18,39 @@ var popup = {
     },
 
     bindEvents: function(){
-        this.onStash();
-        this.onChromeEvent();
+        this.bindStashEvents();
+        this.bindChromeEvents();
     },
 
-    onStash: function(){
-        var self = this;
-        $('.js-add-stash').on('click', function () {
+    bindStashEvents: function(){
+        var self        = this;
+        var addBtn      = $('.js-add-stash');
+        var listWrapper = $('.main');
+
+        addBtn.on('click', function () {
             stash.create(function(){
                 self.render();
             });
         });
+
+        listWrapper.on('click',function(event){
+            var tgt = $(event.target);
+
+            // 如果点击的是stash项，根据设置打开该stash下的所有tab
+            if(true){
+
+            }
+
+            // 如果点击的是stash项，根据设置打开该stash下的所有tab
+            if(true){
+
+            }
+        });
     },
 
-    onChromeEvent: function(){
+    bindChromeEvents: function(){
         var self = this;
+        var bookmarkEventArr = ['onRemoved','onChanged','onMoved'];
 
         function rerender(){
             stash.init(function(){
@@ -40,18 +58,12 @@ var popup = {
             });
         }
 
-        c.bookmarks.onRemoved.addListener(function () {
-            rerender();
+        bookmarkEventArr.forEach(function(event, i){
+            c.bookmarks[event].addListener(function(){
+                rerender();
+            });
         });
 
-        c.bookmarks.onChanged.addListener(function () {
-            rerender();
-        });
-
-        c.bookmarks.onMoved.addListener(function () {
-            rerender();
-        });
-        
         c.contextMenus.onClicked.addListener(function (){
             rerender();
         });
