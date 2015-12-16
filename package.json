@@ -16,6 +16,8 @@
   },
   "devDependencies": {
     "css-loader": "^0.23.0",
+    "file-loader": "^0.8.5",
+    "url-loader": "^0.5.7",
     "jsx-loader": "^0.13.2",
     "less": "^2.5.3",
     "less-loader": "^2.2.2",

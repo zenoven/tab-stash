@@ -34,17 +34,28 @@ var popup = {
         });
 
         listWrapper.on('click',function(event){
+            event.preventDefault();
             var tgt = $(event.target);
-
-            // 如果点击的是stash项，根据设置打开该stash下的所有tab
-            if(true){
-
+            console.log(tgt)
+            // 如果点击的是stash项
+            if(tgt.closest('.item').length > 0){
+                var item = tgt.closest('.item');
+                var linkWrapper = item.find('.tab-list');
+                var linkList = item.find('.tab-list a');
+                if( !tgt.closest('.control').length) {
+                    linkList.each(function(i, link){
+                        console.log(link)
+                        console.log($(link))
+                        c.tabs.create({url: link.href})
+                    });
+                }else{
+                    // 点击展开
+                    if(tgt.closest('.expand').length) {
+                        item.toggleClass('expanded');
+                    }
+                }
             }
 
-            // 如果点击的是stash项，根据设置打开该stash下的所有tab
-            if(true){
-
-            }
         });
     },
 
@@ -52,7 +63,7 @@ var popup = {
         var self = this;
         var bookmarkEventArr = ['onRemoved','onChanged','onMoved'];
 
-        function rerender(){
+        function reRender(){
             stash.init(function(){
                 self.render();
             });
@@ -60,12 +71,12 @@ var popup = {
 
         bookmarkEventArr.forEach(function(event, i){
             c.bookmarks[event].addListener(function(){
-                rerender();
+                reRender();
             });
         });
 
         c.contextMenus.onClicked.addListener(function (){
-            rerender();
+            reRender();
         });
     },
 

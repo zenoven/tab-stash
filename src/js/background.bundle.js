@@ -263,6 +263,7 @@
 	            data.summary.itemsCount += item.children.length;
 	            temp = {
 	                title: item.title,
+	                id: item.id,
 	                dateAdded: item.dateAdded,
 	                dateAddedFull: moment(item.dateAdded).format('YYYY-MM-DD hh:mm:ss'),
 	                dateAddedShort: moment(item.dateAdded).format('MM-DD'),

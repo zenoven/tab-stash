@@ -23,11 +23,12 @@ module.exports = {
 
     module: {
         loaders: [
-            { test: /\.css$/,           loader: 'style-loader!css-loader' },
-            { test: /\.js$/,            loader: 'jsx-loader?harmony' },
+            { test: /\.css$/,           loader: 'style!css' },
+            { test: /\.js$/,            loader: 'jsx?harmony' },
             { test: /\.scss$/,          loader: 'style!css!sass?sourceMap' },
             { test: /\.less$/,          loader: 'style!css!less' },
-            { test: /\.(.png|.jpg)$/,   loader: 'url-loader?limit=8192' }
+            { test: /\.png$/,   loader: 'url?limit=8192&minetype=image/png' },
+            { test: /\.jpg$/,   loader: 'url?limit=8192&minetype=image/jpg' }
         ]
     },
 
