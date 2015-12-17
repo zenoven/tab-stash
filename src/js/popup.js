@@ -34,15 +34,20 @@ var popup = {
         });
 
         listWrapper.on('click',function(event){
-            event.preventDefault();
             var tgt = $(event.target);
-            console.log(tgt)
+            
+            if(!tgt.hasClass('link')){
+                event.preventDefault();
+            }else{
+                c.tabs.create({url: tgt[0].href})
+            }
+
             // 如果点击的是stash项
             if(tgt.closest('.item').length > 0){
                 var item = tgt.closest('.item');
                 var linkWrapper = item.find('.tab-list');
                 var linkList = item.find('.tab-list a');
-                if( !tgt.closest('.control').length) {
+                if( !tgt.closest('.control, .tab-list-wrapper').length) {
                     linkList.each(function(i, link){
                         console.log(link)
                         console.log($(link))
@@ -52,6 +57,10 @@ var popup = {
                     // 点击展开
                     if(tgt.closest('.expand').length) {
                         item.toggleClass('expanded');
+                    }
+
+                    if(tgt.closest('.icon-close').length){
+                        $('.stash-list > .item').removeClass('expanded') ;
                     }
                 }
             }

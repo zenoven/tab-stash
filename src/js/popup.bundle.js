@@ -80,15 +80,20 @@
 	        });
 
 	        listWrapper.on('click',function(event){
-	            event.preventDefault();
 	            var tgt = $(event.target);
-	            console.log(tgt)
+	            
+	            if(!tgt.hasClass('link')){
+	                event.preventDefault();
+	            }else{
+	                c.tabs.create({url: tgt[0].href})
+	            }
+
 	            // 如果点击的是stash项
 	            if(tgt.closest('.item').length > 0){
 	                var item = tgt.closest('.item');
 	                var linkWrapper = item.find('.tab-list');
 	                var linkList = item.find('.tab-list a');
-	                if( !tgt.closest('.control').length) {
+	                if( !tgt.closest('.control, .tab-list-wrapper').length) {
 	                    linkList.each(function(i, link){
 	                        console.log(link)
 	                        console.log($(link))
@@ -98,6 +103,10 @@
 	                    // 点击展开
 	                    if(tgt.closest('.expand').length) {
 	                        item.toggleClass('expanded');
+	                    }
+
+	                    if(tgt.closest('.icon-close').length){
+	                        $('.stash-list > .item').removeClass('expanded') ;
 	                    }
 	                }
 	            }
@@ -12160,7 +12169,7 @@
 
 
 	// module
-	exports.push([module.id, "*,\n*:before,\n*:after {\n  box-sizing: border-box;\n}\nh1,\nh2,\nh3,\nh4,\nh5,\nh6 {\n  margin: 0;\n  padding: 0;\n  font-weight: normal;\n}\n[class|='icon'] {\n  display: inline-block;\n  vertical-align: middle;\n  width: 20px;\n  height: 20px;\n  background-size: 60%;\n  background-position: center;\n  background-repeat: no-repeat;\n}\n.icon-expand {\n  background-image: url(" + __webpack_require__(98) + ");\n}\n.icon-modify {\n  background-image: url(" + __webpack_require__(99) + ");\n}\nbody {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  width: 280px;\n  height: 360px;\n  padding: 0;\n  margin: 0;\n  background: #F2F2F2;\n}\n.header,\n.main {\n  position: fixed;\n  left: 5px;\n  right: 5px;\n}\n.header {\n  top: 5px;\n  height: 48px;\n  line-height: 48px;\n}\n.header .btn {\n  display: block;\n  height: 100%;\n  background: #398DE3;\n  font-family: 'PingFangTC-Regular';\n  font-size: 18px;\n  color: #fff;\n  text-align: center;\n  cursor: pointer;\n  border-radius: 2px;\n}\n.main {\n  top: 58px;\n  bottom: 5px;\n  overflow: auto;\n  border: 1px solid #DCDCDC;\n  background: #fff;\n  border-radius: 2px;\n}\n.main .tips {\n  height: 25px;\n  line-height: 25px;\n  padding: 0 10px;\n  font-family: 'STHeitiSC-Light';\n  font-size: 12px;\n  color: #B8B8B8;\n  background: #f8f8f8;\n}\n.main .stash-list {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.main .stash-list .item {\n  position: relative;\n  display: flex;\n  flex-flow: row nowrap;\n  align-items: center;\n  height: 36px;\n  line-height: 36px;\n  margin: 0;\n  padding: 0 10px;\n  border-top: 1px solid  #F2F2F2;\n}\n.main .stash-list .item:last-child {\n  border-bottom: 1px solid  #F2F2F2;\n}\n.main .stash-list .item .count {\n  width: 20px;\n  margin-right: 5px;\n  height: 14px;\n  line-height: 14px;\n}\n.main .stash-list .item .count .inner {\n  display: inline-block;\n  padding: 0 5px;\n  height: 14px;\n  line-height: 14px;\n  font-family: 'STHeitiSC-Light';\n  font-size: 10px;\n  color: #FFFFFF;\n  background: rgba(73, 143, 225, 0.4);\n  border-radius: 4px;\n}\n.main .stash-list .item .title {\n  flex: 1;\n  font-size: 12px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  cursor: pointer;\n  color: #555;\n}\n.main .stash-list .item .control {\n  display: none;\n  width: 80px;\n  height: 26px;\n  line-height: 26px;\n}\n.main .stash-list .item .control > a {\n  float: left;\n  margin: 0 2px;\n  padding: 3px;\n  height: 26px;\n  text-decoration: none;\n}\n.main .stash-list .item .control > a > [class|='icon'] {\n  float: left;\n}\n.main .stash-list .item .tab-list {\n  display: none;\n}\n.main .stash-list .item:hover {\n  background: rgba(73, 143, 225, 0.1);\n  border-color: rgba(73, 143, 226, 0.16);\n}\n.main .stash-list .item:hover .count .inner {\n  background: rgba(73, 143, 225, 0.7);\n}\n.main .stash-list .item:hover .title {\n  color: #000;\n}\n.main .stash-list .item:hover .control {\n  display: block;\n}\n.main .stash-list .item:hover + .item {\n  border-top-color: rgba(73, 143, 226, 0.16);\n}\n.main .stash-list .item.expanded .tab-list {\n  display: block;\n  position: absolute;\n  right: 0;\n  top: 36px;\n}\n", ""]);
+	exports.push([module.id, "*,\n*:before,\n*:after {\n  box-sizing: border-box;\n}\nh1,\nh2,\nh3,\nh4,\nh5,\nh6 {\n  margin: 0;\n  padding: 0;\n  font-weight: normal;\n}\n[class|='icon'] {\n  display: inline-block;\n  vertical-align: middle;\n  width: 20px;\n  height: 20px;\n  background-size: 60%;\n  background-position: center;\n  background-repeat: no-repeat;\n}\n.icon-expand {\n  background-image: url(" + __webpack_require__(98) + ");\n}\n.icon-modify {\n  background-image: url(" + __webpack_require__(99) + ");\n}\n.icon-close {\n  background-image: url(" + __webpack_require__(102) + ");\n  background-size: 50%;\n}\nbody {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  width: 280px;\n  height: 360px;\n  padding: 0;\n  margin: 0;\n  background: #F2F2F2;\n}\n.header,\n.main {\n  position: absolute;\n  left: 5px;\n  right: 5px;\n}\n.header {\n  top: 5px;\n  height: 48px;\n  line-height: 48px;\n}\n.header .btn {\n  display: block;\n  height: 100%;\n  background: #398DE3;\n  font-family: 'PingFangTC-Regular';\n  font-size: 18px;\n  color: #fff;\n  text-align: center;\n  cursor: pointer;\n  border-radius: 2px;\n}\n.main {\n  top: 58px;\n  bottom: 5px;\n  overflow: auto;\n  border: 1px solid #DCDCDC;\n  background: #fff;\n  border-radius: 2px;\n}\n.main .tips {\n  height: 25px;\n  line-height: 25px;\n  padding: 0 10px;\n  font-family: 'STHeitiSC-Light';\n  font-size: 12px;\n  color: #B8B8B8;\n  background: #f8f8f8;\n}\n.main .stash-list {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.main .stash-list .item {\n  position: relative;\n  display: flex;\n  flex-flow: row nowrap;\n  align-items: center;\n  height: 36px;\n  line-height: 36px;\n  margin: 0;\n  padding: 0 10px;\n  border-top: 1px solid  #F2F2F2;\n}\n.main .stash-list .item:last-child {\n  border-bottom: 1px solid  #F2F2F2;\n}\n.main .stash-list .item .count {\n  width: 20px;\n  margin-right: 5px;\n  height: 14px;\n  line-height: 14px;\n}\n.main .stash-list .item .count .inner {\n  display: inline-block;\n  padding: 0 5px;\n  height: 14px;\n  line-height: 14px;\n  font-family: 'STHeitiSC-Light';\n  font-size: 10px;\n  color: #FFFFFF;\n  background: rgba(73, 143, 225, 0.4);\n  border-radius: 4px;\n}\n.main .stash-list .item > .title {\n  flex: 1;\n}\n.main .stash-list .item .title {\n  font-size: 12px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  cursor: pointer;\n  color: #555;\n}\n.main .stash-list .item .control {\n  display: none;\n  width: 80px;\n  height: 26px;\n  line-height: 26px;\n}\n.main .stash-list .item .control > a {\n  float: left;\n  margin: 0 2px;\n  padding: 3px;\n  height: 26px;\n  text-decoration: none;\n}\n.main .stash-list .item .control > a > [class|='icon'] {\n  float: left;\n}\n.main .stash-list .item .control > a:hover {\n  background: rgba(73, 143, 225, 0.2);\n}\n.main .stash-list .item .tab-list-wrapper {\n  display: none;\n}\n.main .stash-list .item:hover {\n  background: rgba(73, 143, 225, 0.1);\n  border-color: rgba(73, 143, 226, 0.16);\n}\n.main .stash-list .item:hover .count .inner {\n  background: rgba(73, 143, 225, 0.7);\n}\n.main .stash-list .item:hover .title {\n  color: #000;\n}\n.main .stash-list .item:hover .control {\n  display: block;\n}\n.main .stash-list .item:hover + .item {\n  border-top-color: rgba(73, 143, 226, 0.16);\n}\n.main .stash-list .item.expanded .tab-list-wrapper {\n  display: block;\n  position: fixed;\n  z-index: 1;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n}\n.main .stash-list .item.expanded .title,\n.main .stash-list .item.expanded .tab-list {\n  display: block;\n  position: absolute;\n}\n.main .stash-list .item.expanded .title {\n  top: 30px;\n  height: 36px;\n  line-height: 36px;\n  left: 20px;\n  right: 20px;\n  background: #eee;\n  padding: 0 35px 0 10px;\n  border: #333;\n  cursor: text;\n}\n.main .stash-list .item.expanded .title .icon-close {\n  position: absolute;\n  width: 24px;\n  height: 24px;\n  padding: 5px;\n  right: 6px;\n  top: 50%;\n  margin-top: -12px;\n  cursor: pointer;\n}\n.main .stash-list .item.expanded .title .icon-close:hover {\n  background-color: #ddd;\n}\n.main .stash-list .item.expanded .tab-list {\n  top: 66px;\n  left: 20px;\n  right: 20px;\n  bottom: 30px;\n  background: #fff;\n  border: #333;\n  border-top: 0;\n  list-style: none;\n  overflow-y: auto;\n  padding: 0;\n}\n.main .stash-list .item.expanded .tab-list li {\n  position: relative;\n  z-index: 10;\n  border-top: 1px solid  #F2F2F2;\n}\n.main .stash-list .item.expanded .tab-list li:hover {\n  background: rgba(73, 143, 225, 0.1);\n  border-color: rgba(73, 143, 226, 0.16) !important;\n}\n.main .stash-list .item.expanded .tab-list li:hover + li {\n  border-color: rgba(73, 143, 226, 0.16);\n}\n.main .stash-list .item.expanded .tab-list li:last-child {\n  border-bottom: 1px solid  #F2F2F2;\n}\n.main .stash-list .item.expanded .tab-list li a {\n  height: 32px;\n  line-height: 32px;\n  padding: 0 5px 0 10px;\n  display: block;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: #398DE3;\n  text-decoration: none;\n}\n", ""]);
 
 	// exports
 
@@ -22128,6 +22137,12 @@
 
 	}));
 
+
+/***/ },
+/* 102 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAOVBMVEUAAABzc3Nqan9idXVqbnxobHtqbnxqbntqbntobHxqbntobHxpbntqbnxpbXtqbHpqbnppbnpqbnw6BIX/AAAAEnRSTlMACwwNu7y9vsDBwsPExcbKztBjEAmxAAAAgUlEQVQokX3RWQ6AIAxF0driBKLC/hdrRdIAbfRL7zGRPOFeENRFe4I5ByV0Zgd4KOG+TfDKgUZXwn2f6i0LGZ0fokjXG+Hum14kktGrGL28HLlbM5zZGOEHuIdg7+YRtdD3XSVyzkGa83fS7dPIsJvI0EXkf43iVS+yQHKqs6zXA1rFB+aa2LWaAAAAAElFTkSuQmCC"
 
 /***/ }
 /******/ ]);
