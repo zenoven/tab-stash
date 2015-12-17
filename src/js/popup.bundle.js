@@ -47,8 +47,8 @@
 	var normalize = __webpack_require__(92);
 	var style     = __webpack_require__(96);
 	var stash     = __webpack_require__(2);
-	var tpl       = __webpack_require__(99);
-	var $         = __webpack_require__(100);
+	var tpl       = __webpack_require__(100);
+	var $         = __webpack_require__(101);
 	var html      = '';
 	var c         = chrome;
 
@@ -12160,7 +12160,7 @@
 
 
 	// module
-	exports.push([module.id, "*,\n*:before,\n*:after {\n  box-sizing: border-box;\n}\nh1,\nh2,\nh3,\nh4,\nh5,\nh6 {\n  margin: 0;\n  padding: 0;\n  font-weight: normal;\n}\n[class|='icon'] {\n  display: inline-block;\n  vertical-align: middle;\n  width: 20px;\n  height: 20px;\n  background-size: 60%;\n  background-position: center;\n  background-repeat: no-repeat;\n}\n.icon-expand {\n  background-image: url(" + __webpack_require__(98) + ");\n}\n.icon-modify {\n  background-image: url(" + __webpack_require__(101) + ");\n}\nbody {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  width: 280px;\n  height: 360px;\n  padding: 0;\n  margin: 0;\n  background: #F2F2F2;\n}\n.header,\n.main {\n  position: fixed;\n  left: 5px;\n  right: 5px;\n}\n.header {\n  top: 5px;\n  height: 48px;\n  line-height: 48px;\n}\n.header .btn {\n  display: block;\n  height: 100%;\n  background: #398DE3;\n  font-family: 'PingFangTC-Regular';\n  font-size: 18px;\n  color: #fff;\n  text-align: center;\n  cursor: pointer;\n  border-radius: 2px;\n}\n.main {\n  top: 58px;\n  bottom: 5px;\n  overflow: auto;\n  border: 1px solid #DCDCDC;\n  background: #fff;\n  border-radius: 2px;\n}\n.main .tips {\n  height: 25px;\n  line-height: 25px;\n  padding: 0 10px;\n  font-family: 'STHeitiSC-Light';\n  font-size: 12px;\n  color: #B8B8B8;\n  background: #f8f8f8;\n}\n.main .stash-list {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.main .stash-list .item {\n  position: relative;\n  display: flex;\n  flex-flow: row nowrap;\n  align-items: center;\n  height: 36px;\n  line-height: 36px;\n  margin: 0;\n  padding: 0 10px;\n  border-top: 1px solid  #F2F2F2;\n}\n.main .stash-list .item:last-child {\n  border-bottom: 1px solid  #F2F2F2;\n}\n.main .stash-list .item .count {\n  width: 20px;\n  margin-right: 5px;\n  height: 14px;\n  line-height: 14px;\n}\n.main .stash-list .item .count .inner {\n  display: inline-block;\n  padding: 0 5px;\n  height: 14px;\n  line-height: 14px;\n  font-family: 'STHeitiSC-Light';\n  font-size: 10px;\n  color: #FFFFFF;\n  background: rgba(73, 143, 225, 0.4);\n  border-radius: 4px;\n}\n.main .stash-list .item .title {\n  flex: 1;\n  font-size: 12px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  cursor: pointer;\n  color: #555;\n}\n.main .stash-list .item .control {\n  display: none;\n  width: 80px;\n  height: 26px;\n  line-height: 26px;\n}\n.main .stash-list .item .control > a {\n  float: left;\n  margin: 0 2px;\n  padding: 3px;\n  height: 26px;\n  text-decoration: none;\n}\n.main .stash-list .item .control > a > [class|='icon'] {\n  float: left;\n}\n.main .stash-list .item .tab-list {\n  display: none;\n}\n.main .stash-list .item:hover {\n  background: rgba(73, 143, 225, 0.1);\n  border-color: rgba(73, 143, 226, 0.16);\n}\n.main .stash-list .item:hover .count .inner {\n  background: rgba(73, 143, 225, 0.7);\n}\n.main .stash-list .item:hover .title {\n  color: #000;\n}\n.main .stash-list .item:hover .control {\n  display: block;\n}\n.main .stash-list .item:hover + .item {\n  border-top-color: rgba(73, 143, 226, 0.16);\n}\n.main .stash-list .item.expanded .tab-list {\n  display: block;\n  position: absolute;\n  right: 0;\n  top: 36px;\n}\n", ""]);
+	exports.push([module.id, "*,\n*:before,\n*:after {\n  box-sizing: border-box;\n}\nh1,\nh2,\nh3,\nh4,\nh5,\nh6 {\n  margin: 0;\n  padding: 0;\n  font-weight: normal;\n}\n[class|='icon'] {\n  display: inline-block;\n  vertical-align: middle;\n  width: 20px;\n  height: 20px;\n  background-size: 60%;\n  background-position: center;\n  background-repeat: no-repeat;\n}\n.icon-expand {\n  background-image: url(" + __webpack_require__(98) + ");\n}\n.icon-modify {\n  background-image: url(" + __webpack_require__(99) + ");\n}\nbody {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  width: 280px;\n  height: 360px;\n  padding: 0;\n  margin: 0;\n  background: #F2F2F2;\n}\n.header,\n.main {\n  position: fixed;\n  left: 5px;\n  right: 5px;\n}\n.header {\n  top: 5px;\n  height: 48px;\n  line-height: 48px;\n}\n.header .btn {\n  display: block;\n  height: 100%;\n  background: #398DE3;\n  font-family: 'PingFangTC-Regular';\n  font-size: 18px;\n  color: #fff;\n  text-align: center;\n  cursor: pointer;\n  border-radius: 2px;\n}\n.main {\n  top: 58px;\n  bottom: 5px;\n  overflow: auto;\n  border: 1px solid #DCDCDC;\n  background: #fff;\n  border-radius: 2px;\n}\n.main .tips {\n  height: 25px;\n  line-height: 25px;\n  padding: 0 10px;\n  font-family: 'STHeitiSC-Light';\n  font-size: 12px;\n  color: #B8B8B8;\n  background: #f8f8f8;\n}\n.main .stash-list {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.main .stash-list .item {\n  position: relative;\n  display: flex;\n  flex-flow: row nowrap;\n  align-items: center;\n  height: 36px;\n  line-height: 36px;\n  margin: 0;\n  padding: 0 10px;\n  border-top: 1px solid  #F2F2F2;\n}\n.main .stash-list .item:last-child {\n  border-bottom: 1px solid  #F2F2F2;\n}\n.main .stash-list .item .count {\n  width: 20px;\n  margin-right: 5px;\n  height: 14px;\n  line-height: 14px;\n}\n.main .stash-list .item .count .inner {\n  display: inline-block;\n  padding: 0 5px;\n  height: 14px;\n  line-height: 14px;\n  font-family: 'STHeitiSC-Light';\n  font-size: 10px;\n  color: #FFFFFF;\n  background: rgba(73, 143, 225, 0.4);\n  border-radius: 4px;\n}\n.main .stash-list .item .title {\n  flex: 1;\n  font-size: 12px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  cursor: pointer;\n  color: #555;\n}\n.main .stash-list .item .control {\n  display: none;\n  width: 80px;\n  height: 26px;\n  line-height: 26px;\n}\n.main .stash-list .item .control > a {\n  float: left;\n  margin: 0 2px;\n  padding: 3px;\n  height: 26px;\n  text-decoration: none;\n}\n.main .stash-list .item .control > a > [class|='icon'] {\n  float: left;\n}\n.main .stash-list .item .tab-list {\n  display: none;\n}\n.main .stash-list .item:hover {\n  background: rgba(73, 143, 225, 0.1);\n  border-color: rgba(73, 143, 226, 0.16);\n}\n.main .stash-list .item:hover .count .inner {\n  background: rgba(73, 143, 225, 0.7);\n}\n.main .stash-list .item:hover .title {\n  color: #000;\n}\n.main .stash-list .item:hover .control {\n  display: block;\n}\n.main .stash-list .item:hover + .item {\n  border-top-color: rgba(73, 143, 226, 0.16);\n}\n.main .stash-list .item.expanded .tab-list {\n  display: block;\n  position: absolute;\n  right: 0;\n  top: 36px;\n}\n", ""]);
 
 	// exports
 
@@ -12173,6 +12173,12 @@
 
 /***/ },
 /* 99 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACcAAAAnCAYAAACMo1E1AAAAAXNSR0IArs4c6QAAAkpJREFUWAnt2M1L3EAUAPD3YnZdywpeXDxs/wLx0B6s1IPQg1VLLT30H1As2AoL/SN6LmgRD1JKwYsHQVfZQ1soiOdeeumpsCjiBx78oNk685pJnRhjspnNmsmCHVgmeTvJ+zEzmXwA/C/xegDjHRb/qGez1b5zRm8A8QAynW/XX3UdhZ1NK258dnuQcV4horwA2cl/ZNuzj1ame/aCgNpwfpjE1ANqwT2d27nPGfsme0zCZB0GNGSDJOscmj8B6HtYDgLorVm1r8/ndwveNlpwy68LJ3fM3CgibHqTe7cF0Kr9qbxcoIyMJ4YTc+zJu2plfHG/UyRTAQLRvd3aTn+iOHfyAz1mJ7/VgQgWN/mvxHAu7GK5sC+ChypABOQAxlR5+u52Ijg/TCaJAjowxImNUvGTPEbUN7aUhMGuJEPcasvnRlYnu49F/MX7vfzpuVW2cR/WS8WP3rZi+0ZwKjCZGH1Au1ftENoX6/XSNK4RmEzvB8q4v25qKYkDcwAEA3RsDfkx/n3TH1DdjwuTk3+tVCxH5Yo1rM3CgiZ/ELRhnC6YwDaE0wlrCKcbpoxLA6aESwsWiUsTVheXNiwU1wqwQFyrwK7hWgl2BddqMBc3Nld9gAw+h71XioZBRd7EVe+VQeeoF3OeSpDRMBE4nwjqNfb+lzRM5Pr3PEcG8yaO2tYBu8QZpIzTBbvEkRpOJ8zFkcKw6oa5OIgY1jRgLs7gYL9tB5e0YELjLCUdeVg6s8wvWeKMeIZBRtTil2VtaFkrM8XDYPotjv4FZj+3RlNFRJgAAAAASUVORK5CYII="
+
+/***/ },
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -12908,7 +12914,7 @@
 	})();
 
 /***/ },
-/* 100 */
+/* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -22122,12 +22128,6 @@
 
 	}));
 
-
-/***/ },
-/* 101 */
-/***/ function(module, exports) {
-
-	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACcAAAAnCAYAAACMo1E1AAAAAXNSR0IArs4c6QAAAkpJREFUWAnt2M1L3EAUAPD3YnZdywpeXDxs/wLx0B6s1IPQg1VLLT30H1As2AoL/SN6LmgRD1JKwYsHQVfZQ1soiOdeeumpsCjiBx78oNk685pJnRhjspnNmsmCHVgmeTvJ+zEzmXwA/C/xegDjHRb/qGez1b5zRm8A8QAynW/XX3UdhZ1NK258dnuQcV4horwA2cl/ZNuzj1ame/aCgNpwfpjE1ANqwT2d27nPGfsme0zCZB0GNGSDJOscmj8B6HtYDgLorVm1r8/ndwveNlpwy68LJ3fM3CgibHqTe7cF0Kr9qbxcoIyMJ4YTc+zJu2plfHG/UyRTAQLRvd3aTn+iOHfyAz1mJ7/VgQgWN/mvxHAu7GK5sC+ChypABOQAxlR5+u52Ijg/TCaJAjowxImNUvGTPEbUN7aUhMGuJEPcasvnRlYnu49F/MX7vfzpuVW2cR/WS8WP3rZi+0ZwKjCZGH1Au1ftENoX6/XSNK4RmEzvB8q4v25qKYkDcwAEA3RsDfkx/n3TH1DdjwuTk3+tVCxH5Yo1rM3CgiZ/ELRhnC6YwDaE0wlrCKcbpoxLA6aESwsWiUsTVheXNiwU1wqwQFyrwK7hWgl2BddqMBc3Nld9gAw+h71XioZBRd7EVe+VQeeoF3OeSpDRMBE4nwjqNfb+lzRM5Pr3PEcG8yaO2tYBu8QZpIzTBbvEkRpOJ8zFkcKw6oa5OIgY1jRgLs7gYL9tB5e0YELjLCUdeVg6s8wvWeKMeIZBRtTil2VtaFkrM8XDYPotjv4FZj+3RlNFRJgAAAAASUVORK5CYII="
 
 /***/ }
 /******/ ]);
