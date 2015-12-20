@@ -196,12 +196,12 @@ body {
                     display: block;
                     .mask();
                 }
-                .title,
+                .tab-list-title,
                 .tab-list {
                     display: block;
                     position: absolute;
                 }
-                .title {
+                .tab-list-title {
                     top: 30px;
                     height: 36px;
                     line-height: 36px;
@@ -237,30 +237,47 @@ body {
                     overflow-y: auto;
                     padding: 0;
                     li {
+                        display: flex;
+                        align-items: center;
                         position: relative;
                         z-index: 10;
                         border-top: 1px solid  #F2F2F2;
                         
+                        .link {
+                            height: 32px;
+                            line-height: 32px;
+                            padding: 0 5px 0 10px;
+                            display: block;
+                            .text-overflow();
+                            flex: 1;
+                            color: @link-color;
+                            text-decoration: none;
+                        }
+                        .delete {
+                            display: none;
+                            margin-right: 4px;
+                            padding: 3px;
+                            height: 26px;
+                            &:hover {
+                                background: rgba(73,143,225,0.15);
+                            }
+                            >[class|='icon'] {
+                                display: block;
+                            }
+                        }
+                        
                         &:hover {
                             background: rgba(73, 143, 225, 0.1);
                             border-color: rgba(73, 143, 226, 0.16) !important;
+                            .delete {
+                                display: block;
+                            }
                         }
                         &:hover + li {
                             border-color: rgba(73, 143, 226, 0.16);
                         }
                         &:last-child {
                             border-bottom: 1px solid  #F2F2F2;
-                        }
-                        a {
-                            height: 32px;
-                            line-height: 32px;
-                            padding: 0 5px 0 10px;
-                            display: block;
-                            .text-overflow();
-                            color: @link-color;
-                            text-decoration: none;
-                            
-                            
                         }
                     }
                 }

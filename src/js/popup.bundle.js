@@ -51,7 +51,7 @@
 	var $         = __webpack_require__(102);
 	var html      = '';
 	var c         = chrome;
-
+	var doRefresh = false;
 
 	var popup = {
 
@@ -65,7 +65,6 @@
 
 	    bindEvents: function(){
 	        this.bindStashEvents();
-	        this.bindChromeEvents();
 	        this.bindKeyboardEvents();
 	    },
 
@@ -94,10 +93,9 @@
 	                var item = tgt.closest('.item');
 	                var linkWrapper = item.find('.tab-list');
 	                var linkList = item.find('.tab-list a');
+	                var tabList;
 	                if( !tgt.closest('.control, .tab-list-wrapper, .title-edit-wrapper').length) {
 	                    linkList.each(function(i, link){
-	                        console.log(link)
-	                        console.log($(link))
 	                        c.tabs.create({url: link.href})
 	                    });
 	                }else{
@@ -115,7 +113,7 @@
 	                        return;
 	                    }
 
-	                    // 点击删除
+	                    // 点击删除stash
 	                    if(tgt.closest('.js-delete').length) {
 	                        stash.delete(item.data('id'), function(){
 	                            self.reRender();
@@ -125,32 +123,38 @@
 
 	                    // 点击tab-list的关闭
 	                    if(tgt.closest('.icon-close').length){
+	                        console.log('closing...')
 	                        $('.stash-list > .item').removeClass('expanded') ;
+	                        doRefresh && self.reRender();
+	                        doRefresh = false;
 	                        return;
 	                    }
 
 	                    // 如果点击的是编辑框之外的mask
 	                    if(tgt.closest('.title-edit-wrapper').length && !tgt.closest('.editor-wrapper').length) {
 	                        $('.title-edit-wrapper').removeClass('show');
+	                        return;
+	                    }
+
+	                    // 点击删除tab
+	                    if(tgt.closest('.js-delete-tab').length) {
+	                        // debugger;
+	                        tabListWrapper = $('.item.expanded .tab-list-wrapper');
+	                        c.bookmarks.remove(tgt.closest('.tab').data('id') + '');
+	                        tgt.closest('.tab').remove();
+	                        tabList = $('.item.expanded .tab-list li');
+
+	                        // 如果已经删除完了
+	                        if( tabList.length == 0) {
+	                            tabListWrapper.find('.icon-close').trigger('click');
+	                            tabListWrapper.closest('.item').find('.js-delete').trigger('click');
+	                        }
+	                        doRefresh = true;
+	                        return;
 	                    }
 	                }
 	            }
 
-	        });
-	    },
-
-	    bindChromeEvents: function(){
-	        var self = this;
-	        var bookmarkEventArr = ['onRemoved','onChanged','onMoved'];
-
-	        bookmarkEventArr.forEach(function(event, i){
-	            c.bookmarks[event].addListener(function(){
-	                self.reRender();
-	            });
-	        });
-
-	        c.contextMenus.onClicked.addListener(function (){
-	            self.reRender();
 	        });
 	    },
 
@@ -12229,7 +12233,7 @@
 
 
 	// module
-	exports.push([module.id, "*,\n*:before,\n*:after {\n  box-sizing: border-box;\n}\nhtml,\nbody {\n  font-family: 'Hiragino Sans GB', 'Heiti SC', '\\5FAE\\8F6F\\96C5\\9ED1', 'Helvetica Neue', Helvetica, STHeiTi, arial, sans-serif;\n}\nh1,\nh2,\nh3,\nh4,\nh5,\nh6 {\n  margin: 0;\n  padding: 0;\n  font-weight: normal;\n}\n[class|='icon'] {\n  display: inline-block;\n  vertical-align: middle;\n  width: 20px;\n  height: 20px;\n  background-size: 60%;\n  background-position: center;\n  background-repeat: no-repeat;\n}\n.icon-expand {\n  background-image: url(" + __webpack_require__(98) + ");\n}\n.icon-modify {\n  background-image: url(" + __webpack_require__(99) + ");\n}\n.icon-delete {\n  background-image: url(" + __webpack_require__(103) + ");\n}\n.icon-close {\n  background-image: url(" + __webpack_require__(100) + ");\n  background-size: 50%;\n}\nbody {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  width: 280px;\n  height: 360px;\n  padding: 0;\n  margin: 0;\n  background: #F2F2F2;\n}\n.header,\n.main {\n  position: fixed;\n  left: 5px;\n  right: 5px;\n}\n.header {\n  top: 5px;\n  height: 48px;\n  line-height: 48px;\n}\n.header .btn {\n  display: block;\n  height: 100%;\n  background: #398DE3;\n  font-family: 'PingFangTC-Regular';\n  font-size: 18px;\n  color: #fff;\n  text-align: center;\n  cursor: pointer;\n  border-radius: 2px;\n}\n.main {\n  top: 58px;\n  bottom: 5px;\n  overflow: auto;\n  border: 1px solid #DCDCDC;\n  background: #fff;\n  border-radius: 2px;\n}\n.main .tips {\n  height: 25px;\n  line-height: 25px;\n  padding: 0 10px;\n  font-family: 'STHeitiSC-Light';\n  font-size: 12px;\n  color: #B8B8B8;\n  background: #f8f8f8;\n}\n.main .stash-list {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.main .stash-list .item {\n  position: relative;\n  display: flex;\n  flex-flow: row nowrap;\n  align-items: center;\n  height: 36px;\n  line-height: 36px;\n  margin: 0;\n  padding: 0 4px 0 10px;\n  border-top: 1px solid  #F2F2F2;\n}\n.main .stash-list .item:last-child {\n  border-bottom: 1px solid  #F2F2F2;\n}\n.main .stash-list .item .count {\n  width: 20px;\n  margin-right: 5px;\n  height: 14px;\n  line-height: 14px;\n}\n.main .stash-list .item .count .inner {\n  display: inline-block;\n  padding: 0 5px;\n  height: 14px;\n  line-height: 14px;\n  font-family: 'STHeitiSC-Light';\n  font-size: 10px;\n  color: #FFFFFF;\n  background: rgba(73, 143, 225, 0.4);\n  border-radius: 4px;\n}\n.main .stash-list .item > .title {\n  flex: 1;\n}\n.main .stash-list .item .title {\n  font-size: 12px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  cursor: pointer;\n  color: #555;\n}\n.main .stash-list .item .control {\n  display: none;\n  width: 78px;\n  height: 26px;\n  line-height: 26px;\n}\n.main .stash-list .item .control > a {\n  float: left;\n  padding: 3px;\n  height: 26px;\n  text-decoration: none;\n}\n.main .stash-list .item .control > a > [class|='icon'] {\n  float: left;\n}\n.main .stash-list .item .control > a:hover {\n  background: rgba(73, 143, 225, 0.15);\n}\n.main .stash-list .item .tab-list-wrapper {\n  display: none;\n}\n.main .stash-list .item:hover {\n  background: rgba(73, 143, 225, 0.1);\n  border-color: rgba(73, 143, 226, 0.16);\n}\n.main .stash-list .item:hover .count .inner {\n  background: rgba(73, 143, 225, 0.7);\n}\n.main .stash-list .item:hover .title {\n  color: #000;\n}\n.main .stash-list .item:hover .control {\n  display: block;\n}\n.main .stash-list .item:hover + .item {\n  border-top-color: rgba(73, 143, 226, 0.16);\n}\n.main .stash-list .item.expanded .tab-list-wrapper {\n  display: block;\n  position: fixed;\n  z-index: 1;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n}\n.main .stash-list .item.expanded .title,\n.main .stash-list .item.expanded .tab-list {\n  display: block;\n  position: absolute;\n}\n.main .stash-list .item.expanded .title {\n  top: 30px;\n  height: 36px;\n  line-height: 36px;\n  left: 20px;\n  right: 20px;\n  background: #eee;\n  padding: 0 35px 0 10px;\n  border: #333;\n  cursor: text;\n}\n.main .stash-list .item.expanded .title .icon-close {\n  position: absolute;\n  width: 24px;\n  height: 24px;\n  padding: 5px;\n  right: 6px;\n  top: 50%;\n  margin-top: -12px;\n  cursor: pointer;\n}\n.main .stash-list .item.expanded .title .icon-close:hover {\n  background-color: #ddd;\n}\n.main .stash-list .item.expanded .tab-list {\n  top: 66px;\n  left: 20px;\n  right: 20px;\n  bottom: 30px;\n  background: #fff;\n  border: #333;\n  border-top: 0;\n  list-style: none;\n  overflow-y: auto;\n  padding: 0;\n}\n.main .stash-list .item.expanded .tab-list li {\n  position: relative;\n  z-index: 10;\n  border-top: 1px solid  #F2F2F2;\n}\n.main .stash-list .item.expanded .tab-list li:hover {\n  background: rgba(73, 143, 225, 0.1);\n  border-color: rgba(73, 143, 226, 0.16) !important;\n}\n.main .stash-list .item.expanded .tab-list li:hover + li {\n  border-color: rgba(73, 143, 226, 0.16);\n}\n.main .stash-list .item.expanded .tab-list li:last-child {\n  border-bottom: 1px solid  #F2F2F2;\n}\n.main .stash-list .item.expanded .tab-list li a {\n  height: 32px;\n  line-height: 32px;\n  padding: 0 5px 0 10px;\n  display: block;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: #398DE3;\n  text-decoration: none;\n}\n.main .stash-list .item .title-edit-wrapper {\n  display: none;\n  position: fixed;\n  z-index: 1;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n}\n.main .stash-list .item .title-edit-wrapper.show {\n  display: block;\n}\n.main .stash-list .item .title-edit-wrapper .editor-wrapper {\n  position: absolute;\n  top: 50%;\n  left: 20px;\n  right: 20px;\n  margin-top: -21px;\n  height: 42px;\n  background: #fff;\n  border: 2px solid rgba(73, 143, 226, 0.6);\n}\n.main .stash-list .item .title-edit-wrapper .editor-wrapper .ipt-title {\n  display: block;\n  width: 100%;\n  padding: 0 10px;\n  height: 100%;\n  border: 0;\n  margin: 0;\n  outline: none;\n  font-size: 14px;\n}\n", ""]);
+	exports.push([module.id, "*,\n*:before,\n*:after {\n  box-sizing: border-box;\n}\nhtml,\nbody {\n  font-family: 'Hiragino Sans GB', 'Heiti SC', '\\5FAE\\8F6F\\96C5\\9ED1', 'Helvetica Neue', Helvetica, STHeiTi, arial, sans-serif;\n}\nh1,\nh2,\nh3,\nh4,\nh5,\nh6 {\n  margin: 0;\n  padding: 0;\n  font-weight: normal;\n}\n[class|='icon'] {\n  display: inline-block;\n  vertical-align: middle;\n  width: 20px;\n  height: 20px;\n  background-size: 60%;\n  background-position: center;\n  background-repeat: no-repeat;\n}\n.icon-expand {\n  background-image: url(" + __webpack_require__(98) + ");\n}\n.icon-modify {\n  background-image: url(" + __webpack_require__(99) + ");\n}\n.icon-delete {\n  background-image: url(" + __webpack_require__(103) + ");\n}\n.icon-close {\n  background-image: url(" + __webpack_require__(100) + ");\n  background-size: 50%;\n}\nbody {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  width: 280px;\n  height: 360px;\n  padding: 0;\n  margin: 0;\n  background: #F2F2F2;\n}\n.header,\n.main {\n  position: fixed;\n  left: 5px;\n  right: 5px;\n}\n.header {\n  top: 5px;\n  height: 48px;\n  line-height: 48px;\n}\n.header .btn {\n  display: block;\n  height: 100%;\n  background: #398DE3;\n  font-family: 'PingFangTC-Regular';\n  font-size: 18px;\n  color: #fff;\n  text-align: center;\n  cursor: pointer;\n  border-radius: 2px;\n}\n.main {\n  top: 58px;\n  bottom: 5px;\n  overflow: auto;\n  border: 1px solid #DCDCDC;\n  background: #fff;\n  border-radius: 2px;\n}\n.main .tips {\n  height: 25px;\n  line-height: 25px;\n  padding: 0 10px;\n  font-family: 'STHeitiSC-Light';\n  font-size: 12px;\n  color: #B8B8B8;\n  background: #f8f8f8;\n}\n.main .stash-list {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.main .stash-list .item {\n  position: relative;\n  display: flex;\n  flex-flow: row nowrap;\n  align-items: center;\n  height: 36px;\n  line-height: 36px;\n  margin: 0;\n  padding: 0 4px 0 10px;\n  border-top: 1px solid  #F2F2F2;\n}\n.main .stash-list .item:last-child {\n  border-bottom: 1px solid  #F2F2F2;\n}\n.main .stash-list .item .count {\n  width: 20px;\n  margin-right: 5px;\n  height: 14px;\n  line-height: 14px;\n}\n.main .stash-list .item .count .inner {\n  display: inline-block;\n  padding: 0 5px;\n  height: 14px;\n  line-height: 14px;\n  font-family: 'STHeitiSC-Light';\n  font-size: 10px;\n  color: #FFFFFF;\n  background: rgba(73, 143, 225, 0.4);\n  border-radius: 4px;\n}\n.main .stash-list .item > .title {\n  flex: 1;\n}\n.main .stash-list .item .title {\n  font-size: 12px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  cursor: pointer;\n  color: #555;\n}\n.main .stash-list .item .control {\n  display: none;\n  width: 78px;\n  height: 26px;\n  line-height: 26px;\n}\n.main .stash-list .item .control > a {\n  float: left;\n  padding: 3px;\n  height: 26px;\n  text-decoration: none;\n}\n.main .stash-list .item .control > a > [class|='icon'] {\n  float: left;\n}\n.main .stash-list .item .control > a:hover {\n  background: rgba(73, 143, 225, 0.15);\n}\n.main .stash-list .item .tab-list-wrapper {\n  display: none;\n}\n.main .stash-list .item:hover {\n  background: rgba(73, 143, 225, 0.1);\n  border-color: rgba(73, 143, 226, 0.16);\n}\n.main .stash-list .item:hover .count .inner {\n  background: rgba(73, 143, 225, 0.7);\n}\n.main .stash-list .item:hover .title {\n  color: #000;\n}\n.main .stash-list .item:hover .control {\n  display: block;\n}\n.main .stash-list .item:hover + .item {\n  border-top-color: rgba(73, 143, 226, 0.16);\n}\n.main .stash-list .item.expanded .tab-list-wrapper {\n  display: block;\n  position: fixed;\n  z-index: 1;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n}\n.main .stash-list .item.expanded .tab-list-title,\n.main .stash-list .item.expanded .tab-list {\n  display: block;\n  position: absolute;\n}\n.main .stash-list .item.expanded .tab-list-title {\n  top: 30px;\n  height: 36px;\n  line-height: 36px;\n  left: 20px;\n  right: 20px;\n  background: #eee;\n  padding: 0 35px 0 10px;\n  border: #333;\n  cursor: text;\n}\n.main .stash-list .item.expanded .tab-list-title .icon-close {\n  position: absolute;\n  width: 24px;\n  height: 24px;\n  padding: 5px;\n  right: 6px;\n  top: 50%;\n  margin-top: -12px;\n  cursor: pointer;\n}\n.main .stash-list .item.expanded .tab-list-title .icon-close:hover {\n  background-color: #ddd;\n}\n.main .stash-list .item.expanded .tab-list {\n  top: 66px;\n  left: 20px;\n  right: 20px;\n  bottom: 30px;\n  background: #fff;\n  border: #333;\n  border-top: 0;\n  list-style: none;\n  overflow-y: auto;\n  padding: 0;\n}\n.main .stash-list .item.expanded .tab-list li {\n  display: flex;\n  align-items: center;\n  position: relative;\n  z-index: 10;\n  border-top: 1px solid  #F2F2F2;\n}\n.main .stash-list .item.expanded .tab-list li .link {\n  height: 32px;\n  line-height: 32px;\n  padding: 0 5px 0 10px;\n  display: block;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  flex: 1;\n  color: #398DE3;\n  text-decoration: none;\n}\n.main .stash-list .item.expanded .tab-list li .delete {\n  display: none;\n  margin-right: 4px;\n  padding: 3px;\n  height: 26px;\n}\n.main .stash-list .item.expanded .tab-list li .delete:hover {\n  background: rgba(73, 143, 225, 0.15);\n}\n.main .stash-list .item.expanded .tab-list li .delete > [class|='icon'] {\n  display: block;\n}\n.main .stash-list .item.expanded .tab-list li:hover {\n  background: rgba(73, 143, 225, 0.1);\n  border-color: rgba(73, 143, 226, 0.16) !important;\n}\n.main .stash-list .item.expanded .tab-list li:hover .delete {\n  display: block;\n}\n.main .stash-list .item.expanded .tab-list li:hover + li {\n  border-color: rgba(73, 143, 226, 0.16);\n}\n.main .stash-list .item.expanded .tab-list li:last-child {\n  border-bottom: 1px solid  #F2F2F2;\n}\n.main .stash-list .item .title-edit-wrapper {\n  display: none;\n  position: fixed;\n  z-index: 1;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n}\n.main .stash-list .item .title-edit-wrapper.show {\n  display: block;\n}\n.main .stash-list .item .title-edit-wrapper .editor-wrapper {\n  position: absolute;\n  top: 50%;\n  left: 20px;\n  right: 20px;\n  margin-top: -21px;\n  height: 42px;\n  background: #fff;\n  border: 2px solid rgba(73, 143, 226, 0.6);\n}\n.main .stash-list .item .title-edit-wrapper .editor-wrapper .ipt-title {\n  display: block;\n  width: 100%;\n  padding: 0 10px;\n  height: 100%;\n  border: 0;\n  margin: 0;\n  outline: none;\n  font-size: 14px;\n}\n", ""]);
 
 	// exports
 

@@ -5,7 +5,7 @@ var tpl       = require('art-template');
 var $         = require('jquery');
 var html      = '';
 var c         = chrome;
-
+var doRefresh = false;
 
 var popup = {
 
@@ -19,7 +19,6 @@ var popup = {
 
     bindEvents: function(){
         this.bindStashEvents();
-        this.bindChromeEvents();
         this.bindKeyboardEvents();
     },
 
@@ -48,10 +47,9 @@ var popup = {
                 var item = tgt.closest('.item');
                 var linkWrapper = item.find('.tab-list');
                 var linkList = item.find('.tab-list a');
+                var tabList;
                 if( !tgt.closest('.control, .tab-list-wrapper, .title-edit-wrapper').length) {
                     linkList.each(function(i, link){
-                        console.log(link)
-                        console.log($(link))
                         c.tabs.create({url: link.href})
                     });
                 }else{
@@ -69,7 +67,7 @@ var popup = {
                         return;
                     }
 
-                    // 点击删除
+                    // 点击删除stash
                     if(tgt.closest('.js-delete').length) {
                         stash.delete(item.data('id'), function(){
                             self.reRender();
@@ -79,32 +77,38 @@ var popup = {
 
                     // 点击tab-list的关闭
                     if(tgt.closest('.icon-close').length){
+                        console.log('closing...')
                         $('.stash-list > .item').removeClass('expanded') ;
+                        doRefresh && self.reRender();
+                        doRefresh = false;
                         return;
                     }
 
                     // 如果点击的是编辑框之外的mask
                     if(tgt.closest('.title-edit-wrapper').length && !tgt.closest('.editor-wrapper').length) {
                         $('.title-edit-wrapper').removeClass('show');
+                        return;
+                    }
+
+                    // 点击删除tab
+                    if(tgt.closest('.js-delete-tab').length) {
+                        // debugger;
+                        tabListWrapper = $('.item.expanded .tab-list-wrapper');
+                        c.bookmarks.remove(tgt.closest('.tab').data('id') + '');
+                        tgt.closest('.tab').remove();
+                        tabList = $('.item.expanded .tab-list li');
+
+                        // 如果已经删除完了
+                        if( tabList.length == 0) {
+                            tabListWrapper.find('.icon-close').trigger('click');
+                            tabListWrapper.closest('.item').find('.js-delete').trigger('click');
+                        }
+                        doRefresh = true;
+                        return;
                     }
                 }
             }
 
-        });
-    },
-
-    bindChromeEvents: function(){
-        var self = this;
-        var bookmarkEventArr = ['onRemoved','onChanged','onMoved'];
-
-        bookmarkEventArr.forEach(function(event, i){
-            c.bookmarks[event].addListener(function(){
-                self.reRender();
-            });
-        });
-
-        c.contextMenus.onClicked.addListener(function (){
-            self.reRender();
         });
     },
 
