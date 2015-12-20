@@ -9,6 +9,7 @@
   "author": "zenoven@gmail.com",
   "license": "MIT",
   "dependencies": {
+    "chrome-i18n": "^1.0.2",
     "jquery": "^2.1.4",
     "moment": "^2.10.6",
     "normalize.css": "^3.0.3",

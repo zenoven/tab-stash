@@ -1,18 +1,52 @@
 {
-	"extName":{
-		"message":"tab-stasher",
-		"description":"Plugin name"
-	},
-	"extDescription":{
-		"message":"stash all your tabs in current window with one click",
-		"description":"Plugin Description"
-	},
-	"extMenuTitle":{
-		"message":"stash all tabs",
-		"description":"Menu Title"
-	},
-	"StashBtn": {
-		"message": "Stash",
-		"description":"Stash Button Text"
-	}
+  "extName": {
+    "message": "Tab Stasher",
+    "description": "extension name"
+  },
+  "extDescription": {
+    "message": "Tab Stasher can stash all your tabs with one click. You can also manage your stash list or tabs within the extension popup",
+    "description": "extension description"
+  },
+  "extMenuTitle": {
+    "message": "stash all tabs",
+    "description": "Right click Menu Title"
+  },
+  "StashBtn": {
+    "message": "Stash all tabs",
+    "description": "Stash Button Text"
+  },
+  "StashSummary": {
+    "message": "$GroupsCount$ stash groups and $TabsCount$ tabs.",
+    "description": "Summary info of how many stash groups and tabs",
+    "placeholders": {
+      "groupsCount": {
+        "content": "$1",
+        "example": "10"
+      },
+      "tabsCount": {
+        "content": "$2",
+        "example": "34"
+      }
+    }
+  },
+  "ExpandList": {
+    "message": "Expand stash list",
+    "description": "Expand stash list"
+  },
+  "Modify": {
+    "message": "Modify",
+    "description": "Modify current stash title"
+  },
+  "Delete": {
+    "message": "Delete",
+    "description": "Delete"
+  },
+  "Close": {
+    "message": "Close",
+    "description": "Close"
+  },
+  "Open": {
+    "message": "Open",
+    "description": "Open"
+  }
 }

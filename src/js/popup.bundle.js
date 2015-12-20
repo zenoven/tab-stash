@@ -49,7 +49,7 @@
 	var stash     = __webpack_require__(2);
 	var tpl       = __webpack_require__(102);
 	var $         = __webpack_require__(103);
-	var html      = '';
+	var html      = {};
 	var c         = chrome;
 	var doRefresh = false;
 	var helper    = __webpack_require__(104).init();
@@ -58,6 +58,7 @@
 	var popup = {
 
 	    init: function(){
+	        console.log('asdfasfffff')
 	        var self = this;
 	        stash.init(function(){
 	            self.render();
@@ -76,6 +77,7 @@
 	        var listWrapper = $('.main');
 
 	        addBtn.on('click', function () {
+	            console.log(1211111)
 	            stash.create(function(){
 	                self.render();
 	            });
@@ -188,8 +190,10 @@
 
 	    render: function(){
 	        stash.getAll(function(obj){
-	            html = tpl('template', obj);
-	            $('#wrapper').html(html);
+	            html.title = tpl('title', {});
+	            html.main = tpl('main', obj);
+	            $('title').html(html.title);
+	            $('#wrapper').html(html.main);
 	        });
 	    },
 
@@ -22226,11 +22230,11 @@
 
 	function initHelper(){
 	    tpl.helper('translte', function (text, dataArr) {
-	        if(!dataArr) {
+	        if(!dataArr.length) {
 	            return getMsg(text);
 	        }else{
 	            if(text == "StashSummary"){
-	                return getMsg(text, dataArr[0], dataArr[1]);
+	                return getMsg(text, dataArr);
 	            }
 	        }
 	    });

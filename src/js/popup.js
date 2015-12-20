@@ -3,7 +3,7 @@ var style     = require('../styles/popup.less');
 var stash     = require('./lib/stash');
 var tpl       = require('art-template');
 var $         = require('jquery');
-var html      = '';
+var html      = {};
 var c         = chrome;
 var doRefresh = false;
 var helper    = require('./lib/helper').init();
@@ -12,6 +12,7 @@ var helper    = require('./lib/helper').init();
 var popup = {
 
     init: function(){
+        console.log('asdfasfffff')
         var self = this;
         stash.init(function(){
             self.render();
@@ -30,6 +31,7 @@ var popup = {
         var listWrapper = $('.main');
 
         addBtn.on('click', function () {
+            console.log(1211111)
             stash.create(function(){
                 self.render();
             });
@@ -142,8 +144,10 @@ var popup = {
 
     render: function(){
         stash.getAll(function(obj){
-            html = tpl('template', obj);
-            $('#wrapper').html(html);
+            html.title = tpl('title', {});
+            html.main = tpl('main', obj);
+            $('title').html(html.title);
+            $('#wrapper').html(html.main);
         });
     },
 

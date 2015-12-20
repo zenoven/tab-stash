@@ -1,19 +1,52 @@
 {
-	"extName":{
-		"message":"暂存标签",
-		"description":"插件名称"
-	},
-	"extDescription":{
-		"message":"暂存标签可以将当前窗口中所有已打开的标签页存储",
-		"description":"插件描述"
-	},
-	"extMenuTitle":{
-		"message":"暂存标签",
-		"description":"右键菜单标题"
-	},
-	"StashBtn": {
-		"message": "暂存",
-		"description":"暂存按钮文字"
-	}
-
+  "extName": {
+    "message": "暂存标签",
+    "description": "extension name"
+  },
+  "extDescription": {
+    "message": "暂存标签插件可以一键将当前窗口中所有已打开的标签页暂存，您还可以在插件的小窗口中管理所有已保存的记录。",
+    "description": "extension description"
+  },
+  "extMenuTitle": {
+    "message": "暂存标签",
+    "description": "Right click Menu Title"
+  },
+  "StashBtn": {
+    "message": "暂存",
+    "description": "Stash Button Text"
+  },
+  "StashSummary": {
+    "message": "当前共$GroupsCount$组，$TabsCount$个tab",
+    "description": "Summary info of how many stash groups and tabs",
+    "placeholders": {
+      "groupsCount": {
+        "content": "$1",
+        "example": "10"
+      },
+      "tabsCount": {
+        "content": "$2",
+        "example": "34"
+      }
+    }
+  },
+  "ExpandList": {
+    "message": "展开列表",
+    "description": "Expand stash list"
+  },
+  "Modify": {
+    "message": "修改",
+    "description": "Modify current stash title"
+  },
+  "Delete": {
+    "message": "删除",
+    "description": "Delete"
+  },
+  "Close": {
+    "message": "关闭",
+    "description": "Close"
+  },
+  "Open": {
+    "message": "打开",
+    "description": "Open"
+  }
 }
