@@ -10,5 +10,10 @@
 	"extMenuTitle":{
 		"message":"暂存标签",
 		"description":"右键菜单标题"
+	},
+	"StashBtn": {
+		"message": "暂存",
+		"description":"暂存按钮文字"
 	}
+
 }

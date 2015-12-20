@@ -6,6 +6,8 @@ var $         = require('jquery');
 var html      = '';
 var c         = chrome;
 var doRefresh = false;
+var helper    = require('./lib/helper').init();
+
 
 var popup = {
 
@@ -76,7 +78,7 @@ var popup = {
                     }
 
                     // 点击tab-list的关闭
-                    if(tgt.closest('.icon-close').length){
+                    if(tgt.closest('.js-close').length){
                         console.log('closing...')
                         $('.stash-list > .item').removeClass('expanded') ;
                         doRefresh && self.reRender();
@@ -100,7 +102,7 @@ var popup = {
 
                         // 如果已经删除完了
                         if( tabList.length == 0) {
-                            tabListWrapper.find('.icon-close').trigger('click');
+                            tabListWrapper.find('.js-close').trigger('click');
                             tabListWrapper.closest('.item').find('.js-delete').trigger('click');
                         }
                         doRefresh = true;
@@ -140,8 +142,8 @@ var popup = {
 
     render: function(){
         stash.getAll(function(obj){
-            html = tpl('stash-template', obj);
-            $('.main').html(html);
+            html = tpl('template', obj);
+            $('#wrapper').html(html);
         });
     },
 

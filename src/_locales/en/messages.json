@@ -10,5 +10,9 @@
 	"extMenuTitle":{
 		"message":"stash all tabs",
 		"description":"Menu Title"
+	},
+	"StashBtn": {
+		"message": "Stash",
+		"description":"Stash Button Text"
 	}
 }

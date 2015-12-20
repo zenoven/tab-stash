@@ -52,6 +52,8 @@
 	var html      = '';
 	var c         = chrome;
 	var doRefresh = false;
+	var helper    = __webpack_require__(104).init();
+
 
 	var popup = {
 
@@ -122,7 +124,7 @@
 	                    }
 
 	                    // 点击tab-list的关闭
-	                    if(tgt.closest('.icon-close').length){
+	                    if(tgt.closest('.js-close').length){
 	                        console.log('closing...')
 	                        $('.stash-list > .item').removeClass('expanded') ;
 	                        doRefresh && self.reRender();
@@ -146,7 +148,7 @@
 
 	                        // 如果已经删除完了
 	                        if( tabList.length == 0) {
-	                            tabListWrapper.find('.icon-close').trigger('click');
+	                            tabListWrapper.find('.js-close').trigger('click');
 	                            tabListWrapper.closest('.item').find('.js-delete').trigger('click');
 	                        }
 	                        doRefresh = true;
@@ -186,8 +188,8 @@
 
 	    render: function(){
 	        stash.getAll(function(obj){
-	            html = tpl('stash-template', obj);
-	            $('.main').html(html);
+	            html = tpl('template', obj);
+	            $('#wrapper').html(html);
 	        });
 	    },
 
@@ -22213,6 +22215,30 @@
 
 	}));
 
+
+/***/ },
+/* 104 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var tpl    = __webpack_require__(102);
+	var c      = chrome;
+	var getMsg = c.i18n.getMessage;
+
+	function initHelper(){
+	    tpl.helper('translte', function (text, dataArr) {
+	        if(!dataArr) {
+	            return getMsg(text);
+	        }else{
+	            if(text == "StashSummary"){
+	                return getMsg(text, dataArr[0], dataArr[1]);
+	            }
+	        }
+	    });
+	}
+
+	module.exports = {
+	    init: initHelper
+	}
 
 /***/ }
 /******/ ]);

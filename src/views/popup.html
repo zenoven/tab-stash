@@ -7,52 +7,54 @@
 </head>
 <body>
     
-    <section class="header">
-        <span class="btn btn-primary js-add-stash">暂存</span>
-    </section>
-    
-    <section class="main"></section>
+    <section id="wrapper"></section>
 
-<script type="text/html" id="stash-template">
-    <h2 class="tips">当前共{{summary.groupCount}}组，{{summary.itemsCount}}个tab</h2>
-    <ul class="stash-list">
-        {{each list as item i}}
-            <li class="item" data-id="{{item.id}}">
-                <span class="count">
-                    <span class="inner">{{item.children.length}}</span>
-                </span>
-                <h3 class="title"  title="{{item.dateAddedFull}} | {{item.title}}">
-                    <span class="date">{{item.dateAddedShort}}</span> | 
-                    <span class="text">{{item.title}}</span>
-                </h3>
-                <div class="control">
-                    <a href="#"class="js-expand" title="展开列表"><i class="icon-expand"></i></a>
-                    <a href="#"class="js-modify" title="修改"><i class="icon-modify"></i></a>
-                    <a href="#"class="js-delete" title="删除"><i class="icon-delete"></i></a>
-                </div> 
-                <div class="tab-list-wrapper">
-                    <h4 class="tab-list-title"  title="{{item.dateAddedFull}} | {{item.title}}">
+<script type="text/html" id="template">
+    <section class="header">
+        <span class="btn btn-primary js-add-stash">{{'StashBtn' | translte: ''}}</span>
+    </section>
+    <section class="main">
+        <h2 class="tips">当前共{{summary.groupCount}}组，{{summary.itemsCount}}个tab</h2>
+        <h2 class="tips">{{'StashSummary' | translte: [summary.groupCount, summary.itemsCount]}}</h2>
+        <ul class="stash-list">
+            {{each list as item i}}
+                <li class="item" data-id="{{item.id}}">
+                    <span class="count">
+                        <span class="inner">{{item.children.length}}</span>
+                    </span>
+                    <h3 class="title"  title="{{item.dateAddedFull}} | {{item.title}}">
                         <span class="date">{{item.dateAddedShort}}</span> | 
                         <span class="text">{{item.title}}</span>
-                        <i class="icon-close" title="关闭"></i>
-                    </h4>  
-                    <ul class="tab-list">
-                        {{each item.children as tab j}}
-                            <li class="tab" data-id="{{tab.id}}">
-                                <a class="link" href="{{tab.url}}" title="点击打开>>{{tab.title}}">{{tab.title}}</a>
-                                <a href="#"class="js-delete-tab delete" title="删除"><i class="icon-delete"></i></a>
-                            </li>
-                        {{/each}}
-                    </ul>
-                </div> 
-                <div class="title-edit-wrapper">
-                    <div class="editor-wrapper">
-                        <input class="ipt-title" type="text" value="{{item.title}}" />
+                    </h3>
+                    <div class="control">
+                        <a href="#"class="js-expand" title="展开列表"><i class="icon-expand"></i></a>
+                        <a href="#"class="js-modify" title="修改"><i class="icon-modify"></i></a>
+                        <a href="#"class="js-delete" title="删除"><i class="icon-delete"></i></a>
+                    </div> 
+                    <div class="tab-list-wrapper">
+                        <h4 class="tab-list-title"  title="{{item.dateAddedFull}} | {{item.title}}">
+                            <span class="date">{{item.dateAddedShort}}</span> | 
+                            <span class="text">{{item.title}}</span>
+                            <i class="js-close icon-close" title="关闭"></i>
+                        </h4>  
+                        <ul class="tab-list">
+                            {{each item.children as tab j}}
+                                <li class="tab" data-id="{{tab.id}}">
+                                    <a class="link" href="{{tab.url}}" title="点击打开>>{{tab.title}}">{{tab.title}}</a>
+                                    <a href="#"class="js-delete-tab delete" title="删除"><i class="icon-delete"></i></a>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    </div> 
+                    <div class="title-edit-wrapper">
+                        <div class="editor-wrapper">
+                            <input class="ipt-title" type="text" value="{{item.title}}" />
+                        </div>
                     </div>
-                </div>
-            </li>
-        {{/each}}
-    </ul>
+                </li>
+            {{/each}}
+        </ul>
+    </section>
 </script>
 
 <script src="../js/popup.bundle.js"></script>
