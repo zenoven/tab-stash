@@ -17,7 +17,7 @@
     <h2 class="tips">当前共{{summary.groupCount}}组，{{summary.itemsCount}}个tab</h2>
     <ul class="stash-list">
         {{each list as item i}}
-            <li class="item" data-id="item.id">
+            <li class="item" data-id="{{item.id}}">
                 <span class="count">
                     <span class="inner">{{item.children.length}}</span>
                 </span>
@@ -26,9 +26,9 @@
                     <span class="text">{{item.title}}</span>
                 </h3>
                 <div class="control">
-                    <a href="#"class="expand" title="展开列表"><i class="icon-expand"></i></a>
-                    <a href="#"class="modify" title="修改"><i class="icon-modify"></i></a>
-                    <a href="#"class="delete" title="删除"></a>
+                    <a href="#"class="js-expand" title="展开列表"><i class="icon-expand"></i></a>
+                    <a href="#"class="js-modify" title="修改"><i class="icon-modify"></i></a>
+                    <a href="#"class="js-delete" title="删除"><i class="icon-delete"></i></a>
                 </div> 
                 <div class="tab-list-wrapper">
                     <h4 class="title"  title="{{item.dateAddedFull}} | {{item.title}}">
@@ -42,6 +42,11 @@
                         {{/each}}
                     </ul>
                 </div> 
+                <div class="title-edit-wrapper">
+                    <div class="editor-wrapper">
+                        <input class="ipt-title" type="text" value="{{item.title}}" />
+                    </div>
+                </div>
             </li>
         {{/each}}
     </ul>

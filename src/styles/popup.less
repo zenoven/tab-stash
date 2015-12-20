@@ -7,10 +7,22 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.mask(){
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,50%);
+}
 *, 
 *:before,
 *:after {
     box-sizing: border-box;
+}
+html,body {
+    font-family: 'Hiragino Sans GB', 'Heiti SC', '微软雅黑', 'Helvetica Neue', Helvetica, STHeiTi, arial, sans-serif;
 }
 h1,h2,h3,h4,h5,h6 {
     margin: 0;
@@ -35,6 +47,9 @@ h1,h2,h3,h4,h5,h6 {
 .icon-modify {
     background-image: url(../images/icons/modify.png);
 }
+.icon-delete {
+    background-image: url(../images/icons/delete.png);
+}
 .icon-close {
     background-image: url(../images/icons/close.png);
     background-size: 50%;
@@ -51,7 +66,7 @@ body {
 }
 .header,
 .main {
-    position: absolute;
+    position: fixed;
     left: 5px;
     right: 5px;
 }
@@ -179,13 +194,7 @@ body {
             &.expanded {
                 .tab-list-wrapper {
                     display: block;
-                    position: fixed;
-                    z-index: 1;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background: rgba(0,0,0,50%);
+                    .mask();
                 }
                 .title,
                 .tab-list {
@@ -253,6 +262,34 @@ body {
                             
                             
                         }
+                    }
+                }
+            }
+
+            .title-edit-wrapper {
+                display: none;
+                &.show {
+                    display: block;
+                }
+                .mask();
+                .editor-wrapper {
+                    position: absolute;
+                    top: 50%;
+                    left: 20px;
+                    right: 20px;
+                    margin-top: -21px;
+                    height: 42px;
+                    background: #fff;
+                    border: 2px solid rgba(73, 143, 226, .6);
+                    .ipt-title {
+                        display: block;
+                        width: 100%;
+                        padding: 0 10px;
+                        height: 100%;
+                        border: 0;
+                        margin: 0;
+                        outline: none;
+                        font-size: 14px;
                     }
                 }
             }

@@ -275,12 +275,19 @@
 	        return data;
 	    },
 
-	    modify: function(stashId) {
-	        
+	    modify: function(stashId, title, callback) {
+	        // stashId需为String
+	        stashId = stashId + '';
+	        c.bookmarks.update(stashId, {title: title}, function(nodes){
+	            callback && callback(nodes);
+	        });
 	    },
 
-	    delete: function(stashId) {
-
+	    delete: function(stashId, callback) {
+	        stashId = stashId + '';
+	        chrome.bookmarks.removeTree(stashId, function(){
+	            callback && callback();
+	        });
 	    }
 	    
 	}
