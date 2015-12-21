@@ -64,7 +64,22 @@
 	    },
 
 	    initStash: function(){
-	        stash.init();
+	        var self = this;
+	        stash.init(function(){
+	            stash.getAll(function(obj){
+	                console.log(obj.summary.groupCount)
+	                self.setBadge(obj.summary.groupCount);
+	            });
+	        });
+	    },
+
+	    setBadge: function(number){
+	        chrome.browserAction.setBadgeText({
+	            text: number + ''
+	        });
+	        chrome.browserAction.setBadgeBackgroundColor({
+	            color: '#398DE3'
+	        });
 	    },
 
 	    initOptions: function(){
@@ -97,11 +112,12 @@
 	    },
 
 	    bookmarkModifyEvent: function(){
-	        var bookmarkEventArr = ['onRemoved','onChanged','onMoved'];
+	        var bookmarkEventArr = ['onCreated', 'onRemoved','onChanged','onMoved'],
+	            self = this;
 	        
 	        bookmarkEventArr.forEach(function(event, i){
 	            c.bookmarks[event].addListener(function(){
-	                stash.init();
+	                self.initStash();
 	            });
 	        });
 	    }

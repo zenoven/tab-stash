@@ -12,7 +12,6 @@ var helper    = require('./lib/helper').init();
 var popup = {
 
     init: function(){
-        console.log('asdfasfffff')
         var self = this;
         stash.init(function(){
             self.render();
@@ -27,15 +26,8 @@ var popup = {
 
     bindStashEvents: function(){
         var self        = this;
-        var addBtn      = $('.js-add-stash');
         var listWrapper = $('#wrapper');
 
-        addBtn.on('click', function () {
-            console.log(1211111)
-            stash.create(function(){
-                self.render();
-            });
-        });
 
         listWrapper.on('click',function(event){
             var tgt = $(event.target);
@@ -110,6 +102,13 @@ var popup = {
                         doRefresh = true;
                         return;
                     }
+                }
+            }else {
+                // 如果点击的是暂存按钮
+                if(tgt.closest('.js-add-stash').length){
+                    stash.create(function(){
+                        self.render();
+                    });
                 }
             }
 
