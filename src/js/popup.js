@@ -28,7 +28,7 @@ var popup = {
     bindStashEvents: function(){
         var self        = this;
         var addBtn      = $('.js-add-stash');
-        var listWrapper = $('.main');
+        var listWrapper = $('#wrapper');
 
         addBtn.on('click', function () {
             console.log(1211111)
