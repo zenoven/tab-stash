@@ -88,7 +88,7 @@
 	            if(tgt.closest('.item').length > 0){
 	                var item = tgt.closest('.item');
 	                var linkWrapper = item.find('.tab-list');
-	                var linkList = item.find('.tab-list a');
+	                var linkList = item.find('.tab-list a.link');
 	                var tabList;
 	                if( !tgt.closest('.control, .tab-list-wrapper, .title-edit-wrapper').length) {
 	                    linkList.each(function(i, link){
