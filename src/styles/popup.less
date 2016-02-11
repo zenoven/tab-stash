@@ -1,63 +1,11 @@
-@blue       : #398DE3;
-@btn-bg     : @blue;
-@link-color : @blue;
+@import './var';
+@import './icons';
+@import './mixins';
+@import './base';
 
-.text-overflow() {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.mask(){
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,50%);
-}
-*, 
-*:before,
-*:after {
-    box-sizing: border-box;
-}
-html,body {
-    font-family: 'Hiragino Sans GB', 'Heiti SC', '微软雅黑', 'Helvetica Neue', Helvetica, STHeiTi, arial, sans-serif;
-}
-h1,h2,h3,h4,h5,h6 {
-    margin: 0;
-    padding: 0;
-    font-weight: normal;
-}
-.round(){
-    border-radius: 2px;
-}
-[class|='icon'] {
-    display: inline-block;
-    vertical-align: middle;
-    width: 20px;
-    height: 20px;
-    background-size: 60%;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-.icon-expand {
-    background-image: url(../images/icons/expand.png);
-}
-.icon-modify {
-    background-image: url(../images/icons/modify.png);
-}
-.icon-delete {
-    background-image: url(../images/icons/delete.png);
-}
-.icon-close {
-    background-image: url(../images/icons/close.png);
-    background-size: 50%;
-}
+
 body {
     position: relative;
-    width: 100%;
-    height: 100%;
     width: 280px;
     height: 360px;
     padding: 0;
@@ -135,7 +83,7 @@ body {
                     font-size: 10px;
                     color: #FFFFFF;
                     background: rgba(73,143,225,0.40);
-                    border-radius: 4px;
+                    .round(4px);
                 }
             }
 

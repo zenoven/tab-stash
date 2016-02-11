@@ -13,6 +13,7 @@ module.exports = {
 
     entry: {
         background: './src/js/background.js',
+        options: './src/js/options.js',
         popup: './src/js/popup.js'
     },
 

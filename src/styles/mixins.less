@@ -1,0 +1,21 @@
+@import './var';
+
+.mask(){
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,50%);
+}
+
+.round(@radius: @border-radius){
+    border-radius: @radius;
+}
+
+.text-overflow() {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
