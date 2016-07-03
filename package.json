@@ -4,7 +4,8 @@
   "description": "a chrome extension to stash your tab list",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack -w",
+    "build": "webpack | gulp"
   },
   "author": "zenoven@gmail.com",
   "license": "MIT",

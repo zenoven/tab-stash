@@ -34,8 +34,8 @@ gulp.task('zip', function () {
 gulp.task('default', function(){
     runSequence(
         'clean:locales',
-        'clean:build',
         'translate',
+        'clean:build',
         'copy',
         'zip'
     );
