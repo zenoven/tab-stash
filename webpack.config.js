@@ -26,7 +26,6 @@ module.exports = {
         loaders: [
             { test: /\.css$/,           loader: 'style!css' },
             { test: /\.js$/,            loader: 'jsx?harmony' },
-            { test: /\.scss$/,          loader: 'style!css!sass?sourceMap' },
             { test: /\.less$/,          loader: 'style!css!less' },
             { test: /\.(png|jpg)$/,   loader: 'url-loader?limit=8192' }
         ]
