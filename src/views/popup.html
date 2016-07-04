@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    
+    <link rel="stylesheet" href="../styles/popup.css">
 </head>
 <body>
-    
+
     <section id="wrapper"></section>
 
 <script type="text/html" id="title">{{ 'extName' | translte: [] }}</script>
@@ -24,20 +24,20 @@
                         <span class="inner">{{item.children.length}}</span>
                     </span>
                     <h3 class="title"  title="{{item.dateAddedFull}} | {{item.title}}">
-                        <span class="date">{{item.dateAddedShort}}</span> | 
+                        <span class="date">{{item.dateAddedShort}}</span> |
                         <span class="text">{{item.title}}</span>
                     </h3>
                     <div class="control">
                         <a href="#"class="js-expand" title="{{ 'ExpandList' | translte: [] }}"><i class="icon-expand"></i></a>
                         <a href="#"class="js-modify" title="{{ 'Modify' | translte: [] }}"><i class="icon-modify"></i></a>
                         <a href="#"class="js-delete" title="{{ 'Delete' | translte: [] }}"><i class="icon-delete"></i></a>
-                    </div> 
+                    </div>
                     <div class="tab-list-wrapper">
                         <h4 class="tab-list-title"  title="{{item.dateAddedFull}} | {{item.title}}">
-                            <span class="date">{{item.dateAddedShort}}</span> | 
+                            <span class="date">{{item.dateAddedShort}}</span> |
                             <span class="text">{{item.title}}</span>
                             <i class="icon-close js-close" title="{{ 'Close' | translte: [] }}"></i>
-                        </h4>  
+                        </h4>
                         <ul class="tab-list">
                             {{each item.children as tab j}}
                                 <li class="tab" data-id="{{tab.id}}">
@@ -46,7 +46,7 @@
                                 </li>
                             {{/each}}
                         </ul>
-                    </div> 
+                    </div>
                     <div class="title-edit-wrapper">
                         <div class="editor-wrapper">
                             <input class="ipt-title" type="text" value="{{item.title}}" />

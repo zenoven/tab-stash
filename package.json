@@ -4,8 +4,8 @@
   "description": "a chrome extension to stash your tab list",
   "main": "index.js",
   "scripts": {
-    "start": "webpack -w",
-    "build": "webpack | gulp"
+    "start": "webpack -w | gulp dev",
+    "build": "webpack | gulp build"
   },
   "default_locale": "en_US",
   "author": "zenoven@gmail.com",
@@ -23,6 +23,7 @@
     "del": "^2.2.1",
     "file-loader": "^0.8.5",
     "gulp": "^3.9.1",
+    "gulp-less": "^3.1.0",
     "gulp-shell": "^0.5.2",
     "gulp-zip": "^3.2.0",
     "jsx-loader": "^0.13.2",

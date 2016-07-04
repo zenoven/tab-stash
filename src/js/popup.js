@@ -1,5 +1,4 @@
 var normalize = require('normalize.css');
-var style     = require('../styles/popup.less');
 var stash     = require('./lib/stash');
 var tpl       = require('art-template');
 var $         = require('jquery');
@@ -31,7 +30,7 @@ var popup = {
 
         listWrapper.on('click',function(event){
             var tgt = $(event.target);
-            
+
             if(!tgt.hasClass('link')){
                 event.preventDefault();
             }else{

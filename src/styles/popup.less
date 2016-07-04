@@ -1,7 +1,7 @@
-@import './var';
-@import './icons';
-@import './mixins';
-@import './base';
+@import 'base/var';
+@import 'base/icons';
+@import 'base/mixins';
+@import 'base/base';
 
 
 body {
@@ -67,8 +67,8 @@ body {
             border-top: 1px solid  #F2F2F2;
             &:last-child{
                 border-bottom: 1px solid  #F2F2F2;
-            } 
-            
+            }
+
             .count {
                 width: 20px;
                 margin-right: 5px;
@@ -89,7 +89,7 @@ body {
 
             > .title {
                 flex: 1;
-                
+
             }
             .title {
                 font-size: 12px;
@@ -190,7 +190,7 @@ body {
                         position: relative;
                         z-index: 10;
                         border-top: 1px solid  #F2F2F2;
-                        
+
                         .link {
                             height: 32px;
                             line-height: 32px;
@@ -213,7 +213,7 @@ body {
                                 display: block;
                             }
                         }
-                        
+
                         &:hover {
                             background: rgba(73, 143, 225, 0.1);
                             border-color: rgba(73, 143, 226, 0.16) !important;
@@ -260,5 +260,5 @@ body {
             }
         }
     }
-    
+
 }

@@ -45,9 +45,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var c     = chrome;
-	var tab   = __webpack_require__(5);
-	var stash = __webpack_require__(6);
-	var utils = __webpack_require__(8);
+	var tab   = __webpack_require__(1);
+	var stash = __webpack_require__(2);
+	var utils = __webpack_require__(4);
 	var st    = c.storage;
 
 	var background = {
@@ -126,11 +126,7 @@
 	background.init();
 
 /***/ },
-/* 1 */,
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */
+/* 1 */
 /***/ function(module, exports) {
 
 	var c = chrome;
@@ -156,13 +152,13 @@
 	};
 
 /***/ },
-/* 6 */
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var c      = chrome;
-	var tab    = __webpack_require__(5);
+	var tab    = __webpack_require__(1);
 	var st     = c.storage; // 存储
-	var dateFormat = __webpack_require__(7);
+	var dateFormat = __webpack_require__(3);
 	var options;
 
 	st.sync.get('options',function (rs) {
@@ -314,7 +310,7 @@
 
 
 /***/ },
-/* 7 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -546,7 +542,7 @@
 
 
 /***/ },
-/* 8 */
+/* 4 */
 /***/ function(module, exports) {
 
 	module.exports = {
