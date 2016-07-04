@@ -8,7 +8,7 @@ var doRefresh = false;
 var helper    = require('./lib/helper').init();
 
 
-var popup = {
+var app = {
 
     init: function(){
         var self = this;
@@ -156,6 +156,6 @@ var popup = {
             self.render();
         });
     }
-}
+};
 
-popup.init();
+app.init();
