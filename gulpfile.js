@@ -26,7 +26,7 @@ gulp.task('translate', shell.task([
 ]) );
 
 gulp.task('zip', function () {
-    return gulp.src('build/*')
+    return gulp.src('build/**')
         .pipe(zip(package.name + '-' + package.version + '.zip'))
         .pipe(gulp.dest(build));
 });

@@ -7,6 +7,7 @@
     "start": "webpack -w",
     "build": "webpack | gulp"
   },
+  "default_locale": "en_US",
   "author": "zenoven@gmail.com",
   "license": "MIT",
   "dependencies": {
