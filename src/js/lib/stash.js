@@ -1,7 +1,7 @@
 var c      = chrome;
 var tab    = require('./tab');
 var st     = c.storage; // 存储
-var moment = require('moment');
+var dateFormat = require('dateformat');
 var options;
 
 st.sync.get('options',function (rs) {
@@ -32,7 +32,7 @@ function saveTabToBookmark(tab, parentBookmarkId, callback){
 }
 
 function saveAllTabsToBookmark(tabs, activeTabIndex, config, callback){
-    
+
     c.bookmarks.create({title: tabs[activeTabIndex].title, parentId: bookmarkConfig.id}, function (result) {
         for(var i = 0; i < tabs.length; i++) {
             (function(index,length){
@@ -57,7 +57,7 @@ function saveAllTabsToBookmark(tabs, activeTabIndex, config, callback){
                     }
 
                     c.tabs.remove(tab.id);
-                    
+
                 });
             })(i, tabs.length);
         }
@@ -91,7 +91,7 @@ module.exports = {
                 }
             })
         },100);
-        
+
     },
 
     create: function(callback) {
@@ -124,8 +124,8 @@ module.exports = {
                 title: item.title,
                 id: item.id,
                 dateAdded: item.dateAdded,
-                dateAddedFull: moment(item.dateAdded).format('YYYY-MM-DD hh:mm:ss'),
-                dateAddedShort: moment(item.dateAdded).format('MM-DD'),
+                dateAddedFull: dateFormat(item.dateAdded, 'yyyy-mm-dd hh:mm:ss'),
+                dateAddedShort: dateFormat(item.dateAdded, 'mm-dd'),
                 children: item.children
             }
             data.list.push(temp);
@@ -148,5 +148,5 @@ module.exports = {
             callback && callback();
         });
     }
-    
+
 }
