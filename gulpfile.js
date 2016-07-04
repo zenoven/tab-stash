@@ -5,6 +5,7 @@ var del = require('del');
 var copy = require('copy');
 var runSequence = require('run-sequence');
 var zip = require('gulp-zip');
+var cleanCSS = require('gulp-clean-css');
 var package = require('./package.json');
 
 var src = './src';
@@ -19,9 +20,9 @@ gulp.task('clean:build', function () {
 });
 
 gulp.task('less', function () {
-    console.log('less ... ')
     return gulp.src(src + '/styles/*.less')
             .pipe(less())
+            .pipe(cleanCSS())
             .pipe(gulp.dest(src + '/styles'));
 });
 
@@ -40,7 +41,7 @@ gulp.task('zip', function () {
         .pipe(gulp.dest(build));
 });
 
-gulp.task('basic', function(){
+gulp.task('compile', function(){
     runSequence(
         'clean:locales',
         'translate',
@@ -59,6 +60,6 @@ gulp.task('build', function(){
     );
 });
 
-gulp.task('dev', ['basic'], function(){
+gulp.task('dev', ['compile'], function(){
     gulp.watch(src + '/{styles/*.less,dictionary.json}', ['basic']);
 });

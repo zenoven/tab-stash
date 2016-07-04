@@ -2,5 +2,6 @@ node_modules
 src/**/*.bundle.js
 **/.idea
 src/_locales
+src/styles/**/*.css
 
 build/
