@@ -24,8 +24,9 @@ module.exports = {
 
     module: {
         loaders: [
+            { test: /\.vue$/,           loader: 'vue' },
             { test: /\.css$/,           loader: 'style!css' },
-            { test: /\.js$/,            loader: 'jsx?harmony' },
+            { test: /\.js$/,            loader: 'jsx?harmony!babel' },
             { test: /\.less$/,          loader: 'style!css!less' },
             { test: /\.(png|jpg)$/,   loader: 'url-loader?limit=8192' }
         ]

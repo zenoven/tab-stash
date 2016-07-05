@@ -6,58 +6,9 @@
     <link rel="stylesheet" href="../styles/popup.css">
 </head>
 <body>
-
-    <section id="wrapper"></section>
-
-<script type="text/html" id="title">{{ 'extName' | translte: [] }}</script>
-
-<script type="text/html" id="main">
-    <section class="header">
-        <span class="btn btn-primary js-add-stash">{{ 'StashBtn' | translte: [] }}</span>
-    </section>
-    <section class="main">
-        <h2 class="tips">{{ 'StashSummary' | translte: [summary.groupCount, summary.itemsCount] }}</h2>
-        <ul class="stash-list">
-            {{each list as item i}}
-                <li class="item" data-id="{{item.id}}">
-                    <span class="count">
-                        <span class="inner">{{item.children.length}}</span>
-                    </span>
-                    <h3 class="title"  title="{{item.dateAddedFull}} | {{item.title}}">
-                        <span class="date">{{item.dateAddedShort}}</span> |
-                        <span class="text">{{item.title}}</span>
-                    </h3>
-                    <div class="control">
-                        <a href="#"class="js-expand" title="{{ 'ExpandList' | translte: [] }}"><i class="icon-expand"></i></a>
-                        <a href="#"class="js-modify" title="{{ 'Modify' | translte: [] }}"><i class="icon-modify"></i></a>
-                        <a href="#"class="js-delete" title="{{ 'Delete' | translte: [] }}"><i class="icon-delete"></i></a>
-                    </div>
-                    <div class="tab-list-wrapper">
-                        <h4 class="tab-list-title"  title="{{item.dateAddedFull}} | {{item.title}}">
-                            <span class="date">{{item.dateAddedShort}}</span> |
-                            <span class="text">{{item.title}}</span>
-                            <i class="icon-close js-close" title="{{ 'Close' | translte: [] }}"></i>
-                        </h4>
-                        <ul class="tab-list">
-                            {{each item.children as tab j}}
-                                <li class="tab" data-id="{{tab.id}}">
-                                    <a class="link" href="{{tab.url}}" title="{{ 'Open' | translte: [] }}>>{{tab.title}}">{{tab.title}}</a>
-                                    <a href="#"class="js-delete-tab delete" title="{{ 'Delete' | translte: [] }}"><i class="icon-delete"></i></a>
-                                </li>
-                            {{/each}}
-                        </ul>
-                    </div>
-                    <div class="title-edit-wrapper">
-                        <div class="editor-wrapper">
-                            <input class="ipt-title" type="text" value="{{item.title}}" />
-                        </div>
-                    </div>
-                </li>
-            {{/each}}
-        </ul>
-    </section>
-</script>
-
+<div id="app">
+    <stash-container></stash-container>
+</div>
 <script src="../js/popup.bundle.js"></script>
 </body>
 </html>

@@ -61,5 +61,5 @@ gulp.task('build', function(){
 });
 
 gulp.task('dev', ['compile'], function(){
-    gulp.watch(src + '/{styles/*.less,dictionary.json}', ['basic']);
+    gulp.watch(src + '/{styles/*.less,dictionary.json}', ['compile']);
 });
