@@ -69,7 +69,6 @@
 	        var self = this;
 	        stash.init(function () {
 	            stash.getAll(function (obj) {
-	                console.log(obj.summary.groupCount);
 	                self.setBadge(obj.summary.groupCount);
 	            });
 	        });
@@ -105,7 +104,7 @@
 	    contextMenuEvent: function contextMenuEvent() {
 	        var self = this;
 	        c.contextMenus.create({
-	            title: chrome.i18n.getMessage("extMenuTitle"),
+	            title: utils.getMsg('extMenuTitle'),
 	            contexts: ['all'],
 	            onclick: function onclick(argument) {
 	                stash.create();

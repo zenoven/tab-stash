@@ -1,11 +1,5 @@
-var normalize = require('normalize.css');
 var stash     = require('./lib/stash');
-var tpl       = require('art-template');
-var $         = require('jquery');
-var html      = {};
 var c         = chrome;
-var doRefresh = false;
-var helper    = require('./lib/helper').init();
 var Vue       = require('vue');
 var StashContainer = require('../views/components/stash-container.vue');
 

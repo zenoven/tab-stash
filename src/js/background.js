@@ -21,7 +21,6 @@ var background = {
         var self = this;
         stash.init(function(){
             stash.getAll(function(obj){
-                console.log(obj.summary.groupCount)
                 self.setBadge(obj.summary.groupCount);
             });
         });
@@ -57,7 +56,7 @@ var background = {
     contextMenuEvent: function () {
         var self = this;
         c.contextMenus.create({
-            title:chrome.i18n.getMessage("extMenuTitle"),
+            title: utils.getMsg('extMenuTitle'),
             contexts:['all'],
             onclick: function (argument) {
                 stash.create();
@@ -68,13 +67,13 @@ var background = {
     bookmarkModifyEvent: function(){
         var bookmarkEventArr = ['onCreated', 'onRemoved','onChanged','onMoved'],
             self = this;
-        
+
         bookmarkEventArr.forEach(function(event, i){
             c.bookmarks[event].addListener(function(){
                 self.initStash();
             });
         });
     }
-}
+};
 
 background.init();
