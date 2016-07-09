@@ -19,8 +19,7 @@
                     this.isInitialized = true;
                     stash.init(function(){
                         stash.create(() => {
-                            console.log('arrow....');
-                            console.log('init stash created.');
+
                         });
                     });
                 }else{
