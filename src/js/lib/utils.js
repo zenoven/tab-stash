@@ -1,6 +1,7 @@
 var c = chrome;
 
 module.exports = {
+
     isEmpty: function(value) {
         var type;
 

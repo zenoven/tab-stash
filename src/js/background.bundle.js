@@ -89,11 +89,11 @@
 	            }
 	        });
 	        stash.getAll(function (obj) {
-	            self.setBadge(obj.summary.groupCount);
+	            self.setBadgeText(obj.summary.groupCount);
 	        });
 	    },
 
-	    setBadge: function setBadge(number) {
+	    setBadgeText: function setBadge(number) {
 	        chrome.browserAction.setBadgeText({
 	            text: number + ''
 	        });

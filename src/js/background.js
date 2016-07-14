@@ -41,11 +41,11 @@ var background = {
             }
         });
         stash.getAll(function(obj){
-            self.setBadge(obj.summary.groupCount);
+            self.setBadgeText(obj.summary.groupCount);
         });
     },
 
-    setBadge: function(number){
+    setBadgeText: function(number){
         chrome.browserAction.setBadgeText({
             text: number + ''
         });
@@ -59,9 +59,7 @@ var background = {
         st.sync.get('options', function(result){
             if(utils.isEmpty(result)){
                 st.sync.set({
-                    options: {
-                        preservTab: "blank"
-                    }
+                    options: conf.options
                 }, function(){
                     console.log('set initial options finished');
                 });

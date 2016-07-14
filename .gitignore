@@ -5,3 +5,4 @@ src/_locales
 src/styles/**/*.css
 
 build/
+npm-debug.log
