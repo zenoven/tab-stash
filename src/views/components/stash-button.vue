@@ -9,8 +9,7 @@
             return{
                 i18n: util.getMsgArr([
                     {name: 'StashBtn'}
-                ]),
-                isInitialized: false
+                ])
             }
         },
         methods: {

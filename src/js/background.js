@@ -49,15 +49,12 @@ var background = {
     },
 
     setBadgeText: function(){
-        console.log('setBadgeText');
         stash.getAll(function(obj){
-            console.log('obj');
-            console.log(obj);
             chrome.browserAction.setBadgeText({
                 text: obj.summary.groupCount + ''
             });
             chrome.browserAction.setBadgeBackgroundColor({
-                color: '#398DE3'
+                color: conf.badge.color
             });
         });
 
@@ -73,11 +70,10 @@ var background = {
     },
 
     contextMenuEvent: function () {
-        var self = this;
         c.contextMenus.create({
             title: utils.getMsg('extMenuTitle'),
             contexts:['all'],
-            onclick: function (argument) {
+            onclick: function () {
                 stash.create();
             }
         });
@@ -87,7 +83,7 @@ var background = {
         var bookmarkEventArr = ['onCreated', 'onRemoved','onChanged','onMoved'],
             self = this;
 
-        bookmarkEventArr.forEach(function(event, i){
+        bookmarkEventArr.forEach(function(event){
             c.bookmarks[event].addListener(function(){
                 self.initStash();
             });

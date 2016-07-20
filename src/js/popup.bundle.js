@@ -3606,8 +3606,7 @@
 	exports.default = {
 	    data: function data() {
 	        return {
-	            i18n: _utils2.default.getMsgArr([{ name: 'StashBtn' }]),
-	            isInitialized: false
+	            i18n: _utils2.default.getMsgArr([{ name: 'StashBtn' }])
 	        };
 	    },
 
