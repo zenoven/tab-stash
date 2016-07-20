@@ -3,18 +3,18 @@ var tab   = require('./lib/tab');
 var stash = require('./lib/stash');
 var utils = require('./lib/utils');
 var st    = c.storage;
-var conf  = require('../config.js');
+var conf  = require('./config.js');
 var bookmarkConfig = conf.bookmark;
 
 var background = {
 
     init: function() {
         this.initStash();
-        this.initOptions();
         this.bindEvents();
     },
 
     bindEvents: function () {
+        this.optionsEvent();
         this.contextMenuEvent();
         this.bookmarkModifyEvent();
     },
@@ -26,46 +26,48 @@ var background = {
             if(bookmark.length ===0){
                 c.bookmarks.create({title: bookmarkConfig.title}, function(result){
                     bookmarkConfig.id = result.id;
-                    if(result.children && result.children.length) {
-                        bookmarkConfig.children = result.children;
-                    }
+                    st.sync.set({
+                        bookmark: bookmarkConfig
+                    }, function(){
+                        console.log('set initial bookmarkConfig');
+                    });
                     callback && callback();
                 });
             }else{
                 bookmark = bookmark[0];
                 bookmarkConfig.id = bookmark.id;
-                if(bookmark.children && bookmark.children.length) {
-                    bookmarkConfig.children = bookmark.children;
-                }
+                st.sync.set({
+                    bookmark: bookmarkConfig
+                }, function(){
+                    console.log('set initial bookmarkConfig');
+                });
                 callback && callback();
             }
+            self.setBadgeText();
         });
+
+    },
+
+    setBadgeText: function(){
+        console.log('setBadgeText');
         stash.getAll(function(obj){
-            self.setBadgeText(obj.summary.groupCount);
+            console.log('obj');
+            console.log(obj);
+            chrome.browserAction.setBadgeText({
+                text: obj.summary.groupCount + ''
+            });
+            chrome.browserAction.setBadgeBackgroundColor({
+                color: '#398DE3'
+            });
         });
+
     },
 
-    setBadgeText: function(number){
-        chrome.browserAction.setBadgeText({
-            text: number + ''
-        });
-        chrome.browserAction.setBadgeBackgroundColor({
-            color: '#398DE3'
-        });
-    },
+    optionsEvent: function(){
 
-    initOptions: function(){
-
-        st.sync.get('options', function(result){
+        st.sync.get(null, function(result){
             if(utils.isEmpty(result)){
-                st.sync.set({
-                    options: conf.options
-                }, function(){
-                    console.log('set initial options finished');
-                });
-            }else{
-                console.log('opions loaded');
-                console.log(result);
+                st.sync.set(conf);
             }
         });
     },

@@ -1,13 +1,10 @@
 module.exports = {
     bookmark: {
         id: null,
-        title:  "tab-stash",
-        children: null
+        title:  "tab-stash"
     },
     badge: {
         color: '#398DE3'
     },
-    options: {
-        preserveTab: 'blank'
-    }
+    preserveTab: 'blank'
 };

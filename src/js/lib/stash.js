@@ -7,15 +7,17 @@ module.exports = {
 
     create: function(callback) {
         tab.getAll(function (tabs, i) {
-            app.saveAllTabsToBookmark(tabs, i, options, callback);
+            utils.saveTabListToBookmark(tabs, i, callback);
         });
     },
 
     getAll: function(callback){
-        var self = this;
-        c.bookmarks.getSubTree(bookmarkConfig.id, function(bookmark) {
-            callback && callback(utils.convertBookmarkToStash(bookmark));
+        st.sync.get('bookmark', function(result){
+            c.bookmarks.getSubTree(result.bookmark.id, function(bookmark) {
+                callback && callback(utils.convertBookmarkToStash(bookmark));
+            });
         });
+
     },
 
     modify: function(stashId, title, callback) {

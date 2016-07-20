@@ -1,5 +1,6 @@
 var c = chrome;
-
+var st = c.storage;
+var dateFormat = require('dateformat');
 module.exports = {
 
     isEmpty: function(value) {
@@ -54,53 +55,84 @@ module.exports = {
         return result;
     },
 
-    saveTabToBookmark: function(tab, callback){
-        // todo: get parentBookmarkId
-        parentBookmarkId = '';
-        c.bookmarks.create({
-            title: tab.title,
-            index: tab.index,
-            url:   tab.url,
-            parentId: parentBookmarkId
-        },function (result) {
-            callback && callback(tab, result);
+    saveTabToBookmark: function(tab, parentBookmarkId, callback){
+        st.sync.get('bookmark', function(result){
+            c.bookmarks.create({
+                title: tab.title,
+                index: tab.index,
+                url:   tab.url,
+                parentId: parentBookmarkId
+            },function (result) {
+                callback && callback(tab, result);
+            });
+        });
+
+    },
+
+    saveTabListToBookmark: function(tabList, activeTabIndex, callback){
+        var self = this;
+
+        st.sync.get(null, function(options){
+            console.log('options');
+            console.log(options);
+            c.bookmarks.create({title: tabList[activeTabIndex].title, parentId: options.bookmark.id}, function (result) {
+                for(var i = 0; i < tabList.length; i++) {
+                    (function(index,length){
+                        // todo: 根据options来判断保留的tab
+                        console.log(options.preserveTab);
+                        console.log(index);
+                        if(options.preserveTab ==='blank' && index === 0) {
+                            console.log('should create tab');
+                            c.tabs.create({active: false},null);
+                        }
+                        self.saveTabToBookmark(tabList[index], result.id, function(tab){
+                            index===length-1 && callback && callback();
+
+                            if(options.preserveTab ==='first' && index === 0) {
+                                return;
+                            }
+                            if(options.preserveTab ==='last' && index === length-1) {
+                                return;
+                            }
+                            if(options.preserveTab ==='fixed' && tab.pinned) {
+                                return;
+                            }
+                            if(options.preserveTab ==='all') {
+                                return;
+                            }
+
+                            c.tabs.remove(tab.id);
+
+                        });
+                    })(i, tabList.length);
+                }
+            });
         });
     },
 
-    saveTabListToBookmark: function(tabList, callback){
-        // todo: get activeTabIndex, config
-        activeTabIndex = '';
-        config = {};
+    convertBookmarkToStash: function (bookmark) {
+        var stash = {
+            summary: {
+                groupCount: bookmark[0].children ? bookmark[0].children.length : 0,
+                itemsCount: 0
+            },
+            list: []
+        };
 
-        c.bookmarks.create({title: tabList[activeTabIndex].title, parentId: bookmarkConfig.id}, function (result) {
-            for(var i = 0; i < tabList.length; i++) {
-                (function(index,length){
-                    // todo: 根据options来判断保留的tab
-                    if(config.preservTab ==='blank' && index === 0) {
-                        c.tabs.create({active: false},null);
-                    }
-                    app.saveTabToBookmark(tabList[index], result.id, function(tab){
-                        index===length-1 && callback && callback();
+        if(!bookmark[0].children) return stash;
 
-                        if(config.preservTab ==='first' && index === 0) {
-                            return;
-                        }
-                        if(config.preservTab ==='last' && index === length-1) {
-                            return;
-                        }
-                        if(config.preservTab ==='fixed' && tab.pinned) {
-                            return;
-                        }
-                        if(config.preservTab ==='all') {
-                            return;
-                        }
-
-                        c.tabs.remove(tab.id);
-
-                    });
-                })(i, tabList.length);
-            }
+        bookmark[0].children.map(function(item){
+            stash.summary.itemsCount += item.children && item.children.length ? item.children.length : 0;
+            stash.list.push({
+                title: item.title,
+                id: item.id,
+                dateAdded: item.dateAdded,
+                dateAddedFull: dateFormat(item.dateAdded, 'yyyy-mm-dd hh:mm:ss'),
+                dateAddedShort: dateFormat(item.dateAdded, 'mm-dd'),
+                children: item.children
+            });
         });
-    }
 
+        return stash;
+    }
 };

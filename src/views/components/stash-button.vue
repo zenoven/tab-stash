@@ -15,19 +15,7 @@
         },
         methods: {
             createStash(){
-                if(!this.isInitialized) {
-                    this.isInitialized = true;
-                    stash.init(function(){
-                        stash.create(() => {
-
-                        });
-                    });
-                }else{
-                    stash.create(function(){
-                        console.log('stash created.');
-                    });
-                }
-
+                stash.create();
             }
         }
     }
