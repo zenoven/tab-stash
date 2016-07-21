@@ -1,14 +1,51 @@
 var stash     = require('./lib/stash');
 var c         = chrome;
 var Vue       = require('vue');
-var StashContainer = require('../views/components/stash-container.vue');
+var App = require('../views/components/app.vue');
+var data = {
+    summary: {
+        groupCount: '--',
+        itemsCount: '--'
+    },
+    list: []
+};
+console.log('init')
 
 var app = new Vue({
     el: '#app',
+    data: {
+        main: data,
+        x: 1
+    },
+    watch: {
+        '$data': {
+            handler: function (val, oldVal) {
+                console.log('in watch')
+                console.log(val)
+                console.log(oldVal)
+            },
+            deep: true
+        }
+    },
     components: {
-        StashContainer
+        App
     }
 });
+
+stash.getAll(function (r) {
+    app.main = r
+    console.log(app.main.summary.groupCount)
+    console.log(app.main.summary.itemsCount)
+    console.log(app.main.list)
+
+});
+setTimeout(function () {
+    app.x = 3000;
+},3000)
+
+
+
+
 //
 // var app = {
 //

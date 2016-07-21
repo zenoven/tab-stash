@@ -49,14 +49,47 @@
 	var stash = __webpack_require__(2);
 	var c = chrome;
 	var Vue = __webpack_require__(4);
-	var StashContainer = __webpack_require__(6);
+	var App = __webpack_require__(14);
+	var data = {
+	    summary: {
+	        groupCount: '--',
+	        itemsCount: '--'
+	    },
+	    list: []
+	};
+	console.log('init');
 
 	var app = new Vue({
 	    el: '#app',
+	    data: {
+	        main: data,
+	        x: 1
+	    },
+	    watch: {
+	        '$data': {
+	            handler: function handler(val, oldVal) {
+	                console.log('in watch');
+	                console.log(val);
+	                console.log(oldVal);
+	            },
+	            deep: true
+	        }
+	    },
 	    components: {
-	        StashContainer: StashContainer
+	        App: App
 	    }
 	});
+
+	stash.getAll(function (r) {
+	    app.main = r;
+	    console.log(app.main.summary.groupCount);
+	    console.log(app.main.summary.itemsCount);
+	    console.log(app.main.list);
+	});
+	setTimeout(function () {
+	    app.x = 3000;
+	}, 3000);
+
 	//
 	// var app = {
 	//
@@ -325,7 +358,7 @@
 	            return translate(msg);
 	        } else {
 	            if (msg == "StashSummary") {
-	                return translate(msg, dataArr);
+	                return translate(msg, subSituationArray);
 	            }
 	        }
 	    },
@@ -3500,62 +3533,8 @@
 	};
 
 /***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(7)
-	if (__vue_script__ &&
-	    __vue_script__.__esModule &&
-	    Object.keys(__vue_script__).length > 1) {
-	  console.warn("[vue-loader] src/views/components/stash-container.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(11)
-	module.exports = __vue_script__ || {}
-	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
-	}
-	if (false) {(function () {  module.hot.accept()
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
-	  if (!hotAPI.compatible) return
-	  var id = "_v-1405933c/stash-container.vue"
-	  if (!module.hot.data) {
-	    hotAPI.createRecord(id, module.exports)
-	  } else {
-	    hotAPI.update(id, module.exports, __vue_template__)
-	  }
-	})()}
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _stashButton = __webpack_require__(8);
-
-	var _stashButton2 = _interopRequireDefault(_stashButton);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = {
-	    data: function data() {
-	        return {
-	            msg: 'hello vue'
-	        };
-	    },
-
-	    components: {
-	        StashButton: _stashButton2.default
-	    }
-	};
-
-/***/ },
+/* 6 */,
+/* 7 */,
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -3624,12 +3603,7 @@
 	module.exports = "\n<span class=\"btn btn-primary js-add-stash\" @click=\"createStash\" >{{ i18n.StashBtn }}</span>\n";
 
 /***/ },
-/* 11 */
-/***/ function(module, exports) {
-
-	module.exports = "\n<header>\n    <stash-button></stash-button>\n</header>\n<main></main>\n\n";
-
-/***/ },
+/* 11 */,
 /* 12 */,
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
@@ -3855,6 +3829,142 @@
 	    global.dateFormat = dateFormat;
 	  }
 	})(undefined);
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(15)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/views/components/app.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(16)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "_v-12de0cb4/app.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _stash = __webpack_require__(2);
+
+	var _stash2 = _interopRequireDefault(_stash);
+
+	var _stashButton = __webpack_require__(8);
+
+	var _stashButton2 = _interopRequireDefault(_stashButton);
+
+	var _stashSummary = __webpack_require__(17);
+
+	var _stashSummary2 = _interopRequireDefault(_stashSummary);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	    data: function data() {
+	        return {};
+	    },
+
+	    components: {
+	        StashButton: _stashButton2.default,
+	        StashSummary: _stashSummary2.default
+	    },
+	    props: ['main']
+	};
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<header>\n    <stash-button></stash-button>\n</header>\n<main>\n    <stash-summary :summary=\"main.summary\"></stash-summary>\n    <!--<stash-list></stash-list>-->\n</main>\n\n";
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(22)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/views/components/stash-summary.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(18)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "_v-d9a8bebe/stash-summary.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<h2 class=\"summary\">{{ i18n.StashSummary }}</h2>\n";
+
+/***/ },
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _utils = __webpack_require__(3);
+
+	var _utils2 = _interopRequireDefault(_utils);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	    data: function data() {
+	        return {
+	            i18n: _utils2.default.getMsgArr([{
+	                name: 'StashSummary',
+	                subSituationArray: [this.summary.groupCount, this.summary.itemsCount]
+	            }])
+	        };
+	    },
+
+	    props: ['summary']
+	};
 
 /***/ }
 /******/ ]);

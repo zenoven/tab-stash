@@ -254,7 +254,7 @@
 	            return translate(msg);
 	        } else {
 	            if (msg == "StashSummary") {
-	                return translate(msg, dataArr);
+	                return translate(msg, subSituationArray);
 	            }
 	        }
 	    },
