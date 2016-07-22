@@ -21,7 +21,9 @@ var app = new Vue({
 });
 
 stash.getAll(function (r) {
-    app.$set('main', r);
+    setTimeout(function () {
+        app.$set('main', r);
+    }, 2000);
 });
 
 
