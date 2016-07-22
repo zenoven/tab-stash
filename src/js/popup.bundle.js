@@ -69,9 +69,7 @@
 	});
 
 	stash.getAll(function (r) {
-	    setTimeout(function () {
-	        app.$set('main', r);
-	    }, 2000);
+	    app.$set('main', r);
 	});
 
 	//
@@ -3918,16 +3916,10 @@
 	exports.default = {
 	    computed: {
 	        i18n: function i18n() {
-	            console.log(_utils2.default.getMsgArr([{
+	            return _utils2.default.getMsgArr([{
 	                name: 'StashSummary',
 	                subSituationArray: [this.summary.groupCount, this.summary.itemsCount]
-	            }]));
-	            return {
-	                i18n: _utils2.default.getMsgArr([{
-	                    name: 'StashSummary',
-	                    subSituationArray: [this.summary.groupCount, this.summary.itemsCount]
-	                }])
-	            };
+	            }]);
 	        }
 	    },
 	    props: ['summary']
@@ -3937,7 +3929,7 @@
 /* 15 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<h2 class=\"summary\">{{ i18n['StashSummary'] }}</h2>\n";
+	module.exports = "\n<h2 class=\"summary\">{{ i18n.StashSummary }}</h2>\n";
 
 /***/ },
 /* 16 */
