@@ -48,8 +48,8 @@
 
 	var stash = __webpack_require__(2);
 	var c = chrome;
-	var Vue = __webpack_require__(4);
-	var App = __webpack_require__(14);
+	var Vue = __webpack_require__(6);
+	var App = __webpack_require__(8);
 	var data = {
 	    summary: {
 	        groupCount: '--',
@@ -57,23 +57,11 @@
 	    },
 	    list: []
 	};
-	console.log('init');
 
 	var app = new Vue({
 	    el: '#app',
 	    data: {
-	        main: data,
-	        x: 1
-	    },
-	    watch: {
-	        '$data': {
-	            handler: function handler(val, oldVal) {
-	                console.log('in watch');
-	                console.log(val);
-	                console.log(oldVal);
-	            },
-	            deep: true
-	        }
+	        main: data
 	    },
 	    components: {
 	        App: App
@@ -81,14 +69,8 @@
 	});
 
 	stash.getAll(function (r) {
-	    app.main = r;
-	    console.log(app.main.summary.groupCount);
-	    console.log(app.main.summary.itemsCount);
-	    console.log(app.main.list);
+	    app.$set('main', r);
 	});
-	setTimeout(function () {
-	    app.x = 3000;
-	}, 3000);
 
 	//
 	// var app = {
@@ -323,7 +305,7 @@
 
 	var c = chrome;
 	var st = c.storage;
-	var dateFormat = __webpack_require__(13);
+	var dateFormat = __webpack_require__(4);
 	module.exports = {
 
 	    isEmpty: function isEmpty(value) {
@@ -461,6 +443,233 @@
 
 /***/ },
 /* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	/*
+	 * Date Format 1.2.3
+	 * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
+	 * MIT license
+	 *
+	 * Includes enhancements by Scott Trenda <scott.trenda.net>
+	 * and Kris Kowal <cixar.com/~kris.kowal/>
+	 *
+	 * Accepts a date, a mask, or a date and a mask.
+	 * Returns a formatted version of the given date.
+	 * The date defaults to the current date/time.
+	 * The mask defaults to dateFormat.masks.default.
+	 */
+
+	(function (global) {
+	  'use strict';
+
+	  var dateFormat = function () {
+	    var token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZWN]|'[^']*'|'[^']*'/g;
+	    var timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g;
+	    var timezoneClip = /[^-+\dA-Z]/g;
+
+	    // Regexes and supporting functions are cached through closure
+	    return function (date, mask, utc, gmt) {
+
+	      // You can't provide utc if you skip other args (use the 'UTC:' mask prefix)
+	      if (arguments.length === 1 && kindOf(date) === 'string' && !/\d/.test(date)) {
+	        mask = date;
+	        date = undefined;
+	      }
+
+	      date = date || new Date();
+
+	      if (!(date instanceof Date)) {
+	        date = new Date(date);
+	      }
+
+	      if (isNaN(date)) {
+	        throw TypeError('Invalid date');
+	      }
+
+	      mask = String(dateFormat.masks[mask] || mask || dateFormat.masks['default']);
+
+	      // Allow setting the utc/gmt argument via the mask
+	      var maskSlice = mask.slice(0, 4);
+	      if (maskSlice === 'UTC:' || maskSlice === 'GMT:') {
+	        mask = mask.slice(4);
+	        utc = true;
+	        if (maskSlice === 'GMT:') {
+	          gmt = true;
+	        }
+	      }
+
+	      var _ = utc ? 'getUTC' : 'get';
+	      var d = date[_ + 'Date']();
+	      var D = date[_ + 'Day']();
+	      var m = date[_ + 'Month']();
+	      var y = date[_ + 'FullYear']();
+	      var H = date[_ + 'Hours']();
+	      var M = date[_ + 'Minutes']();
+	      var s = date[_ + 'Seconds']();
+	      var L = date[_ + 'Milliseconds']();
+	      var o = utc ? 0 : date.getTimezoneOffset();
+	      var W = getWeek(date);
+	      var N = getDayOfWeek(date);
+	      var flags = {
+	        d: d,
+	        dd: pad(d),
+	        ddd: dateFormat.i18n.dayNames[D],
+	        dddd: dateFormat.i18n.dayNames[D + 7],
+	        m: m + 1,
+	        mm: pad(m + 1),
+	        mmm: dateFormat.i18n.monthNames[m],
+	        mmmm: dateFormat.i18n.monthNames[m + 12],
+	        yy: String(y).slice(2),
+	        yyyy: y,
+	        h: H % 12 || 12,
+	        hh: pad(H % 12 || 12),
+	        H: H,
+	        HH: pad(H),
+	        M: M,
+	        MM: pad(M),
+	        s: s,
+	        ss: pad(s),
+	        l: pad(L, 3),
+	        L: pad(Math.round(L / 10)),
+	        t: H < 12 ? 'a' : 'p',
+	        tt: H < 12 ? 'am' : 'pm',
+	        T: H < 12 ? 'A' : 'P',
+	        TT: H < 12 ? 'AM' : 'PM',
+	        Z: gmt ? 'GMT' : utc ? 'UTC' : (String(date).match(timezone) || ['']).pop().replace(timezoneClip, ''),
+	        o: (o > 0 ? '-' : '+') + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+	        S: ['th', 'st', 'nd', 'rd'][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10],
+	        W: W,
+	        N: N
+	      };
+
+	      return mask.replace(token, function (match) {
+	        if (match in flags) {
+	          return flags[match];
+	        }
+	        return match.slice(1, match.length - 1);
+	      });
+	    };
+	  }();
+
+	  dateFormat.masks = {
+	    'default': 'ddd mmm dd yyyy HH:MM:ss',
+	    'shortDate': 'm/d/yy',
+	    'mediumDate': 'mmm d, yyyy',
+	    'longDate': 'mmmm d, yyyy',
+	    'fullDate': 'dddd, mmmm d, yyyy',
+	    'shortTime': 'h:MM TT',
+	    'mediumTime': 'h:MM:ss TT',
+	    'longTime': 'h:MM:ss TT Z',
+	    'isoDate': 'yyyy-mm-dd',
+	    'isoTime': 'HH:MM:ss',
+	    'isoDateTime': 'yyyy-mm-dd\'T\'HH:MM:sso',
+	    'isoUtcDateTime': 'UTC:yyyy-mm-dd\'T\'HH:MM:ss\'Z\'',
+	    'expiresHeaderFormat': 'ddd, dd mmm yyyy HH:MM:ss Z'
+	  };
+
+	  // Internationalization strings
+	  dateFormat.i18n = {
+	    dayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+	    monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+	  };
+
+	  function pad(val, len) {
+	    val = String(val);
+	    len = len || 2;
+	    while (val.length < len) {
+	      val = '0' + val;
+	    }
+	    return val;
+	  }
+
+	  /**
+	   * Get the ISO 8601 week number
+	   * Based on comments from
+	   * http://techblog.procurios.nl/k/n618/news/view/33796/14863/Calculate-ISO-8601-week-and-year-in-javascript.html
+	   *
+	   * @param  {Object} `date`
+	   * @return {Number}
+	   */
+	  function getWeek(date) {
+	    // Remove time components of date
+	    var targetThursday = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+	    // Change date to Thursday same week
+	    targetThursday.setDate(targetThursday.getDate() - (targetThursday.getDay() + 6) % 7 + 3);
+
+	    // Take January 4th as it is always in week 1 (see ISO 8601)
+	    var firstThursday = new Date(targetThursday.getFullYear(), 0, 4);
+
+	    // Change date to Thursday same week
+	    firstThursday.setDate(firstThursday.getDate() - (firstThursday.getDay() + 6) % 7 + 3);
+
+	    // Check if daylight-saving-time-switch occured and correct for it
+	    var ds = targetThursday.getTimezoneOffset() - firstThursday.getTimezoneOffset();
+	    targetThursday.setHours(targetThursday.getHours() - ds);
+
+	    // Number of weeks between target Thursday and first Thursday
+	    var weekDiff = (targetThursday - firstThursday) / (86400000 * 7);
+	    return 1 + Math.floor(weekDiff);
+	  }
+
+	  /**
+	   * Get ISO-8601 numeric representation of the day of the week
+	   * 1 (for Monday) through 7 (for Sunday)
+	   * 
+	   * @param  {Object} `date`
+	   * @return {Number}
+	   */
+	  function getDayOfWeek(date) {
+	    var dow = date.getDay();
+	    if (dow === 0) {
+	      dow = 7;
+	    }
+	    return dow;
+	  }
+
+	  /**
+	   * kind-of shortcut
+	   * @param  {*} val
+	   * @return {String}
+	   */
+	  function kindOf(val) {
+	    if (val === null) {
+	      return 'null';
+	    }
+
+	    if (val === undefined) {
+	      return 'undefined';
+	    }
+
+	    if ((typeof val === 'undefined' ? 'undefined' : _typeof(val)) !== 'object') {
+	      return typeof val === 'undefined' ? 'undefined' : _typeof(val);
+	    }
+
+	    if (Array.isArray(val)) {
+	      return 'array';
+	    }
+
+	    return {}.toString.call(val).slice(8, -1).toLowerCase();
+	  };
+
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+	      return dateFormat;
+	    }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  } else if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object') {
+	    module.exports = dateFormat;
+	  } else {
+	    global.dateFormat = dateFormat;
+	  }
+	})(undefined);
+
+/***/ },
+/* 5 */,
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, process) {/*!
@@ -3400,10 +3609,10 @@
 	   */config._assetTypes.forEach(function(type){Vue[type]=function(id,definition){if(!definition){return this.options[type+'s'][id];}else{/* istanbul ignore if */if(process.env.NODE_ENV!=='production'){if(type==='component'&&(commonTagRE.test(id)||reservedTagRE.test(id))){warn('Do not use built-in or reserved HTML elements as component '+'id: '+id);}}if(type==='component'&&isPlainObject(definition)){if(!definition.name){definition.name=id;}definition=Vue.extend(definition);}this.options[type+'s'][id]=definition;return definition;}};});// expose internal transition API
 	extend(Vue.transition,transition);}installGlobalAPI(Vue);Vue.version='1.0.26-csp';// devtools global hook
 	/* istanbul ignore next */setTimeout(function(){if(config.devtools){if(devtools){devtools.emit('init',Vue);}else if(process.env.NODE_ENV!=='production'&&inBrowser&&/Chrome\/\d+/.test(window.navigator.userAgent)){console.log('Download the Vue Devtools for a better development experience:\n'+'https://github.com/vuejs/vue-devtools');}}},0);module.exports=Vue;
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(5)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(7)))
 
 /***/ },
-/* 5 */
+/* 7 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -3533,8 +3742,6 @@
 	};
 
 /***/ },
-/* 6 */,
-/* 7 */,
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -3543,8 +3750,68 @@
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/views/components/app.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(16)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "_v-12de0cb4/app.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _stash = __webpack_require__(2);
+
+	var _stash2 = _interopRequireDefault(_stash);
+
+	var _stashButton = __webpack_require__(10);
+
+	var _stashButton2 = _interopRequireDefault(_stashButton);
+
+	var _stashSummary = __webpack_require__(13);
+
+	var _stashSummary2 = _interopRequireDefault(_stashSummary);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	    components: {
+	        StashButton: _stashButton2.default,
+	        StashSummary: _stashSummary2.default
+	    },
+	    props: ['main']
+	};
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(11)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/views/components/stash-button.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(10)
+	__vue_template__ = __webpack_require__(12)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -3563,7 +3830,7 @@
 	})()}
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3597,320 +3864,22 @@
 	};
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports) {
 
 	module.exports = "\n<span class=\"btn btn-primary js-add-stash\" @click=\"createStash\" >{{ i18n.StashBtn }}</span>\n";
 
 /***/ },
-/* 11 */,
-/* 12 */,
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	/*
-	 * Date Format 1.2.3
-	 * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
-	 * MIT license
-	 *
-	 * Includes enhancements by Scott Trenda <scott.trenda.net>
-	 * and Kris Kowal <cixar.com/~kris.kowal/>
-	 *
-	 * Accepts a date, a mask, or a date and a mask.
-	 * Returns a formatted version of the given date.
-	 * The date defaults to the current date/time.
-	 * The mask defaults to dateFormat.masks.default.
-	 */
-
-	(function (global) {
-	  'use strict';
-
-	  var dateFormat = function () {
-	    var token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZWN]|'[^']*'|'[^']*'/g;
-	    var timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g;
-	    var timezoneClip = /[^-+\dA-Z]/g;
-
-	    // Regexes and supporting functions are cached through closure
-	    return function (date, mask, utc, gmt) {
-
-	      // You can't provide utc if you skip other args (use the 'UTC:' mask prefix)
-	      if (arguments.length === 1 && kindOf(date) === 'string' && !/\d/.test(date)) {
-	        mask = date;
-	        date = undefined;
-	      }
-
-	      date = date || new Date();
-
-	      if (!(date instanceof Date)) {
-	        date = new Date(date);
-	      }
-
-	      if (isNaN(date)) {
-	        throw TypeError('Invalid date');
-	      }
-
-	      mask = String(dateFormat.masks[mask] || mask || dateFormat.masks['default']);
-
-	      // Allow setting the utc/gmt argument via the mask
-	      var maskSlice = mask.slice(0, 4);
-	      if (maskSlice === 'UTC:' || maskSlice === 'GMT:') {
-	        mask = mask.slice(4);
-	        utc = true;
-	        if (maskSlice === 'GMT:') {
-	          gmt = true;
-	        }
-	      }
-
-	      var _ = utc ? 'getUTC' : 'get';
-	      var d = date[_ + 'Date']();
-	      var D = date[_ + 'Day']();
-	      var m = date[_ + 'Month']();
-	      var y = date[_ + 'FullYear']();
-	      var H = date[_ + 'Hours']();
-	      var M = date[_ + 'Minutes']();
-	      var s = date[_ + 'Seconds']();
-	      var L = date[_ + 'Milliseconds']();
-	      var o = utc ? 0 : date.getTimezoneOffset();
-	      var W = getWeek(date);
-	      var N = getDayOfWeek(date);
-	      var flags = {
-	        d: d,
-	        dd: pad(d),
-	        ddd: dateFormat.i18n.dayNames[D],
-	        dddd: dateFormat.i18n.dayNames[D + 7],
-	        m: m + 1,
-	        mm: pad(m + 1),
-	        mmm: dateFormat.i18n.monthNames[m],
-	        mmmm: dateFormat.i18n.monthNames[m + 12],
-	        yy: String(y).slice(2),
-	        yyyy: y,
-	        h: H % 12 || 12,
-	        hh: pad(H % 12 || 12),
-	        H: H,
-	        HH: pad(H),
-	        M: M,
-	        MM: pad(M),
-	        s: s,
-	        ss: pad(s),
-	        l: pad(L, 3),
-	        L: pad(Math.round(L / 10)),
-	        t: H < 12 ? 'a' : 'p',
-	        tt: H < 12 ? 'am' : 'pm',
-	        T: H < 12 ? 'A' : 'P',
-	        TT: H < 12 ? 'AM' : 'PM',
-	        Z: gmt ? 'GMT' : utc ? 'UTC' : (String(date).match(timezone) || ['']).pop().replace(timezoneClip, ''),
-	        o: (o > 0 ? '-' : '+') + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
-	        S: ['th', 'st', 'nd', 'rd'][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10],
-	        W: W,
-	        N: N
-	      };
-
-	      return mask.replace(token, function (match) {
-	        if (match in flags) {
-	          return flags[match];
-	        }
-	        return match.slice(1, match.length - 1);
-	      });
-	    };
-	  }();
-
-	  dateFormat.masks = {
-	    'default': 'ddd mmm dd yyyy HH:MM:ss',
-	    'shortDate': 'm/d/yy',
-	    'mediumDate': 'mmm d, yyyy',
-	    'longDate': 'mmmm d, yyyy',
-	    'fullDate': 'dddd, mmmm d, yyyy',
-	    'shortTime': 'h:MM TT',
-	    'mediumTime': 'h:MM:ss TT',
-	    'longTime': 'h:MM:ss TT Z',
-	    'isoDate': 'yyyy-mm-dd',
-	    'isoTime': 'HH:MM:ss',
-	    'isoDateTime': 'yyyy-mm-dd\'T\'HH:MM:sso',
-	    'isoUtcDateTime': 'UTC:yyyy-mm-dd\'T\'HH:MM:ss\'Z\'',
-	    'expiresHeaderFormat': 'ddd, dd mmm yyyy HH:MM:ss Z'
-	  };
-
-	  // Internationalization strings
-	  dateFormat.i18n = {
-	    dayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-	    monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-	  };
-
-	  function pad(val, len) {
-	    val = String(val);
-	    len = len || 2;
-	    while (val.length < len) {
-	      val = '0' + val;
-	    }
-	    return val;
-	  }
-
-	  /**
-	   * Get the ISO 8601 week number
-	   * Based on comments from
-	   * http://techblog.procurios.nl/k/n618/news/view/33796/14863/Calculate-ISO-8601-week-and-year-in-javascript.html
-	   *
-	   * @param  {Object} `date`
-	   * @return {Number}
-	   */
-	  function getWeek(date) {
-	    // Remove time components of date
-	    var targetThursday = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-
-	    // Change date to Thursday same week
-	    targetThursday.setDate(targetThursday.getDate() - (targetThursday.getDay() + 6) % 7 + 3);
-
-	    // Take January 4th as it is always in week 1 (see ISO 8601)
-	    var firstThursday = new Date(targetThursday.getFullYear(), 0, 4);
-
-	    // Change date to Thursday same week
-	    firstThursday.setDate(firstThursday.getDate() - (firstThursday.getDay() + 6) % 7 + 3);
-
-	    // Check if daylight-saving-time-switch occured and correct for it
-	    var ds = targetThursday.getTimezoneOffset() - firstThursday.getTimezoneOffset();
-	    targetThursday.setHours(targetThursday.getHours() - ds);
-
-	    // Number of weeks between target Thursday and first Thursday
-	    var weekDiff = (targetThursday - firstThursday) / (86400000 * 7);
-	    return 1 + Math.floor(weekDiff);
-	  }
-
-	  /**
-	   * Get ISO-8601 numeric representation of the day of the week
-	   * 1 (for Monday) through 7 (for Sunday)
-	   * 
-	   * @param  {Object} `date`
-	   * @return {Number}
-	   */
-	  function getDayOfWeek(date) {
-	    var dow = date.getDay();
-	    if (dow === 0) {
-	      dow = 7;
-	    }
-	    return dow;
-	  }
-
-	  /**
-	   * kind-of shortcut
-	   * @param  {*} val
-	   * @return {String}
-	   */
-	  function kindOf(val) {
-	    if (val === null) {
-	      return 'null';
-	    }
-
-	    if (val === undefined) {
-	      return 'undefined';
-	    }
-
-	    if ((typeof val === 'undefined' ? 'undefined' : _typeof(val)) !== 'object') {
-	      return typeof val === 'undefined' ? 'undefined' : _typeof(val);
-	    }
-
-	    if (Array.isArray(val)) {
-	      return 'array';
-	    }
-
-	    return {}.toString.call(val).slice(8, -1).toLowerCase();
-	  };
-
-	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
-	      return dateFormat;
-	    }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	  } else if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object') {
-	    module.exports = dateFormat;
-	  } else {
-	    global.dateFormat = dateFormat;
-	  }
-	})(undefined);
-
-/***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(15)
-	if (__vue_script__ &&
-	    __vue_script__.__esModule &&
-	    Object.keys(__vue_script__).length > 1) {
-	  console.warn("[vue-loader] src/views/components/app.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(16)
-	module.exports = __vue_script__ || {}
-	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
-	}
-	if (false) {(function () {  module.hot.accept()
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
-	  if (!hotAPI.compatible) return
-	  var id = "_v-12de0cb4/app.vue"
-	  if (!module.hot.data) {
-	    hotAPI.createRecord(id, module.exports)
-	  } else {
-	    hotAPI.update(id, module.exports, __vue_template__)
-	  }
-	})()}
-
-/***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _stash = __webpack_require__(2);
-
-	var _stash2 = _interopRequireDefault(_stash);
-
-	var _stashButton = __webpack_require__(8);
-
-	var _stashButton2 = _interopRequireDefault(_stashButton);
-
-	var _stashSummary = __webpack_require__(17);
-
-	var _stashSummary2 = _interopRequireDefault(_stashSummary);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = {
-	    data: function data() {
-	        return {};
-	    },
-
-	    components: {
-	        StashButton: _stashButton2.default,
-	        StashSummary: _stashSummary2.default
-	    },
-	    props: ['main']
-	};
-
-/***/ },
-/* 16 */
-/***/ function(module, exports) {
-
-	module.exports = "\n<header>\n    <stash-button></stash-button>\n</header>\n<main>\n    <stash-summary :summary=\"main.summary\"></stash-summary>\n    <!--<stash-list></stash-list>-->\n</main>\n\n";
-
-/***/ },
-/* 17 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(22)
+	__vue_script__ = __webpack_require__(14)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/views/components/stash-summary.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(18)
+	__vue_template__ = __webpack_require__(15)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -3929,16 +3898,7 @@
 	})()}
 
 /***/ },
-/* 18 */
-/***/ function(module, exports) {
-
-	module.exports = "\n<h2 class=\"summary\">{{ i18n.StashSummary }}</h2>\n";
-
-/***/ },
-/* 19 */,
-/* 20 */,
-/* 21 */,
-/* 22 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3965,6 +3925,18 @@
 
 	    props: ['summary']
 	};
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<h2 class=\"summary\">{{ i18n.StashSummary }}</h2>\n";
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<header>\n    <stash-button></stash-button>\n</header>\n<main>\n    <stash-summary :summary=\"main.summary\"></stash-summary>\n    <!--<stash-list></stash-list>-->\n</main>\n\n";
 
 /***/ }
 /******/ ]);

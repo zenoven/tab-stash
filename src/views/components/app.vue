@@ -15,9 +15,6 @@
 //    import StashList from './stash-list.vue'
 
     export default{
-        data(){
-            return {}
-        },
         components:{
             StashButton,
             StashSummary,

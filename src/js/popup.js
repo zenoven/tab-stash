@@ -9,23 +9,11 @@ var data = {
     },
     list: []
 };
-console.log('init')
 
 var app = new Vue({
     el: '#app',
     data: {
-        main: data,
-        x: 1
-    },
-    watch: {
-        '$data': {
-            handler: function (val, oldVal) {
-                console.log('in watch')
-                console.log(val)
-                console.log(oldVal)
-            },
-            deep: true
-        }
+        main: data
     },
     components: {
         App
@@ -33,15 +21,9 @@ var app = new Vue({
 });
 
 stash.getAll(function (r) {
-    app.main = r
-    console.log(app.main.summary.groupCount)
-    console.log(app.main.summary.itemsCount)
-    console.log(app.main.list)
-
+    app.$set('main', r);
 });
-setTimeout(function () {
-    app.x = 3000;
-},3000)
+
 
 
 

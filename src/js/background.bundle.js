@@ -51,7 +51,7 @@
 	var stash = __webpack_require__(2);
 	var utils = __webpack_require__(3);
 	var st = c.storage;
-	var conf = __webpack_require__(12);
+	var conf = __webpack_require__(5);
 	var bookmarkConfig = conf.bookmark;
 
 	var background = {
@@ -219,7 +219,7 @@
 
 	var c = chrome;
 	var st = c.storage;
-	var dateFormat = __webpack_require__(13);
+	var dateFormat = __webpack_require__(4);
 	module.exports = {
 
 	    isEmpty: function isEmpty(value) {
@@ -356,32 +356,7 @@
 	};
 
 /***/ },
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	module.exports = {
-	    bookmark: {
-	        id: null,
-	        title: "tab-stash"
-	    },
-	    badge: {
-	        color: '#398DE3'
-	    },
-	    preserveTab: 'blank'
-	};
-
-/***/ },
-/* 13 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
@@ -605,6 +580,23 @@
 	    global.dateFormat = dateFormat;
 	  }
 	})(undefined);
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = {
+	    bookmark: {
+	        id: null,
+	        title: "tab-stash"
+	    },
+	    badge: {
+	        color: '#398DE3'
+	    },
+	    preserveTab: 'blank'
+	};
 
 /***/ }
 /******/ ]);
