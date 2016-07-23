@@ -28,8 +28,13 @@
             },
             delete(){
                 var self = this;
+                var vm = self.$root;
                 stash.delete(self.item.id, function () {
-                    self.$dispatch('delete-stash', self.item.id);
+                    vm.$get('list').forEach(function (item, i) {
+                        if(item.id === self.item.id) {
+                            vm.list.$remove(vm.list[i]);
+                        }
+                    });
                 });
             }
         },

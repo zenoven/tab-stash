@@ -17,13 +17,13 @@ stash.getAll(function (r) {
     app.$set('list', r);
 });
 
-app.$on('delete-stash', function (stashId) {
-    app.$get('list').forEach(function (item, i) {
-        if(item.id === stashId) {
-            app.list.$remove(app.list[i]);
-        }
-    });
-});
+// app.$on('delete-stash', function (stashId) {
+//     app.$get('list').forEach(function (item, i) {
+//         if(item.id === stashId) {
+//             app.list.$remove(app.list[i]);
+//         }
+//     });
+// });
 
 
 
