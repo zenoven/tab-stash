@@ -28,13 +28,9 @@
             },
             delete(){
                 var self = this;
-                console.log(self);
-                self.$dispatch('delete-stash', this.item.id);
-//                stash.delete(this.item.id, function () {
-//                    stash.getAll(function (r) {
-//                        self.$root.$set('main', r);
-//                    })
-//                });
+                stash.delete(self.item.id, function () {
+                    self.$dispatch('delete-stash', self.item.id);
+                });
             }
         },
         computed: {

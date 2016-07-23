@@ -62,17 +62,16 @@
 	});
 
 	stash.getAll(function (r) {
-	    console.log('sdf');
-	    console.log(r);
 	    app.$set('list', r);
 	});
 
-	// app.$on('delete-stash', function (x) {
-	//     console.log(x);
-	//     stash.getAll(function (r) {
-	//         app.$set('main', r);
-	//     });
-	// });
+	app.$on('delete-stash', function (stashId) {
+	    app.$get('list').forEach(function (item, i) {
+	        if (item.id === stashId) {
+	            app.list.$remove(app.list[i]);
+	        }
+	    });
+	});
 
 	//
 	// var app = {
@@ -3921,7 +3920,6 @@
 	exports.default = {
 	    computed: {
 	        i18n: function i18n() {
-	            console.log(this);
 	            var groupCount = this.list.length;
 	            var itemsCount = 0;
 	            this.list.forEach(function (item) {
@@ -4003,7 +4001,7 @@
 /* 19 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<template v-if=\"list && list.length > 0\">\n    <ul class=\"stash-list\" >\n        <template v-for=\"item in list\"  class=\"item\">\n            <stash-item :item=\"item\"></stash-item>\n        </template>\n    </ul>\n</template>\n\n";
+	module.exports = "\n<ul class=\"stash-list\" >\n    <template v-for=\"item in list\"  class=\"item\">\n        <stash-item :item=\"item\"></stash-item>\n    </template>\n</ul>\n";
 
 /***/ },
 /* 20 */
@@ -4060,8 +4058,9 @@
 	        modify: function modify() {},
 	        delete: function _delete() {
 	            var self = this;
-	            console.log(self);
-	            self.$dispatch('delete-stash', this.item.id);
+	            _stash2.default.delete(self.item.id, function () {
+	                self.$dispatch('delete-stash', self.item.id);
+	            });
 	        }
 	    },
 	    computed: {

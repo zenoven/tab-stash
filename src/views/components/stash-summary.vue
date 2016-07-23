@@ -8,7 +8,6 @@
     export default {
         computed: {
             i18n: function () {
-                console.log(this);
                 var groupCount = this.list.length;
                 var itemsCount = 0;
                 this.list.forEach(function (item) {

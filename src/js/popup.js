@@ -14,17 +14,16 @@ var app = new Vue({
 });
 
 stash.getAll(function (r) {
-    console.log('sdf')
-    console.log(r)
     app.$set('list', r);
 });
 
-// app.$on('delete-stash', function (x) {
-//     console.log(x);
-//     stash.getAll(function (r) {
-//         app.$set('main', r);
-//     });
-// });
+app.$on('delete-stash', function (stashId) {
+    app.$get('list').forEach(function (item, i) {
+        if(item.id === stashId) {
+            app.list.$remove(app.list[i]);
+        }
+    });
+});
 
 
 
