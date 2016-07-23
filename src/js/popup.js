@@ -5,13 +5,8 @@ var App = require('../views/components/app.vue');
 var app = new Vue({
     el: '#app',
     data: {
-        main: {
-            summary: {
-                groupCount: '--',
-                itemsCount: '--'
-            },
-            list: []
-        }
+        list: [],
+        currentStashIndex: 0
     },
     components: {
         App
@@ -19,11 +14,17 @@ var app = new Vue({
 });
 
 stash.getAll(function (r) {
-    app.$set('main', r);
+    console.log('sdf')
+    console.log(r)
+    app.$set('list', r);
 });
 
-console.log(app.$root === app);
-
+// app.$on('delete-stash', function (x) {
+//     console.log(x);
+//     stash.getAll(function (r) {
+//         app.$set('main', r);
+//     });
+// });
 
 
 

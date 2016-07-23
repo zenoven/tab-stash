@@ -8,19 +8,23 @@
     export default {
         computed: {
             i18n: function () {
+                console.log(this);
+                var groupCount = this.list.length;
+                var itemsCount = 0;
+                this.list.forEach(function (item) {
+                    itemsCount += item.children && item.children.length ? item.children.length : 0;
+                });
                 return utils.getMsgArr([
                     {
                         name: 'StashSummary',
                         subSituationArray: [
-                            this.summary.groupCount,
-                            this.summary.itemsCount
+                            groupCount,
+                            itemsCount
                         ]
                     }
                 ])
             }
         },
-        props: [
-            'summary'
-        ]
+        props: ['list']
     }
 </script>

@@ -329,19 +329,12 @@
 	    },
 
 	    convertBookmarkToStash: function convertBookmarkToStash(bookmark) {
-	        var stash = {
-	            summary: {
-	                groupCount: bookmark[0].children ? bookmark[0].children.length : 0,
-	                itemsCount: 0
-	            },
-	            list: []
-	        };
+	        var list = [];
 
-	        if (!bookmark[0].children) return stash;
+	        if (!bookmark[0].children) return list;
 
 	        bookmark[0].children.map(function (item) {
-	            stash.summary.itemsCount += item.children && item.children.length ? item.children.length : 0;
-	            stash.list.push({
+	            list.push({
 	                title: item.title,
 	                id: item.id,
 	                dateAdded: item.dateAdded,
@@ -351,7 +344,7 @@
 	            });
 	        });
 
-	        return stash;
+	        return list;
 	    }
 	};
 

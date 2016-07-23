@@ -232,34 +232,36 @@ main {
                 }
             }
 
-            .title-edit-wrapper {
-                display: none;
-                &.show {
-                    display: block;
-                }
-                .mask();
-                .editor-wrapper {
-                    position: absolute;
-                    top: 50%;
-                    left: 20px;
-                    right: 20px;
-                    margin-top: -21px;
-                    height: 42px;
-                    background: #fff;
-                    border: 2px solid rgba(73, 143, 226, .6);
-                    .ipt-title {
-                        display: block;
-                        width: 100%;
-                        padding: 0 10px;
-                        height: 100%;
-                        border: 0;
-                        margin: 0;
-                        outline: none;
-                        font-size: 14px;
-                    }
-                }
-            }
+
         }
     }
 
+}
+
+.title-edit-wrapper {
+    display: none;
+    &.show {
+        display: block;
+    }
+    .mask();
+    .editor-wrapper {
+        position: absolute;
+        top: 50%;
+        left: 20px;
+        right: 20px;
+        margin-top: -21px;
+        height: 42px;
+        background: #fff;
+        border: 2px solid rgba(73, 143, 226, .6);
+        .ipt-title {
+            display: block;
+            width: 100%;
+            padding: 0 10px;
+            height: 100%;
+            border: 0;
+            margin: 0;
+            outline: none;
+            font-size: 14px;
+        }
+    }
 }

@@ -53,13 +53,8 @@
 	var app = new Vue({
 	    el: '#app',
 	    data: {
-	        main: {
-	            summary: {
-	                groupCount: '--',
-	                itemsCount: '--'
-	            },
-	            list: []
-	        }
+	        list: [],
+	        currentStashIndex: 0
 	    },
 	    components: {
 	        App: App
@@ -67,8 +62,17 @@
 	});
 
 	stash.getAll(function (r) {
-	    app.$set('main', r);
+	    console.log('sdf');
+	    console.log(r);
+	    app.$set('list', r);
 	});
+
+	// app.$on('delete-stash', function (x) {
+	//     console.log(x);
+	//     stash.getAll(function (r) {
+	//         app.$set('main', r);
+	//     });
+	// });
 
 	//
 	// var app = {
@@ -413,19 +417,12 @@
 	    },
 
 	    convertBookmarkToStash: function convertBookmarkToStash(bookmark) {
-	        var stash = {
-	            summary: {
-	                groupCount: bookmark[0].children ? bookmark[0].children.length : 0,
-	                itemsCount: 0
-	            },
-	            list: []
-	        };
+	        var list = [];
 
-	        if (!bookmark[0].children) return stash;
+	        if (!bookmark[0].children) return list;
 
 	        bookmark[0].children.map(function (item) {
-	            stash.summary.itemsCount += item.children && item.children.length ? item.children.length : 0;
-	            stash.list.push({
+	            list.push({
 	                title: item.title,
 	                id: item.id,
 	                dateAdded: item.dateAdded,
@@ -435,7 +432,7 @@
 	            });
 	        });
 
-	        return stash;
+	        return list;
 	    }
 	};
 
@@ -3793,15 +3790,20 @@
 
 	var _stashList2 = _interopRequireDefault(_stashList);
 
+	var _stashEditor = __webpack_require__(23);
+
+	var _stashEditor2 = _interopRequireDefault(_stashEditor);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	    components: {
 	        StashButton: _stashButton2.default,
 	        StashSummary: _stashSummary2.default,
-	        StashList: _stashList2.default
+	        StashList: _stashList2.default,
+	        StashEditor: _stashEditor2.default
 	    },
-	    props: ['main']
+	    props: ['list', 'currentStashIndex']
 	};
 
 /***/ },
@@ -3919,13 +3921,19 @@
 	exports.default = {
 	    computed: {
 	        i18n: function i18n() {
+	            console.log(this);
+	            var groupCount = this.list.length;
+	            var itemsCount = 0;
+	            this.list.forEach(function (item) {
+	                itemsCount += item.children && item.children.length ? item.children.length : 0;
+	            });
 	            return _utils2.default.getMsgArr([{
 	                name: 'StashSummary',
-	                subSituationArray: [this.summary.groupCount, this.summary.itemsCount]
+	                subSituationArray: [groupCount, itemsCount]
 	            }]);
 	        }
 	    },
-	    props: ['summary']
+	    props: ['list']
 	};
 
 /***/ },
@@ -3938,7 +3946,7 @@
 /* 16 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<header>\n    <stash-button></stash-button>\n</header>\n<main>\n    <stash-summary :summary=\"main.summary\"></stash-summary>\n    <stash-list :list=\"main.list\"></stash-list>\n</main>\n<!--{{main.list | json}}-->\n\n";
+	module.exports = "\n<header>\n    <stash-button></stash-button>\n</header>\n<main>\n    <stash-summary :list=\"list\"></stash-summary>\n    <stash-list :list=\"list\"></stash-list>\n</main>\n<stash-editor :current-stash-item=\"currentStashItem\"></stash-editor>\n\n";
 
 /***/ },
 /* 17 */
@@ -4051,9 +4059,9 @@
 	        expand: function expand() {},
 	        modify: function modify() {},
 	        delete: function _delete() {
-	            _stash2.default.delete(this.item.id, function () {
-	                console.log('dddd');
-	            });
+	            var self = this;
+	            console.log(self);
+	            self.$dispatch('delete-stash', this.item.id);
 	        }
 	    },
 	    computed: {
@@ -4068,6 +4076,65 @@
 /***/ function(module, exports) {
 
 	module.exports = "\n<li class=\"item\">\n    <span class=\"count\">\n    <span class=\"inner\">{{item.children.length}}</span>\n</span>\n    <h3 class=\"title\"  title=\"{{item.dateAddedFull}} | {{item.title}}\">\n        <span class=\"date\">{{item.dateAddedShort}}</span> |\n        <span class=\"text\">{{item.title}}</span>\n    </h3>\n    <div class=\"control\">\n        <a href=\"#\" class=\"js-expand\" title=\"{{ i18n.ExpandList }}\"><i class=\"icon-expand\" @click=\"expand\"></i></a>\n        <a href=\"#\" class=\"js-modify\" title=\"{{ i18n.Modify }}\"><i class=\"icon-modify\" @click=\"modify\"></i></a>\n        <a href=\"#\" class=\"js-delete\" title=\"{{ i18n.Delete }}\"><i class=\"icon-delete\" @click=\"delete\"></i></a>\n    </div>\n</li>\n";
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(24)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/views/components/stash-editor.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(25)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "_v-7a08d87c/stash-editor.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 24 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = {
+	    props: {
+	        currentStashItem: {
+	            default: function _default() {
+	                return {
+	                    title: ''
+	                };
+	            }
+	        },
+	        active: {
+	            default: false
+	        }
+	    }
+
+	};
+
+/***/ },
+/* 25 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"title-edit-wrapper\" :class=\"{ 'show' : active }\">\n    <div class=\"editor-wrapper\">\n        <input class=\"ipt-title\" type=\"text\" v-model=\"currentStashItem.title\" />\n    </div>\n</div>\n";
 
 /***/ }
 /******/ ]);

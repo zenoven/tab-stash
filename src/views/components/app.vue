@@ -3,10 +3,10 @@
         <stash-button></stash-button>
     </header>
     <main>
-        <stash-summary :summary="main.summary"></stash-summary>
-        <stash-list :list="main.list"></stash-list>
+        <stash-summary :list="list"></stash-summary>
+        <stash-list :list="list"></stash-list>
     </main>
-    <!--{{main.list | json}}-->
+    <stash-editor :current-stash-item="currentStashItem"></stash-editor>
 
 </template>
 <script>
@@ -14,13 +14,15 @@
     import StashButton from './stash-button.vue'
     import StashSummary from './stash-summary.vue'
     import StashList from './stash-list.vue'
+    import StashEditor from './stash-editor.vue'
 
     export default{
         components:{
             StashButton,
             StashSummary,
-            StashList
+            StashList,
+            StashEditor
         },
-        props: ['main']
+        props: ['list', 'currentStashIndex']
     }
 </script>
