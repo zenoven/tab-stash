@@ -1,22 +1,19 @@
 <template>
-    <div>
-        <header-component/>
-        <div>this is template body</div>
-        <other-component/>
-    </div>
+    <template v-if="list && list.length > 0">
+        <ul class="stash-list" >
+            <template v-for="item in list"  class="item">
+                <stash-item :item="item"></stash-item>
+            </template>
+        </ul>
+    </template>
+
 </template>
 <script>
-    import HeaderComponent from './components/header.vue'
-    import OtherComponent from './components/other.vue'
+    import StashItem from './stash-item.vue'
     export default{
-        data(){
-            return{
-                msg:'hello vue'
-            }
+        components: {
+            StashItem
         },
-        components:{
-            'other-component':OtherComponent,
-            HeaderComponent,
-        }
+        props: ['list']
     }
 </script>

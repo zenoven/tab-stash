@@ -47,21 +47,19 @@
 	'use strict';
 
 	var stash = __webpack_require__(2);
-	var c = chrome;
 	var Vue = __webpack_require__(6);
 	var App = __webpack_require__(8);
-	var data = {
-	    summary: {
-	        groupCount: '--',
-	        itemsCount: '--'
-	    },
-	    list: []
-	};
 
 	var app = new Vue({
 	    el: '#app',
 	    data: {
-	        main: data
+	        main: {
+	            summary: {
+	                groupCount: '--',
+	                itemsCount: '--'
+	            },
+	            list: []
+	        }
 	    },
 	    components: {
 	        App: App
@@ -3791,12 +3789,17 @@
 
 	var _stashSummary2 = _interopRequireDefault(_stashSummary);
 
+	var _stashList = __webpack_require__(17);
+
+	var _stashList2 = _interopRequireDefault(_stashList);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	    components: {
 	        StashButton: _stashButton2.default,
-	        StashSummary: _stashSummary2.default
+	        StashSummary: _stashSummary2.default,
+	        StashList: _stashList2.default
 	    },
 	    props: ['main']
 	};
@@ -3935,7 +3938,136 @@
 /* 16 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<header>\n    <stash-button></stash-button>\n</header>\n<main>\n    <stash-summary :summary=\"main.summary\"></stash-summary>\n    <!--<stash-list></stash-list>-->\n</main>\n\n";
+	module.exports = "\n<header>\n    <stash-button></stash-button>\n</header>\n<main>\n    <stash-summary :summary=\"main.summary\"></stash-summary>\n    <stash-list :list=\"main.list\"></stash-list>\n</main>\n<!--{{main.list | json}}-->\n\n";
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(18)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/views/components/stash-list.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(19)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "_v-828ce49a/stash-list.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _stashItem = __webpack_require__(20);
+
+	var _stashItem2 = _interopRequireDefault(_stashItem);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	    components: {
+	        StashItem: _stashItem2.default
+	    },
+	    props: ['list']
+	};
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<template v-if=\"list && list.length > 0\">\n    <ul class=\"stash-list\" >\n        <template v-for=\"item in list\"  class=\"item\">\n            <stash-item :item=\"item\"></stash-item>\n        </template>\n    </ul>\n</template>\n\n";
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(21)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/views/components/stash-item.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(22)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "_v-9697d4b0/stash-item.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _utils = __webpack_require__(3);
+
+	var _utils2 = _interopRequireDefault(_utils);
+
+	var _stash = __webpack_require__(2);
+
+	var _stash2 = _interopRequireDefault(_stash);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	    props: ['item'],
+	    methods: {
+	        expand: function expand() {},
+	        modify: function modify() {},
+	        delete: function _delete() {
+	            _stash2.default.delete(this.item.id, function () {
+	                console.log('dddd');
+	            });
+	        }
+	    },
+	    computed: {
+	        i18n: function i18n() {
+	            return _utils2.default.getMsgArr([{ name: 'ExpandList' }, { name: 'Modify' }, { name: 'Delete' }]);
+	        }
+	    }
+	};
+
+/***/ },
+/* 22 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<li class=\"item\">\n    <span class=\"count\">\n    <span class=\"inner\">{{item.children.length}}</span>\n</span>\n    <h3 class=\"title\"  title=\"{{item.dateAddedFull}} | {{item.title}}\">\n        <span class=\"date\">{{item.dateAddedShort}}</span> |\n        <span class=\"text\">{{item.title}}</span>\n    </h3>\n    <div class=\"control\">\n        <a href=\"#\" class=\"js-expand\" title=\"{{ i18n.ExpandList }}\"><i class=\"icon-expand\" @click=\"expand\"></i></a>\n        <a href=\"#\" class=\"js-modify\" title=\"{{ i18n.Modify }}\"><i class=\"icon-modify\" @click=\"modify\"></i></a>\n        <a href=\"#\" class=\"js-delete\" title=\"{{ i18n.Delete }}\"><i class=\"icon-delete\" @click=\"delete\"></i></a>\n    </div>\n</li>\n";
 
 /***/ }
 /******/ ]);

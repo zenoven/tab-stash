@@ -4,21 +4,22 @@
     </header>
     <main>
         <stash-summary :summary="main.summary"></stash-summary>
-        <!--<stash-list></stash-list>-->
+        <stash-list :list="main.list"></stash-list>
     </main>
+    <!--{{main.list | json}}-->
 
 </template>
 <script>
     import stash from '../../js/lib/stash'
     import StashButton from './stash-button.vue'
     import StashSummary from './stash-summary.vue'
-//    import StashList from './stash-list.vue'
+    import StashList from './stash-list.vue'
 
     export default{
         components:{
             StashButton,
             StashSummary,
-//            StashList
+            StashList
         },
         props: ['main']
     }

@@ -1,19 +1,17 @@
 var stash     = require('./lib/stash');
-var c         = chrome;
 var Vue       = require('vue');
 var App = require('../views/components/app.vue');
-var data = {
-    summary: {
-        groupCount: '--',
-        itemsCount: '--'
-    },
-    list: []
-};
 
 var app = new Vue({
     el: '#app',
     data: {
-        main: data
+        main: {
+            summary: {
+                groupCount: '--',
+                itemsCount: '--'
+            },
+            list: []
+        }
     },
     components: {
         App
