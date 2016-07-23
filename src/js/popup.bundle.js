@@ -4050,7 +4050,6 @@
 	            var currentItem = this.item;
 	            vm.currentStashIndex = list.indexOf(currentItem);
 	            vm.$set('currentStashIndex', list.indexOf(currentItem));
-	            console.log(vm.currentStashIndex);
 	        },
 	        delete: function _delete() {
 	            var self = this;
@@ -4113,21 +4112,48 @@
 
 /***/ },
 /* 23 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+
+	var _stash = __webpack_require__(2);
+
+	var _stash2 = _interopRequireDefault(_stash);
+
+	var _directives = __webpack_require__(26);
+
+	var _directives2 = _interopRequireDefault(_directives);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	__webpack_require__(26);
 	exports.default = {
 	    props: ['currentStashIndex'],
 	    computed: {
-	        title: function title() {
-	            return this.currentStashIndex == -1 ? '' : this.$root.list[this.currentStashIndex].title;
+	        title: {
+	            get: function get() {
+	                return this.currentStashIndex == -1 ? '' : this.$root.list[this.currentStashIndex].title;
+	            },
+	            set: function set(newTitle) {
+	                if (this.currentStashIndex == -1) return;
+	                var stashItem = this.$root.list[this.currentStashIndex];
+	                _stash2.default.modify(stashItem.id, newTitle, function () {
+	                    stashItem.title = newTitle;
+	                });
+	            }
 	        },
 	        active: function active() {
 	            return this.currentStashIndex != -1;
+	        }
+	    },
+	    methods: {
+	        hideEditor: function hideEditor(e) {
+	            e.preventDefault();
+	            this.$root.currentStashIndex = -1;
 	        }
 	    }
 
@@ -4137,13 +4163,32 @@
 /* 24 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<div class=\"title-edit-wrapper\" :class=\"{ 'show' : active }\">\n    <div class=\"editor-wrapper\">\n        <input class=\"ipt-title\" type=\"text\" v-model=\"title\" />\n    </div>\n</div>\n";
+	module.exports = "\n<div class=\"title-edit-wrapper\" :class=\"{ 'show' : active }\" @click.self=\"hideEditor\">\n    <div class=\"editor-wrapper\">\n        <input class=\"ipt-title\"\n               type=\"text\"\n               v-model=\"title\"\n               debounce=\"50\"\n               @keyup.enter=\"hideEditor\"\n               @keyup.esc=\"hideEditor\"\n               v-focus=\"active\"\n        />\n    </div>\n</div>\n";
 
 /***/ },
 /* 25 */
 /***/ function(module, exports) {
 
 	module.exports = "\n<header>\n    <stash-button></stash-button>\n</header>\n<main>\n    <stash-summary :list=\"list\"></stash-summary>\n    <stash-list :list=\"list\"></stash-list>\n</main>\n<stash-editor :current-stash-index=\"currentStashIndex\"></stash-editor>\n\n";
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Vue = __webpack_require__(6);
+	var directives = {
+	    focus: function focus(val) {
+	        if (val) {
+	            this.el.focus();
+	        }
+	    }
+	};
+
+	Object.keys(directives).forEach(function (directive) {
+	    Vue.directive(directive, directives[directive]);
+	});
 
 /***/ }
 /******/ ]);

@@ -30,7 +30,6 @@
                 var currentItem = this.item;
                 vm.currentStashIndex = list.indexOf(currentItem);
                 vm.$set('currentStashIndex',list.indexOf(currentItem) );
-                console.log(vm.currentStashIndex);
             },
             delete(){
                 var self = this;
