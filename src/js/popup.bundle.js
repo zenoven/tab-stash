@@ -54,7 +54,7 @@
 	    el: '#app',
 	    data: {
 	        list: [],
-	        currentStashIndex: 0
+	        currentStashIndex: -1
 	    },
 	    components: {
 	        App: App
@@ -65,13 +65,13 @@
 	    app.$set('list', r);
 	});
 
-	app.$on('delete-stash', function (stashId) {
-	    app.$get('list').forEach(function (item, i) {
-	        if (item.id === stashId) {
-	            app.list.$remove(app.list[i]);
-	        }
-	    });
-	});
+	// app.$on('delete-stash', function (stashId) {
+	//     app.$get('list').forEach(function (item, i) {
+	//         if(item.id === stashId) {
+	//             app.list.$remove(app.list[i]);
+	//         }
+	//     });
+	// });
 
 	//
 	// var app = {
@@ -3745,7 +3745,7 @@
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/views/components/app.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(16)
+	__vue_template__ = __webpack_require__(25)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -3785,11 +3785,11 @@
 
 	var _stashSummary2 = _interopRequireDefault(_stashSummary);
 
-	var _stashList = __webpack_require__(17);
+	var _stashList = __webpack_require__(16);
 
 	var _stashList2 = _interopRequireDefault(_stashList);
 
-	var _stashEditor = __webpack_require__(23);
+	var _stashEditor = __webpack_require__(22);
 
 	var _stashEditor2 = _interopRequireDefault(_stashEditor);
 
@@ -3942,21 +3942,15 @@
 
 /***/ },
 /* 16 */
-/***/ function(module, exports) {
-
-	module.exports = "\n<header>\n    <stash-button></stash-button>\n</header>\n<main>\n    <stash-summary :list=\"list\"></stash-summary>\n    <stash-list :list=\"list\"></stash-list>\n</main>\n<stash-editor :current-stash-item=\"currentStashItem\"></stash-editor>\n\n";
-
-/***/ },
-/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(18)
+	__vue_script__ = __webpack_require__(17)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/views/components/stash-list.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(19)
+	__vue_template__ = __webpack_require__(21)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -3975,7 +3969,7 @@
 	})()}
 
 /***/ },
-/* 18 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3984,7 +3978,7 @@
 	    value: true
 	});
 
-	var _stashItem = __webpack_require__(20);
+	var _stashItem = __webpack_require__(18);
 
 	var _stashItem2 = _interopRequireDefault(_stashItem);
 
@@ -3998,22 +3992,16 @@
 	};
 
 /***/ },
-/* 19 */
-/***/ function(module, exports) {
-
-	module.exports = "\n<ul class=\"stash-list\" >\n    <template v-for=\"item in list\"  class=\"item\">\n        <stash-item :item=\"item\"></stash-item>\n    </template>\n</ul>\n";
-
-/***/ },
-/* 20 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(21)
+	__vue_script__ = __webpack_require__(19)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/views/components/stash-item.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(22)
+	__vue_template__ = __webpack_require__(20)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -4032,7 +4020,7 @@
 	})()}
 
 /***/ },
-/* 21 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4055,11 +4043,24 @@
 	    props: ['item'],
 	    methods: {
 	        expand: function expand() {},
-	        modify: function modify() {},
+	        modify: function modify() {
+	            var self = this;
+	            var vm = self.$root;
+	            var list = vm.list;
+	            var currentItem = this.item;
+	            vm.currentStashIndex = list.indexOf(currentItem);
+	            vm.$set('currentStashIndex', list.indexOf(currentItem));
+	            console.log(vm.currentStashIndex);
+	        },
 	        delete: function _delete() {
 	            var self = this;
+	            var vm = self.$root;
 	            _stash2.default.delete(self.item.id, function () {
-	                self.$dispatch('delete-stash', self.item.id);
+	                vm.$get('list').forEach(function (item, i) {
+	                    if (item.id === self.item.id) {
+	                        vm.list.$remove(vm.list[i]);
+	                    }
+	                });
 	            });
 	        }
 	    },
@@ -4071,22 +4072,28 @@
 	};
 
 /***/ },
-/* 22 */
+/* 20 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<li class=\"item\">\n    <span class=\"count\">\n    <span class=\"inner\">{{item.children.length}}</span>\n</span>\n    <h3 class=\"title\"  title=\"{{item.dateAddedFull}} | {{item.title}}\">\n        <span class=\"date\">{{item.dateAddedShort}}</span> |\n        <span class=\"text\">{{item.title}}</span>\n    </h3>\n    <div class=\"control\">\n        <a href=\"#\" class=\"js-expand\" title=\"{{ i18n.ExpandList }}\"><i class=\"icon-expand\" @click=\"expand\"></i></a>\n        <a href=\"#\" class=\"js-modify\" title=\"{{ i18n.Modify }}\"><i class=\"icon-modify\" @click=\"modify\"></i></a>\n        <a href=\"#\" class=\"js-delete\" title=\"{{ i18n.Delete }}\"><i class=\"icon-delete\" @click=\"delete\"></i></a>\n    </div>\n</li>\n";
+	module.exports = "\n<li class=\"item\">\n    <span class=\"count\">\n    <span class=\"inner\">{{item.children.length}}</span>\n</span>\n    <h3 class=\"title\"  title=\"{{item.dateAddedFull}} | {{item.title}}\">\n        <span class=\"date\">{{item.dateAddedShort}}</span> |\n        <span class=\"text\">{{item.title}}</span>\n    </h3>\n    <div class=\"control\">\n        <a href=\"#\" title=\"{{ i18n.ExpandList }}\" @click=\"expand\"><i class=\"icon-expand\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Modify }}\" @click=\"modify\"><i class=\"icon-modify\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Delete }}\" @click=\"delete\"><i class=\"icon-delete\"></i></a>\n    </div>\n</li>\n";
 
 /***/ },
-/* 23 */
+/* 21 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<ul class=\"stash-list\" >\n    <template v-for=\"item in list\"  class=\"item\">\n        <stash-item :item=\"item\"></stash-item>\n    </template>\n</ul>\n";
+
+/***/ },
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(24)
+	__vue_script__ = __webpack_require__(23)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/views/components/stash-editor.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(25)
+	__vue_template__ = __webpack_require__(24)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -4105,7 +4112,7 @@
 	})()}
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4114,26 +4121,29 @@
 	    value: true
 	});
 	exports.default = {
-	    props: {
-	        currentStashItem: {
-	            default: function _default() {
-	                return {
-	                    title: ''
-	                };
-	            }
+	    props: ['currentStashIndex'],
+	    computed: {
+	        title: function title() {
+	            return this.currentStashIndex == -1 ? '' : this.$root.list[this.currentStashIndex].title;
 	        },
-	        active: {
-	            default: false
+	        active: function active() {
+	            return this.currentStashIndex != -1;
 	        }
 	    }
 
 	};
 
 /***/ },
+/* 24 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"title-edit-wrapper\" :class=\"{ 'show' : active }\">\n    <div class=\"editor-wrapper\">\n        <input class=\"ipt-title\" type=\"text\" v-model=\"title\" />\n    </div>\n</div>\n";
+
+/***/ },
 /* 25 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<div class=\"title-edit-wrapper\" :class=\"{ 'show' : active }\">\n    <div class=\"editor-wrapper\">\n        <input class=\"ipt-title\" type=\"text\" v-model=\"currentStashItem.title\" />\n    </div>\n</div>\n";
+	module.exports = "\n<header>\n    <stash-button></stash-button>\n</header>\n<main>\n    <stash-summary :list=\"list\"></stash-summary>\n    <stash-list :list=\"list\"></stash-list>\n</main>\n<stash-editor :current-stash-index=\"currentStashIndex\"></stash-editor>\n\n";
 
 /***/ }
 /******/ ]);

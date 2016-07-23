@@ -6,7 +6,7 @@
         <stash-summary :list="list"></stash-summary>
         <stash-list :list="list"></stash-list>
     </main>
-    <stash-editor :current-stash-item="currentStashItem"></stash-editor>
+    <stash-editor :current-stash-index="currentStashIndex"></stash-editor>
 
 </template>
 <script>

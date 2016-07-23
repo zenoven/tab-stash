@@ -1,22 +1,19 @@
 <template>
     <div class="title-edit-wrapper" :class="{ 'show' : active }">
         <div class="editor-wrapper">
-            <input class="ipt-title" type="text" v-model="currentStashItem.title" />
+            <input class="ipt-title" type="text" v-model="title" />
         </div>
     </div>
 </template>
 <script>
     export default {
-        props: {
-            currentStashItem: {
-                default(){
-                    return {
-                        title: ''
-                    }
-                }
+        props: ['currentStashIndex'],
+        computed: {
+            title: function () {
+                return this.currentStashIndex == -1 ? '' : this.$root.list[this.currentStashIndex].title
             },
-            active: {
-                default: false
+            active: function () {
+                return this.currentStashIndex != -1 ;
             }
         }
 

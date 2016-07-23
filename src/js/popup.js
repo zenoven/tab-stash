@@ -6,7 +6,7 @@ var app = new Vue({
     el: '#app',
     data: {
         list: [],
-        currentStashIndex: 0
+        currentStashIndex: -1
     },
     components: {
         App

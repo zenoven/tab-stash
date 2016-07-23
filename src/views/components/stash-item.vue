@@ -8,9 +8,9 @@
             <span class="text">{{item.title}}</span>
         </h3>
         <div class="control">
-            <a href="#" class="js-expand" title="{{ i18n.ExpandList }}"><i class="icon-expand" @click="expand"></i></a>
-            <a href="#" class="js-modify" title="{{ i18n.Modify }}"><i class="icon-modify" @click="modify"></i></a>
-            <a href="#" class="js-delete" title="{{ i18n.Delete }}"><i class="icon-delete" @click="delete"></i></a>
+            <a href="#" title="{{ i18n.ExpandList }}" @click="expand"><i class="icon-expand"></i></a>
+            <a href="#" title="{{ i18n.Modify }}" @click="modify"><i class="icon-modify"></i></a>
+            <a href="#" title="{{ i18n.Delete }}" @click="delete"><i class="icon-delete"></i></a>
         </div>
     </li>
 </template>
@@ -24,7 +24,13 @@
 
             },
             modify(){
-
+                var self = this;
+                var vm = self.$root;
+                var list = vm.list;
+                var currentItem = this.item;
+                vm.currentStashIndex = list.indexOf(currentItem);
+                vm.$set('currentStashIndex',list.indexOf(currentItem) );
+                console.log(vm.currentStashIndex);
             },
             delete(){
                 var self = this;
