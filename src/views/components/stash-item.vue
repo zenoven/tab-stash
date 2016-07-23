@@ -27,8 +27,11 @@
 
             },
             delete(){
+                var self = this;
                 stash.delete(this.item.id, function () {
-                    console.log('dddd');
+                    stash.getAll(function (r) {
+                        self.$root.$set('main', r);
+                    })
                 });
             }
         },

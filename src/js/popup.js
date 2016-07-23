@@ -22,6 +22,7 @@ stash.getAll(function (r) {
     app.$set('main', r);
 });
 
+console.log(app.$root === app);
 
 
 
