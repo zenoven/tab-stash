@@ -1,7 +1,7 @@
 <template v-if="stashList && stashList.length > 0">
     <ul class="stash-list" >
-        <template v-for="stash in stashList"  class="item">
-            <stash-item :item="stash"></stash-item>
+        <template v-for="stashItem in stashList"  class="item">
+            <stash-item :stash-item="stashItem"></stash-item>
         </template>
     </ul>
 </template>

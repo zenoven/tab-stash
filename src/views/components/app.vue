@@ -6,7 +6,7 @@
         <stash-summary :stash-list="stashList"></stash-summary>
         <stash-list :stash-list="stashList"></stash-list>
     </main>
-    <stash-editor :current-stash="currentStash"></stash-editor>
+    <stash-editor :current-stash="currentStash" :view="view"></stash-editor>
 
 </template>
 <script>
@@ -15,14 +15,16 @@
     import StashSummary from './stash-summary.vue'
     import StashList from './stash-list.vue'
     import StashEditor from './stash-editor.vue'
+    import StashDetail from './stash-detail.vue'
 
     export default{
         components:{
             StashButton,
             StashSummary,
             StashList,
-            StashEditor
+            StashEditor,
+            StashDetail
         },
-        props: ['stashList', 'currentStash']
+        props: ['stashList', 'currentStash', 'view']
     }
 </script>

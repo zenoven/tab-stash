@@ -1,11 +1,11 @@
 <template>
     <li class="item">
         <span class="count">
-        <span class="inner">{{item.children.length}}</span>
+        <span class="inner">{{stashItem.children.length}}</span>
     </span>
-        <h3 class="title"  title="{{item.dateAddedFull}} | {{item.title}}">
-            <span class="date">{{item.dateAddedShort}}</span> |
-            <span class="text">{{item.title}}</span>
+        <h3 class="title"  title="{{stashItem.dateAddedFull}} | {{stashItem.title}}">
+            <span class="date">{{stashItem.dateAddedShort}}</span> |
+            <span class="text">{{stashItem.title}}</span>
         </h3>
         <div class="control">
             <a href="#" title="{{ i18n.ExpandList }}" @click="expand"><i class="icon-expand"></i></a>
@@ -18,7 +18,7 @@
     import utils from '../../js/lib/utils'
     import stash from '../../js/lib/stash'
     export default{
-        props: ['item'],
+        props: ['stashItem'],
         methods: {
             expand(){
 
@@ -26,14 +26,15 @@
             modify(){
                 var self = this;
                 var vm = self.$root;
-                vm.currentStash = this.item;
+                vm.currentStash = this.stashItem;
+                vm.view = 'detail';
             },
             delete(){
                 var self = this;
                 var vm = self.$root;
-                stash.delete(self.item.id, function () {
-                    vm.$get('list').forEach(function (item, i) {
-                        if(item.id === self.item.id) {
+                stash.delete(self.stashItem.id, function () {
+                    vm.$get('list').forEach(function (stashItem, i) {
+                        if(stashItem.id === self.stashItem.id) {
                             vm.list.$remove(vm.list[i]);
                         }
                     });
