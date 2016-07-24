@@ -26,10 +26,7 @@
             modify(){
                 var self = this;
                 var vm = self.$root;
-                var list = vm.list;
-                var currentItem = this.item;
-                vm.currentStashIndex = list.indexOf(currentItem);
-                vm.$set('currentStashIndex',list.indexOf(currentItem) );
+                vm.currentStash = this.item;
             },
             delete(){
                 var self = this;

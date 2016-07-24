@@ -2,7 +2,11 @@ var Vue = require('vue');
 var directives = {
     focus(val){
         if(val) {
-            this.el.focus();
+            var s = this
+            this.el.select();
+            // setTimeout(function () {
+            //     s.el.select();
+            // },0);
         }
     }
 };

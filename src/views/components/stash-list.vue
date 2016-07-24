@@ -1,7 +1,7 @@
-<template v-if="list && list.length > 0">
+<template v-if="stashList && stashList.length > 0">
     <ul class="stash-list" >
-        <template v-for="item in list"  class="item">
-            <stash-item :item="item"></stash-item>
+        <template v-for="stash in stashList"  class="item">
+            <stash-item :item="stash"></stash-item>
         </template>
     </ul>
 </template>
@@ -12,6 +12,6 @@
         components: {
             StashItem
         },
-        props: ['list']
+        props: ['stashList']
     }
 </script>

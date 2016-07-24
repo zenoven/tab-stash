@@ -49,9 +49,9 @@ var background = {
     },
 
     setBadgeText: function(){
-        stash.getAll(function(obj){
+        stash.getAll(function(list){
             chrome.browserAction.setBadgeText({
-                text: obj.summary.groupCount + ''
+                text: list.length + ''
             });
             chrome.browserAction.setBadgeBackgroundColor({
                 color: conf.badge.color
@@ -80,13 +80,9 @@ var background = {
     },
 
     bookmarkModifyEvent: function(){
-        var bookmarkEventArr = ['onCreated', 'onRemoved','onChanged','onMoved'],
-            self = this;
-
-        bookmarkEventArr.forEach(function(event){
-            c.bookmarks[event].addListener(function(){
-                self.initStash();
-            });
+        var self = this;
+        utils.afterBookmarkModify(function () {
+            self.initStash();
         });
     }
 };

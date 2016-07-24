@@ -1,12 +1,13 @@
 var stash     = require('./lib/stash');
 var Vue       = require('vue');
+require('./lib/directives');
 var App = require('../views/components/app.vue');
-
+var utils = require('./lib/utils');
 var app = new Vue({
     el: '#app',
     data: {
-        list: [],
-        currentStashIndex: -1
+        stashList: [],
+        currentStash: null
     },
     components: {
         App
@@ -14,16 +15,17 @@ var app = new Vue({
 });
 
 stash.getAll(function (r) {
-    app.$set('list', r);
+    app.$set('stashList', r);
 });
 
-// app.$on('delete-stash', function (stashId) {
-//     app.$get('list').forEach(function (item, i) {
-//         if(item.id === stashId) {
-//             app.list.$remove(app.list[i]);
-//         }
-//     });
-// });
+utils.afterBookmarkModify(function () {
+    if(!app.currentStash){
+        stash.getAll(function (r) {
+            app.$set('stashList', r);
+            app.currentStash = null;
+        });
+    }
+});
 
 
 

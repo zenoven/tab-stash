@@ -48,13 +48,14 @@
 
 	var stash = __webpack_require__(2);
 	var Vue = __webpack_require__(6);
+	__webpack_require__(26);
 	var App = __webpack_require__(8);
-
+	var utils = __webpack_require__(3);
 	var app = new Vue({
 	    el: '#app',
 	    data: {
-	        list: [],
-	        currentStashIndex: -1
+	        stashList: [],
+	        currentStash: null
 	    },
 	    components: {
 	        App: App
@@ -62,16 +63,17 @@
 	});
 
 	stash.getAll(function (r) {
-	    app.$set('list', r);
+	    app.$set('stashList', r);
 	});
 
-	// app.$on('delete-stash', function (stashId) {
-	//     app.$get('list').forEach(function (item, i) {
-	//         if(item.id === stashId) {
-	//             app.list.$remove(app.list[i]);
-	//         }
-	//     });
-	// });
+	utils.afterBookmarkModify(function () {
+	    if (!app.currentStash) {
+	        stash.getAll(function (r) {
+	            app.$set('stashList', r);
+	            app.currentStash = null;
+	        });
+	    }
+	});
 
 	//
 	// var app = {
@@ -432,6 +434,15 @@
 	        });
 
 	        return list;
+	    },
+	    afterBookmarkModify: function afterBookmarkModify(callback) {
+	        var bookmarkEventArr = ['onCreated', 'onRemoved', 'onChanged', 'onMoved'];
+
+	        bookmarkEventArr.forEach(function (event) {
+	            c.bookmarks[event].addListener(function () {
+	                callback && callback();
+	            });
+	        });
 	    }
 	};
 
@@ -3802,7 +3813,7 @@
 	        StashList: _stashList2.default,
 	        StashEditor: _stashEditor2.default
 	    },
-	    props: ['list', 'currentStashIndex']
+	    props: ['stashList', 'currentStash']
 	};
 
 /***/ },
@@ -3920,10 +3931,10 @@
 	exports.default = {
 	    computed: {
 	        i18n: function i18n() {
-	            var groupCount = this.list.length;
+	            var groupCount = this.stashList.length;
 	            var itemsCount = 0;
-	            this.list.forEach(function (item) {
-	                itemsCount += item.children && item.children.length ? item.children.length : 0;
+	            this.stashList.forEach(function (stash) {
+	                itemsCount += stash.children && stash.children.length ? stash.children.length : 0;
 	            });
 	            return _utils2.default.getMsgArr([{
 	                name: 'StashSummary',
@@ -3931,7 +3942,7 @@
 	            }]);
 	        }
 	    },
-	    props: ['list']
+	    props: ['stashList']
 	};
 
 /***/ },
@@ -3988,7 +3999,7 @@
 	    components: {
 	        StashItem: _stashItem2.default
 	    },
-	    props: ['list']
+	    props: ['stashList']
 	};
 
 /***/ },
@@ -4046,10 +4057,7 @@
 	        modify: function modify() {
 	            var self = this;
 	            var vm = self.$root;
-	            var list = vm.list;
-	            var currentItem = this.item;
-	            vm.currentStashIndex = list.indexOf(currentItem);
-	            vm.$set('currentStashIndex', list.indexOf(currentItem));
+	            vm.currentStash = this.item;
 	        },
 	        delete: function _delete() {
 	            var self = this;
@@ -4080,7 +4088,7 @@
 /* 21 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<ul class=\"stash-list\" >\n    <template v-for=\"item in list\"  class=\"item\">\n        <stash-item :item=\"item\"></stash-item>\n    </template>\n</ul>\n";
+	module.exports = "\n<ul class=\"stash-list\" >\n    <template v-for=\"stash in stashList\"  class=\"item\">\n        <stash-item :item=\"stash\"></stash-item>\n    </template>\n</ul>\n";
 
 /***/ },
 /* 22 */
@@ -4130,30 +4138,29 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(26);
 	exports.default = {
-	    props: ['currentStashIndex'],
+	    props: ['currentStash'],
 	    computed: {
 	        title: {
 	            get: function get() {
-	                return this.currentStashIndex == -1 ? '' : this.$root.list[this.currentStashIndex].title;
+	                return this.currentStash ? this.currentStash.title : '';
 	            },
 	            set: function set(newTitle) {
-	                if (this.currentStashIndex == -1) return;
-	                var stashItem = this.$root.list[this.currentStashIndex];
-	                _stash2.default.modify(stashItem.id, newTitle, function () {
+	                if (!this.currentStash) return;
+	                var stashItem = this.$root.currentStash;
+	                _stash2.default.modify(this.currentStash.id, newTitle, function () {
 	                    stashItem.title = newTitle;
 	                });
 	            }
 	        },
 	        active: function active() {
-	            return this.currentStashIndex != -1;
+	            return !!this.currentStash;
 	        }
 	    },
 	    methods: {
 	        hideEditor: function hideEditor(e) {
 	            e.preventDefault();
-	            this.$root.currentStashIndex = -1;
+	            this.$root.currentStash = null;
 	        }
 	    }
 
@@ -4163,13 +4170,13 @@
 /* 24 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<div class=\"title-edit-wrapper\" :class=\"{ 'show' : active }\" @click.self=\"hideEditor\">\n    <div class=\"editor-wrapper\">\n        <input class=\"ipt-title\"\n               type=\"text\"\n               v-model=\"title\"\n               debounce=\"50\"\n               @keyup.enter=\"hideEditor\"\n               @keyup.esc=\"hideEditor\"\n               v-focus=\"active\"\n        />\n    </div>\n</div>\n";
+	module.exports = "\n<div class=\"title-edit-wrapper\" :class=\"{ 'show' : active }\" @click.self=\"hideEditor\">\n    <div class=\"editor-wrapper\">\n        <input class=\"ipt-title\"\n            type=\"text\"\n            v-model=\"title\"\n\n            @keyup.enter=\"hideEditor\"\n            @keyup.esc=\"hideEditor\"\n            v-focus=\"active\"\n        />\n    </div>\n</div>\n";
 
 /***/ },
 /* 25 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<header>\n    <stash-button></stash-button>\n</header>\n<main>\n    <stash-summary :list=\"list\"></stash-summary>\n    <stash-list :list=\"list\"></stash-list>\n</main>\n<stash-editor :current-stash-index=\"currentStashIndex\"></stash-editor>\n\n";
+	module.exports = "\n<header>\n    <stash-button></stash-button>\n</header>\n<main>\n    <stash-summary :stash-list=\"stashList\"></stash-summary>\n    <stash-list :stash-list=\"stashList\"></stash-list>\n</main>\n<stash-editor :current-stash=\"currentStash\"></stash-editor>\n\n";
 
 /***/ },
 /* 26 */
@@ -4181,7 +4188,11 @@
 	var directives = {
 	    focus: function focus(val) {
 	        if (val) {
-	            this.el.focus();
+	            var s = this;
+	            this.el.select();
+	            // setTimeout(function () {
+	            //     s.el.select();
+	            // },0);
 	        }
 	    }
 	};

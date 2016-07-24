@@ -127,5 +127,14 @@ module.exports = {
         });
 
         return list;
+    },
+    afterBookmarkModify: function (callback) {
+        var bookmarkEventArr = ['onCreated', 'onRemoved','onChanged','onMoved'];
+
+        bookmarkEventArr.forEach(function(event){
+            c.bookmarks[event].addListener(function(){
+                callback && callback();
+            });
+        });
     }
 };

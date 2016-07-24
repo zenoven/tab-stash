@@ -8,10 +8,10 @@
     export default {
         computed: {
             i18n: function () {
-                var groupCount = this.list.length;
+                var groupCount = this.stashList.length;
                 var itemsCount = 0;
-                this.list.forEach(function (item) {
-                    itemsCount += item.children && item.children.length ? item.children.length : 0;
+                this.stashList.forEach(function (stash) {
+                    itemsCount += stash.children && stash.children.length ? stash.children.length : 0;
                 });
                 return utils.getMsgArr([
                     {
@@ -24,6 +24,6 @@
                 ])
             }
         },
-        props: ['list']
+        props: ['stashList']
     }
 </script>

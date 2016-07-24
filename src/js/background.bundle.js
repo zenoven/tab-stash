@@ -96,9 +96,9 @@
 	    },
 
 	    setBadgeText: function setBadgeText() {
-	        stash.getAll(function (obj) {
+	        stash.getAll(function (list) {
 	            chrome.browserAction.setBadgeText({
-	                text: obj.summary.groupCount + ''
+	                text: list.length + ''
 	            });
 	            chrome.browserAction.setBadgeBackgroundColor({
 	                color: conf.badge.color
@@ -126,13 +126,9 @@
 	    },
 
 	    bookmarkModifyEvent: function bookmarkModifyEvent() {
-	        var bookmarkEventArr = ['onCreated', 'onRemoved', 'onChanged', 'onMoved'],
-	            self = this;
-
-	        bookmarkEventArr.forEach(function (event) {
-	            c.bookmarks[event].addListener(function () {
-	                self.initStash();
-	            });
+	        var self = this;
+	        utils.afterBookmarkModify(function () {
+	            self.initStash();
 	        });
 	    }
 	};
@@ -345,6 +341,15 @@
 	        });
 
 	        return list;
+	    },
+	    afterBookmarkModify: function afterBookmarkModify(callback) {
+	        var bookmarkEventArr = ['onCreated', 'onRemoved', 'onChanged', 'onMoved'];
+
+	        bookmarkEventArr.forEach(function (event) {
+	            c.bookmarks[event].addListener(function () {
+	                callback && callback();
+	            });
+	        });
 	    }
 	};
 

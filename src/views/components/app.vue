@@ -3,10 +3,10 @@
         <stash-button></stash-button>
     </header>
     <main>
-        <stash-summary :list="list"></stash-summary>
-        <stash-list :list="list"></stash-list>
+        <stash-summary :stash-list="stashList"></stash-summary>
+        <stash-list :stash-list="stashList"></stash-list>
     </main>
-    <stash-editor :current-stash-index="currentStashIndex"></stash-editor>
+    <stash-editor :current-stash="currentStash"></stash-editor>
 
 </template>
 <script>
@@ -23,6 +23,6 @@
             StashList,
             StashEditor
         },
-        props: ['list', 'currentStashIndex']
+        props: ['stashList', 'currentStash']
     }
 </script>
