@@ -48,8 +48,8 @@
 
 	var stash = __webpack_require__(2);
 	var Vue = __webpack_require__(6);
-	__webpack_require__(26);
-	var App = __webpack_require__(8);
+	__webpack_require__(8);
+	var App = __webpack_require__(9);
 	var utils = __webpack_require__(3);
 	var app = new Vue({
 	    el: '#app',
@@ -3750,13 +3750,36 @@
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	var Vue = __webpack_require__(6);
+	var directives = {
+	    focus: function focus(val) {
+	        if (val) {
+	            var self = this;
+	            // self.el.select();  //this does not work, self.el.value is ''
+	            this.vm.$nextTick(function () {
+	                self.el.select(); //this works
+	            });
+	        }
+	    }
+	};
+
+	Object.keys(directives).forEach(function (directive) {
+	    Vue.directive(directive, directives[directive]);
+	});
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(9)
+	__vue_script__ = __webpack_require__(10)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/views/components/app.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(25)
+	__vue_template__ = __webpack_require__(26)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -3775,7 +3798,7 @@
 	})()}
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3788,19 +3811,19 @@
 
 	var _stash2 = _interopRequireDefault(_stash);
 
-	var _stashButton = __webpack_require__(10);
+	var _stashButton = __webpack_require__(11);
 
 	var _stashButton2 = _interopRequireDefault(_stashButton);
 
-	var _stashSummary = __webpack_require__(13);
+	var _stashSummary = __webpack_require__(14);
 
 	var _stashSummary2 = _interopRequireDefault(_stashSummary);
 
-	var _stashList = __webpack_require__(16);
+	var _stashList = __webpack_require__(17);
 
 	var _stashList2 = _interopRequireDefault(_stashList);
 
-	var _stashEditor = __webpack_require__(22);
+	var _stashEditor = __webpack_require__(23);
 
 	var _stashEditor2 = _interopRequireDefault(_stashEditor);
 
@@ -3817,16 +3840,16 @@
 	};
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(11)
+	__vue_script__ = __webpack_require__(12)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/views/components/stash-button.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(12)
+	__vue_template__ = __webpack_require__(13)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -3845,7 +3868,7 @@
 	})()}
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3879,22 +3902,22 @@
 	};
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = "\n<span class=\"btn btn-primary js-add-stash\" @click=\"createStash\" >{{ i18n.StashBtn }}</span>\n";
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(14)
+	__vue_script__ = __webpack_require__(15)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/views/components/stash-summary.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(15)
+	__vue_template__ = __webpack_require__(16)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -3913,7 +3936,7 @@
 	})()}
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3946,22 +3969,22 @@
 	};
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports = "\n<h2 class=\"summary\">{{ i18n.StashSummary }}</h2>\n";
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(17)
+	__vue_script__ = __webpack_require__(18)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/views/components/stash-list.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(21)
+	__vue_template__ = __webpack_require__(22)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -3980,7 +4003,7 @@
 	})()}
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3989,7 +4012,7 @@
 	    value: true
 	});
 
-	var _stashItem = __webpack_require__(18);
+	var _stashItem = __webpack_require__(19);
 
 	var _stashItem2 = _interopRequireDefault(_stashItem);
 
@@ -4003,16 +4026,16 @@
 	};
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(19)
+	__vue_script__ = __webpack_require__(20)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/views/components/stash-item.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(20)
+	__vue_template__ = __webpack_require__(21)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -4031,7 +4054,7 @@
 	})()}
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4079,28 +4102,28 @@
 	};
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports) {
 
 	module.exports = "\n<li class=\"item\">\n    <span class=\"count\">\n    <span class=\"inner\">{{item.children.length}}</span>\n</span>\n    <h3 class=\"title\"  title=\"{{item.dateAddedFull}} | {{item.title}}\">\n        <span class=\"date\">{{item.dateAddedShort}}</span> |\n        <span class=\"text\">{{item.title}}</span>\n    </h3>\n    <div class=\"control\">\n        <a href=\"#\" title=\"{{ i18n.ExpandList }}\" @click=\"expand\"><i class=\"icon-expand\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Modify }}\" @click=\"modify\"><i class=\"icon-modify\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Delete }}\" @click=\"delete\"><i class=\"icon-delete\"></i></a>\n    </div>\n</li>\n";
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports) {
 
 	module.exports = "\n<ul class=\"stash-list\" >\n    <template v-for=\"stash in stashList\"  class=\"item\">\n        <stash-item :item=\"stash\"></stash-item>\n    </template>\n</ul>\n";
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(23)
+	__vue_script__ = __webpack_require__(24)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/views/components/stash-editor.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(24)
+	__vue_template__ = __webpack_require__(25)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -4119,7 +4142,7 @@
 	})()}
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4132,7 +4155,7 @@
 
 	var _stash2 = _interopRequireDefault(_stash);
 
-	var _directives = __webpack_require__(26);
+	var _directives = __webpack_require__(8);
 
 	var _directives2 = _interopRequireDefault(_directives);
 
@@ -4146,7 +4169,7 @@
 	                return this.currentStash ? this.currentStash.title : '';
 	            },
 	            set: function set(newTitle) {
-	                if (!this.currentStash) return;
+	                if (!this.currentStash) return '';
 	                var stashItem = this.$root.currentStash;
 	                _stash2.default.modify(this.currentStash.id, newTitle, function () {
 	                    stashItem.title = newTitle;
@@ -4167,39 +4190,16 @@
 	};
 
 /***/ },
-/* 24 */
-/***/ function(module, exports) {
-
-	module.exports = "\n<div class=\"title-edit-wrapper\" :class=\"{ 'show' : active }\" @click.self=\"hideEditor\">\n    <div class=\"editor-wrapper\">\n        <input class=\"ipt-title\"\n            type=\"text\"\n            v-model=\"title\"\n\n            @keyup.enter=\"hideEditor\"\n            @keyup.esc=\"hideEditor\"\n            v-focus=\"active\"\n        />\n    </div>\n</div>\n";
-
-/***/ },
 /* 25 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<header>\n    <stash-button></stash-button>\n</header>\n<main>\n    <stash-summary :stash-list=\"stashList\"></stash-summary>\n    <stash-list :stash-list=\"stashList\"></stash-list>\n</main>\n<stash-editor :current-stash=\"currentStash\"></stash-editor>\n\n";
+	module.exports = "\n<div class=\"title-edit-wrapper\" :class=\"{ 'show' : active }\" @click.self=\"hideEditor\">\n    <div class=\"editor-wrapper\">\n        <input class=\"ipt-title\"\n            type=\"text\"\n            v-model=\"title\"\n            @keyup.enter=\"hideEditor\"\n            @keyup.esc=\"hideEditor\"\n            v-focus=\"active\"\n        />\n    </div>\n</div>\n";
 
 /***/ },
 /* 26 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	'use strict';
-
-	var Vue = __webpack_require__(6);
-	var directives = {
-	    focus: function focus(val) {
-	        if (val) {
-	            var s = this;
-	            this.el.select();
-	            // setTimeout(function () {
-	            //     s.el.select();
-	            // },0);
-	        }
-	    }
-	};
-
-	Object.keys(directives).forEach(function (directive) {
-	    Vue.directive(directive, directives[directive]);
-	});
+	module.exports = "\n<header>\n    <stash-button></stash-button>\n</header>\n<main>\n    <stash-summary :stash-list=\"stashList\"></stash-summary>\n    <stash-list :stash-list=\"stashList\"></stash-list>\n</main>\n<stash-editor :current-stash=\"currentStash\"></stash-editor>\n\n";
 
 /***/ }
 /******/ ]);

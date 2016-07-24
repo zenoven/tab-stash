@@ -4,7 +4,6 @@
             <input class="ipt-title"
                 type="text"
                 v-model="title"
-
                 @keyup.enter="hideEditor"
                 @keyup.esc="hideEditor"
                 v-focus="active"
@@ -24,7 +23,7 @@
                     return this.currentStash ? this.currentStash.title : '';
                 },
                 set(newTitle){
-                    if(!this.currentStash) return;
+                    if(!this.currentStash) return '';
                     var stashItem = this.$root.currentStash;
                     stash.modify(this.currentStash.id, newTitle, function () {
                         stashItem.title = newTitle;
