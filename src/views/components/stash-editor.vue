@@ -1,6 +1,6 @@
 <template>
-    <div class="title-edit-wrapper" :class="{ 'show' : active }" @click.self="hideEditor">
-        <div class="editor-wrapper">
+    <div class="stash-editor-wrapper" :class="{ 'show' : active }" @click.self="hideEditor">
+        <div class="inner">
             <input class="ipt-title"
                 type="text"
                 v-model="title"
@@ -20,10 +20,10 @@
         computed: {
             title: {
                 get(){
-                    return this.view == 'detail' ? this.currentStash.title : '';
+                    return this.view == 'editor' ? this.currentStash.title : '';
                 },
                 set(newTitle){
-                    if(this.view != 'detail') return '';
+                    if(this.view != 'editor') return '';
                     var stashItem = this.$root.currentStash;
                     stash.modify(this.currentStash.id, newTitle, function () {
                         stashItem.title = newTitle;
@@ -31,7 +31,7 @@
                 }
             },
             active: function () {
-                return this.view == 'detail';
+                return this.view == 'editor';
             }
         },
         methods: {

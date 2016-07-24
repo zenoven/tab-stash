@@ -55,7 +55,8 @@
 	    el: '#app',
 	    data: {
 	        stashList: [],
-	        currentStash: null
+	        currentStash: null,
+	        view: 'home'
 	    },
 	    components: {
 	        App: App
@@ -71,162 +72,10 @@
 	        stash.getAll(function (r) {
 	            app.$set('stashList', r);
 	            app.currentStash = null;
+	            app.view = 'home';
 	        });
 	    }
 	});
-
-	//
-	// var app = {
-	//
-	//     init: function(){
-	//         var self = this;
-	//         stash.init(function(){
-	//             self.render();
-	//         });
-	//         self.bindEvents();
-	//     },
-	//
-	//     bindEvents: function(){
-	//         this.bindStashEvents();
-	//         this.bindKeyboardEvents();
-	//     },
-	//
-	//     bindStashEvents: function(){
-	//         var self        = this;
-	//         var listWrapper = $('#wrapper');
-	//
-	//
-	//         listWrapper.on('click',function(event){
-	//             var tgt = $(event.target);
-	//
-	//             if(!tgt.hasClass('link')){
-	//                 event.preventDefault();
-	//             }else{
-	//                 c.tabs.create({url: tgt[0].href})
-	//             }
-	//
-	//             // 如果点击的是stash项
-	//             if(tgt.closest('.item').length > 0){
-	//                 var item = tgt.closest('.item');
-	//                 var linkWrapper = item.find('.tab-list');
-	//                 var linkList = item.find('.tab-list a.link');
-	//                 var tabList;
-	//                 if( !tgt.closest('.control, .tab-list-wrapper, .title-edit-wrapper').length) {
-	//                     linkList.each(function(i, link){
-	//                         c.tabs.create({url: link.href})
-	//                     });
-	//                 }else{
-	//                     // 点击展开
-	//                     if(tgt.closest('.js-expand').length) {
-	//                         item.toggleClass('expanded');
-	//                         return;
-	//                     }
-	//
-	//                     // 点击编辑
-	//                     if(tgt.closest('.js-modify').length) {
-	//                         $('.title-edit-wrapper').removeClass('show');
-	//                         item.find('.title-edit-wrapper').addClass('show').find('.ipt-title').select();
-	//                         $('.ipt-title', item).val(item.find('.title .text').html());
-	//                         return;
-	//                     }
-	//
-	//                     // 点击删除stash
-	//                     if(tgt.closest('.js-delete').length) {
-	//                         stash.delete(item.data('id'), function(){
-	//                             self.reRender();
-	//                         })
-	//                         return;
-	//                     }
-	//
-	//                     // 点击tab-list的关闭
-	//                     if(tgt.closest('.js-close').length){
-	//                         console.log('closing...')
-	//                         $('.stash-list > .item').removeClass('expanded') ;
-	//                         doRefresh && self.reRender();
-	//                         doRefresh = false;
-	//                         return;
-	//                     }
-	//
-	//                     // 如果点击的是编辑框之外的mask
-	//                     if(tgt.closest('.title-edit-wrapper').length && !tgt.closest('.editor-wrapper').length) {
-	//                         $('.title-edit-wrapper').removeClass('show');
-	//                         return;
-	//                     }
-	//
-	//                     // 点击删除tab
-	//                     if(tgt.closest('.js-delete-tab').length) {
-	//                         // debugger;
-	//                         tabListWrapper = $('.item.expanded .tab-list-wrapper');
-	//                         c.bookmarks.remove(tgt.closest('.tab').data('id') + '');
-	//                         tgt.closest('.tab').remove();
-	//                         tabList = $('.item.expanded .tab-list li');
-	//
-	//                         // 如果已经删除完了
-	//                         if( tabList.length == 0) {
-	//                             tabListWrapper.find('.js-close').trigger('click');
-	//                             tabListWrapper.closest('.item').find('.js-delete').trigger('click');
-	//                         }
-	//                         doRefresh = true;
-	//                         return;
-	//                     }
-	//                 }
-	//             }else {
-	//                 // 如果点击的是暂存按钮
-	//                 if(tgt.closest('.js-add-stash').length){
-	//                     stash.create(function(){
-	//                         self.render();
-	//                     });
-	//                 }
-	//             }
-	//
-	//         });
-	//     },
-	//
-	//     bindKeyboardEvents: function(){
-	//         var inputWrapper,
-	//             input,
-	//             self = this;
-	//
-	//         $(document).on('keyup', function(e){
-	//             inputWrapper = $('.title-edit-wrapper.show');
-	//             input = inputWrapper.find('.ipt-title');
-	//
-	//             // 回车时提交编辑
-	//             if(e.keyCode === 13) {
-	//                 stash.modify(inputWrapper.closest('.item').data('id'), input.val(), function(){
-	//                     inputWrapper.removeClass('show');
-	//                     self.reRender();
-	//                 })
-	//                 return;
-	//             }
-	//
-	//             // ESC时取消编辑
-	//             if(e.keyCode === 27) {
-	//                 $('.title-edit-wrapper').removeClass('show');
-	//                 return;
-	//             }
-	//         });
-	//     },
-	//
-	//     render: function(){
-	//         stash.getAll(function(obj){
-	//             html.title = tpl('title', {});
-	//             html.main = tpl('main', obj);
-	//             $('title').html(html.title);
-	//             $('#wrapper').html(html.main);
-	//         });
-	//     },
-	//
-	//     // 重新渲染
-	//     reRender: function (){
-	//         var self = this;
-	//         stash.init(function(){
-	//             self.render();
-	//         });
-	//     }
-	// };
-	//
-	// app.init();
 
 /***/ },
 /* 1 */
@@ -3827,6 +3676,10 @@
 
 	var _stashEditor2 = _interopRequireDefault(_stashEditor);
 
+	var _stashDetail = __webpack_require__(27);
+
+	var _stashDetail2 = _interopRequireDefault(_stashDetail);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
@@ -3834,9 +3687,10 @@
 	        StashButton: _stashButton2.default,
 	        StashSummary: _stashSummary2.default,
 	        StashList: _stashList2.default,
-	        StashEditor: _stashEditor2.default
+	        StashEditor: _stashEditor2.default,
+	        StashDetail: _stashDetail2.default
 	    },
-	    props: ['stashList', 'currentStash']
+	    props: ['stashList', 'currentStash', 'view']
 	};
 
 /***/ },
@@ -4074,20 +3928,26 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
-	    props: ['item'],
+	    props: ['stashItem'],
 	    methods: {
-	        expand: function expand() {},
+	        expand: function expand() {
+	            var self = this;
+	            var vm = self.$root;
+	            vm.currentStash = this.stashItem;
+	            vm.view = 'detail';
+	        },
 	        modify: function modify() {
 	            var self = this;
 	            var vm = self.$root;
-	            vm.currentStash = this.item;
+	            vm.currentStash = this.stashItem;
+	            vm.view = 'editor';
 	        },
 	        delete: function _delete() {
 	            var self = this;
 	            var vm = self.$root;
-	            _stash2.default.delete(self.item.id, function () {
-	                vm.$get('list').forEach(function (item, i) {
-	                    if (item.id === self.item.id) {
+	            _stash2.default.delete(self.stashItem.id, function () {
+	                vm.$get('list').forEach(function (stashItem, i) {
+	                    if (stashItem.id === self.stashItem.id) {
 	                        vm.list.$remove(vm.list[i]);
 	                    }
 	                });
@@ -4105,13 +3965,13 @@
 /* 21 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<li class=\"item\">\n    <span class=\"count\">\n    <span class=\"inner\">{{item.children.length}}</span>\n</span>\n    <h3 class=\"title\"  title=\"{{item.dateAddedFull}} | {{item.title}}\">\n        <span class=\"date\">{{item.dateAddedShort}}</span> |\n        <span class=\"text\">{{item.title}}</span>\n    </h3>\n    <div class=\"control\">\n        <a href=\"#\" title=\"{{ i18n.ExpandList }}\" @click=\"expand\"><i class=\"icon-expand\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Modify }}\" @click=\"modify\"><i class=\"icon-modify\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Delete }}\" @click=\"delete\"><i class=\"icon-delete\"></i></a>\n    </div>\n</li>\n";
+	module.exports = "\n<li class=\"item\">\n    <span class=\"count\">\n    <span class=\"inner\">{{stashItem.children.length}}</span>\n</span>\n    <h3 class=\"title\"  title=\"{{stashItem.dateAddedFull}} | {{stashItem.title}}\">\n        <span class=\"date\">{{stashItem.dateAddedShort}}</span> |\n        <span class=\"text\">{{stashItem.title}}</span>\n    </h3>\n    <div class=\"control\">\n        <a href=\"#\" title=\"{{ i18n.ExpandList }}\" @click=\"expand\"><i class=\"icon-expand\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Modify }}\" @click=\"modify\"><i class=\"icon-modify\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Delete }}\" @click=\"delete\"><i class=\"icon-delete\"></i></a>\n    </div>\n</li>\n";
 
 /***/ },
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<ul class=\"stash-list\" >\n    <template v-for=\"stash in stashList\"  class=\"item\">\n        <stash-item :item=\"stash\"></stash-item>\n    </template>\n</ul>\n";
+	module.exports = "\n<ul class=\"stash-list\" >\n    <template v-for=\"stashItem in stashList\"  class=\"item\">\n        <stash-item :stash-item=\"stashItem\"></stash-item>\n    </template>\n</ul>\n";
 
 /***/ },
 /* 23 */
@@ -4162,14 +4022,14 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
-	    props: ['currentStash'],
+	    props: ['currentStash', 'view'],
 	    computed: {
 	        title: {
 	            get: function get() {
-	                return this.currentStash ? this.currentStash.title : '';
+	                return this.view == 'editor' ? this.currentStash.title : '';
 	            },
 	            set: function set(newTitle) {
-	                if (!this.currentStash) return '';
+	                if (this.view != 'editor') return '';
 	                var stashItem = this.$root.currentStash;
 	                _stash2.default.modify(this.currentStash.id, newTitle, function () {
 	                    stashItem.title = newTitle;
@@ -4177,13 +4037,13 @@
 	            }
 	        },
 	        active: function active() {
-	            return !!this.currentStash;
+	            return this.view == 'editor';
 	        }
 	    },
 	    methods: {
 	        hideEditor: function hideEditor(e) {
 	            e.preventDefault();
-	            this.$root.currentStash = null;
+	            this.$root.view = 'home';
 	        }
 	    }
 
@@ -4193,13 +4053,100 @@
 /* 25 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<div class=\"title-edit-wrapper\" :class=\"{ 'show' : active }\" @click.self=\"hideEditor\">\n    <div class=\"editor-wrapper\">\n        <input class=\"ipt-title\"\n            type=\"text\"\n            v-model=\"title\"\n            @keyup.enter=\"hideEditor\"\n            @keyup.esc=\"hideEditor\"\n            v-focus=\"active\"\n        />\n    </div>\n</div>\n";
+	module.exports = "\n<div class=\"stash-editor-wrapper\" :class=\"{ 'show' : active }\" @click.self=\"hideEditor\">\n    <div class=\"inner\">\n        <input class=\"ipt-title\"\n            type=\"text\"\n            v-model=\"title\"\n            @keyup.enter=\"hideEditor\"\n            @keyup.esc=\"hideEditor\"\n            v-focus=\"active\"\n        />\n    </div>\n</div>\n";
 
 /***/ },
 /* 26 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<header>\n    <stash-button></stash-button>\n</header>\n<main>\n    <stash-summary :stash-list=\"stashList\"></stash-summary>\n    <stash-list :stash-list=\"stashList\"></stash-list>\n</main>\n<stash-editor :current-stash=\"currentStash\"></stash-editor>\n\n";
+	module.exports = "\n<header>\n    <stash-button></stash-button>\n</header>\n<main>\n    <stash-summary :stash-list=\"stashList\"></stash-summary>\n    <stash-list :stash-list=\"stashList\"></stash-list>\n</main>\n<stash-editor :current-stash=\"currentStash\" :view=\"view\"></stash-editor>\n<stash-detail :current-stash=\"currentStash\" :view=\"view\"></stash-detail>\n";
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(28)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/views/components/stash-detail.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(29)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "_v-3c090eb4/stash-detail.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _utils = __webpack_require__(3);
+
+	var _utils2 = _interopRequireDefault(_utils);
+
+	var _stash = __webpack_require__(2);
+
+	var _stash2 = _interopRequireDefault(_stash);
+
+	var _directives = __webpack_require__(8);
+
+	var _directives2 = _interopRequireDefault(_directives);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	    props: ['currentStash', 'view'],
+	    computed: {
+	        i18n: function i18n() {
+	            return _utils2.default.getMsgArr([{ name: 'Close' }, { name: 'Open' }, { name: 'Delete' }]);
+	        },
+	        active: function active() {
+	            return this.view == 'detail';
+	        },
+	        fixedCurrentStash: function fixedCurrentStash() {
+	            if (this.view == 'detail' && !!this.currentStash) {
+	                return this.currentStash;
+	            } else {
+	                return {
+	                    dateAddedFull: '--',
+	                    dateAddedShort: '--',
+	                    title: '--',
+	                    children: []
+	                };
+	            }
+	        }
+	    },
+	    methods: {
+	        hideDetail: function hideDetail() {
+	            this.$root.view = 'home';
+	        }
+	    }
+	};
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"tab-list-wrapper\" :class=\"{ 'show' : active }\" @click.self=\"hideDetail\">\n    <h4 class=\"tab-list-title\"  title=\"{{fixedCurrentStash.dateAddedFull}} | {{fixedCurrentStash.title}}\">\n        <span class=\"date\">{{fixedCurrentStash.dateAddedShort}}</span> |\n        <span class=\"text\">{{fixedCurrentStash.title}}</span>\n        <i class=\"icon-close\" title=\"{{ i18n.Close }}\" @click.self=\"hideDetail\"></i>\n    </h4>\n    <ul class=\"tab-list\">\n        <li class=\"tab\" v-for=\"tab in fixedCurrentStash.children\" data-id=\"{{tab.id}}\">\n            <a class=\"link\" href=\"{{tab.url}}\" title=\"{{ i18n.Open }}>>{{tab.title}}\">{{tab.title}}</a>\n            <a href=\"#\" class=\"delete\" title=\"{{ i18n.Delete }}\"><i class=\"icon-delete\"></i></a>\n        </li>\n    </ul>\n</div>\n";
 
 /***/ }
 /******/ ]);

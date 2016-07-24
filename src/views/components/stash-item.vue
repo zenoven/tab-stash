@@ -21,13 +21,16 @@
         props: ['stashItem'],
         methods: {
             expand(){
-
+                var self = this;
+                var vm = self.$root;
+                vm.currentStash = this.stashItem;
+                vm.view = 'detail';
             },
             modify(){
                 var self = this;
                 var vm = self.$root;
                 vm.currentStash = this.stashItem;
-                vm.view = 'detail';
+                vm.view = 'editor';
             },
             delete(){
                 var self = this;

@@ -7,7 +7,7 @@
         <stash-list :stash-list="stashList"></stash-list>
     </main>
     <stash-editor :current-stash="currentStash" :view="view"></stash-editor>
-
+    <stash-detail :current-stash="currentStash" :view="view"></stash-detail>
 </template>
 <script>
     import stash from '../../js/lib/stash'
