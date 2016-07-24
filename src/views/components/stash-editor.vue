@@ -20,7 +20,7 @@
         computed: {
             title: {
                 get(){
-                    return this.view == 'editor' ? this.currentStash.title : '';
+                    return this.currentStash.title;
                 },
                 set(newTitle){
                     if(this.view != 'editor') return '';

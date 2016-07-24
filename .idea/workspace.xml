@@ -4,11 +4,9 @@
     <list default="true" id="d5b0af2a-92ab-4dad-9a01-6ffe79b2124f" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/js/popup.bundle.js" afterPath="$PROJECT_DIR$/src/js/popup.bundle.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/styles/popup.less" afterPath="$PROJECT_DIR$/src/styles/popup.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/components/app.vue" afterPath="$PROJECT_DIR$/src/views/components/app.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/js/popup.js" afterPath="$PROJECT_DIR$/src/js/popup.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/components/stash-detail.vue" afterPath="$PROJECT_DIR$/src/views/components/stash-detail.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/components/stash-editor.vue" afterPath="$PROJECT_DIR$/src/views/components/stash-editor.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/components/stash-item.vue" afterPath="$PROJECT_DIR$/src/views/components/stash-item.vue" />
     </list>
     <ignored path="tab-stash.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,8 +30,8 @@
       <file leaf-file-name="popup.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/js/popup.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="26" column="28" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
+            <state relative-caret-position="544">
+              <caret line="32" column="37" selection-start-line="32" selection-start-column="37" selection-end-line="32" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -71,11 +69,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="stash-editor.vue" pinned="false" current-in-tab="false">
+      <file leaf-file-name="stash-editor.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/views/components/stash-editor.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="33" column="43" selection-start-line="33" selection-start-column="43" selection-end-line="33" selection-end-column="43" />
+            <state relative-caret-position="134">
+              <caret line="22" column="50" selection-start-line="22" selection-start-column="50" selection-end-line="22" selection-end-column="50" />
               <folding>
                 <element signature="e#411#450#0" expanded="true" />
               </folding>
@@ -83,13 +81,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="stash-detail.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="stash-detail.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/components/stash-detail.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="54" selection-start-line="10" selection-start-column="54" selection-end-line="10" selection-end-column="54" />
+            <state relative-caret-position="136">
+              <caret line="2" column="46" selection-start-line="2" selection-start-column="46" selection-end-line="2" selection-end-column="46" />
+              <caret line="2" column="79" selection-start-line="2" selection-start-column="79" selection-end-line="2" selection-end-column="79" />
+              <caret line="3" column="34" selection-start-line="3" selection-start-column="34" selection-end-line="3" selection-end-column="34" />
+              <caret line="4" column="34" selection-start-line="4" selection-start-column="34" selection-end-line="4" selection-end-column="34" />
+              <caret line="8" column="43" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
               <folding>
-                <element signature="e#856#894#0" expanded="true" />
+                <element signature="e#831#869#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -160,13 +162,13 @@
         <option value="$PROJECT_DIR$/src/views/components/stash-summary.vue" />
         <option value="$PROJECT_DIR$/src/js/lib/directives.js" />
         <option value="$PROJECT_DIR$/src/views/components/stash-list.vue" />
-        <option value="$PROJECT_DIR$/src/js/popup.js" />
         <option value="$PROJECT_DIR$/src/views/popup.html" />
         <option value="$PROJECT_DIR$/src/views/components/stash-item.vue" />
-        <option value="$PROJECT_DIR$/src/views/components/stash-editor.vue" />
         <option value="$PROJECT_DIR$/src/styles/popup.less" />
         <option value="$PROJECT_DIR$/src/views/components/app.vue" />
+        <option value="$PROJECT_DIR$/src/js/popup.js" />
         <option value="$PROJECT_DIR$/src/views/components/stash-detail.vue" />
+        <option value="$PROJECT_DIR$/src/views/components/stash-editor.vue" />
       </list>
     </option>
   </component>
@@ -929,7 +931,7 @@
       <workItem from="1468771274534" duration="161000" />
       <workItem from="1468771510192" duration="597000" />
       <workItem from="1468913182302" duration="57411000" />
-      <workItem from="1469266010079" duration="27195000" />
+      <workItem from="1469266010079" duration="27980000" />
     </task>
     <task id="LOCAL-00001" summary="add">
       <created>1456049236126</created>
@@ -1092,11 +1094,18 @@
       <option name="project" value="LOCAL" />
       <updated>1469355003529</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="show tab list">
+      <created>1469358835079</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1469358835079</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="151622000" />
+    <option name="totallyTimeSpent" value="152407000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="773" extended-state="6" />
@@ -1161,7 +1170,8 @@
     <MESSAGE value="optimize modify and directives" />
     <MESSAGE value="select title after click modify button" />
     <MESSAGE value="add property: 'view'" />
-    <option name="LAST_COMMIT_MESSAGE" value="add property: 'view'" />
+    <MESSAGE value="show tab list" />
+    <option name="LAST_COMMIT_MESSAGE" value="show tab list" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1411,6 +1421,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1510,6 +1521,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/components/stash-item.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="32" column="33" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
+          <folding>
+            <element signature="e#744#782#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/components/app.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -1522,38 +1543,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/js/popup.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="28" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
+        <state relative-caret-position="544">
+          <caret line="32" column="37" selection-start-line="32" selection-start-column="37" selection-end-line="32" selection-end-column="37" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/components/stash-item.vue">
+    <entry file="file://$PROJECT_DIR$/src/views/components/stash-detail.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="32" column="33" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
+        <state relative-caret-position="136">
+          <caret line="2" column="46" selection-start-line="2" selection-start-column="46" selection-end-line="2" selection-end-column="46" />
+          <caret line="2" column="79" selection-start-line="2" selection-start-column="79" selection-end-line="2" selection-end-column="79" />
+          <caret line="3" column="34" selection-start-line="3" selection-start-column="34" selection-end-line="3" selection-end-column="34" />
+          <caret line="4" column="34" selection-start-line="4" selection-start-column="34" selection-end-line="4" selection-end-column="34" />
+          <caret line="8" column="43" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
           <folding>
-            <element signature="e#744#782#0" expanded="true" />
+            <element signature="e#831#869#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/components/stash-editor.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="33" column="43" selection-start-line="33" selection-start-column="43" selection-end-line="33" selection-end-column="43" />
+        <state relative-caret-position="134">
+          <caret line="22" column="50" selection-start-line="22" selection-start-column="50" selection-end-line="22" selection-end-column="50" />
           <folding>
             <element signature="e#411#450#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/components/stash-detail.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="54" selection-start-line="10" selection-start-column="54" selection-end-line="10" selection-end-column="54" />
-          <folding>
-            <element signature="e#856#894#0" expanded="true" />
           </folding>
         </state>
       </provider>

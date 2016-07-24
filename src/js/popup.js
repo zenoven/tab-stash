@@ -3,13 +3,19 @@ var Vue       = require('vue');
 require('./lib/directives');
 var App = require('../views/components/app.vue');
 var utils = require('./lib/utils');
+var emptyData = {
+    stashList: [],
+    currentStash: {
+        dateAddedFull: '--',
+        dateAddedShort: '--',
+        title: '--',
+        children: [],
+    },
+    view: 'home'
+};
 var app = new Vue({
     el: '#app',
-    data: {
-        stashList: [],
-        currentStash: null,
-        view: 'home'
-    },
+    data: emptyData,
     components: {
         App
     }
@@ -23,8 +29,8 @@ utils.afterBookmarkModify(function () {
     if(!app.currentStash){
         stash.getAll(function (r) {
             app.$set('stashList', r);
-            app.currentStash = null;
-            app.view = 'home';
+            app.currentStash = emptyData.currentStash;
+            app.view = emptyData.view;
         });
     }
 });

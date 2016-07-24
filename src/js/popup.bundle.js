@@ -51,13 +51,19 @@
 	__webpack_require__(8);
 	var App = __webpack_require__(9);
 	var utils = __webpack_require__(3);
+	var emptyData = {
+	    stashList: [],
+	    currentStash: {
+	        dateAddedFull: '--',
+	        dateAddedShort: '--',
+	        title: '--',
+	        children: []
+	    },
+	    view: 'home'
+	};
 	var app = new Vue({
 	    el: '#app',
-	    data: {
-	        stashList: [],
-	        currentStash: null,
-	        view: 'home'
-	    },
+	    data: emptyData,
 	    components: {
 	        App: App
 	    }
@@ -71,8 +77,8 @@
 	    if (!app.currentStash) {
 	        stash.getAll(function (r) {
 	            app.$set('stashList', r);
-	            app.currentStash = null;
-	            app.view = 'home';
+	            app.currentStash = emptyData.currentStash;
+	            app.view = emptyData.view;
 	        });
 	    }
 	});
@@ -4026,7 +4032,7 @@
 	    computed: {
 	        title: {
 	            get: function get() {
-	                return this.view == 'editor' ? this.currentStash.title : '';
+	                return this.currentStash.title;
 	            },
 	            set: function set(newTitle) {
 	                if (this.view != 'editor') return '';
@@ -4107,10 +4113,6 @@
 
 	var _stash2 = _interopRequireDefault(_stash);
 
-	var _directives = __webpack_require__(8);
-
-	var _directives2 = _interopRequireDefault(_directives);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
@@ -4121,18 +4123,6 @@
 	        },
 	        active: function active() {
 	            return this.view == 'detail';
-	        },
-	        fixedCurrentStash: function fixedCurrentStash() {
-	            if (this.view == 'detail' && !!this.currentStash) {
-	                return this.currentStash;
-	            } else {
-	                return {
-	                    dateAddedFull: '--',
-	                    dateAddedShort: '--',
-	                    title: '--',
-	                    children: []
-	                };
-	            }
 	        }
 	    },
 	    methods: {
@@ -4146,7 +4136,7 @@
 /* 29 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<div class=\"tab-list-wrapper\" :class=\"{ 'show' : active }\" @click.self=\"hideDetail\">\n    <h4 class=\"tab-list-title\"  title=\"{{fixedCurrentStash.dateAddedFull}} | {{fixedCurrentStash.title}}\">\n        <span class=\"date\">{{fixedCurrentStash.dateAddedShort}}</span> |\n        <span class=\"text\">{{fixedCurrentStash.title}}</span>\n        <i class=\"icon-close\" title=\"{{ i18n.Close }}\" @click.self=\"hideDetail\"></i>\n    </h4>\n    <ul class=\"tab-list\">\n        <li class=\"tab\" v-for=\"tab in fixedCurrentStash.children\" data-id=\"{{tab.id}}\">\n            <a class=\"link\" href=\"{{tab.url}}\" title=\"{{ i18n.Open }}>>{{tab.title}}\">{{tab.title}}</a>\n            <a href=\"#\" class=\"delete\" title=\"{{ i18n.Delete }}\"><i class=\"icon-delete\"></i></a>\n        </li>\n    </ul>\n</div>\n";
+	module.exports = "\n<div class=\"tab-list-wrapper\" :class=\"{ 'show' : active }\" @click.self=\"hideDetail\">\n    <h4 class=\"tab-list-title\"  title=\"{{currentStash.dateAddedFull}} | {{currentStash.title}}\">\n        <span class=\"date\">{{currentStash.dateAddedShort}}</span> |\n        <span class=\"text\">{{currentStash.title}}</span>\n        <i class=\"icon-close\" title=\"{{ i18n.Close }}\" @click.self=\"hideDetail\"></i>\n    </h4>\n    <ul class=\"tab-list\">\n        <li class=\"tab\" v-for=\"tab in currentStash.children\" data-id=\"{{tab.id}}\">\n            <a class=\"link\" href=\"{{tab.url}}\" title=\"{{ i18n.Open }}>>{{tab.title}}\">{{tab.title}}</a>\n            <a href=\"#\" class=\"delete\" title=\"{{ i18n.Delete }}\"><i class=\"icon-delete\"></i></a>\n        </li>\n    </ul>\n</div>\n";
 
 /***/ }
 /******/ ]);
