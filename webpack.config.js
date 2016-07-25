@@ -1,16 +1,6 @@
 var webpack    = require('webpack');
-var vendersDir = __dirname + '/src/js/venders';
-var alias      = [];
-
-function addPlugin(name, venderPath){
-    alias[name] = vendersDir + venderPath;
-}
-
-addPlugin('art-template', '/art-template/dist/template-debug.js');
 
 module.exports = {
-    // plugins: {commonsPlugin},
-
     entry: {
         background: './src/js/background.js',
         options: './src/js/options.js',
@@ -26,14 +16,13 @@ module.exports = {
         loaders: [
             { test: /\.vue$/,           loader: 'vue' },
             { test: /\.css$/,           loader: 'style!css' },
-            { test: /\.js$/,            loader: 'jsx?harmony!babel' },
+            { test: /\.js$/,            loader: 'jsx?harmony!babel', exclude: [/node_modules/] },
             { test: /\.less$/,          loader: 'style!css!less' },
-            { test: /\.(png|jpg)$/,   loader: 'url-loader?limit=8192' }
+            { test: /\.(png|jpg)$/,     loader: 'url-loader?limit=8192' }
         ]
     },
 
     resolve: {
-        extensions: ['','.js', '.json', '.scss', '.less'],
-        alias: alias
+        extensions: ['','.js', '.json', '.scss', '.less']
     }
-}
+};
