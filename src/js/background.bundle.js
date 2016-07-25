@@ -57,14 +57,26 @@
 	var background = {
 
 	    init: function init() {
-	        this.initStash();
-	        this.bindEvents();
+	        var self = this;
+	        self.initOptions();
+	        self.bindEvents();
 	    },
 
-	    bindEvents: function bindEvents() {
-	        this.optionsEvent();
-	        this.contextMenuEvent();
-	        this.bookmarkModifyEvent();
+	    initOptions: function initOptions() {
+	        var self = this;
+	        st.sync.get(null, function (result) {
+	            if (utils.isEmpty(result)) {
+	                st.sync.set(conf, function () {
+	                    self.initStash(function () {
+	                        self.setBadgeText();
+	                    });
+	                });
+	            } else {
+	                self.initStash(function () {
+	                    self.setBadgeText();
+	                });
+	            }
+	        });
 	    },
 
 	    initStash: function initStash(callback) {
@@ -78,8 +90,8 @@
 	                        bookmark: bookmarkConfig
 	                    }, function () {
 	                        console.log('set initial bookmarkConfig');
+	                        callback && callback();
 	                    });
-	                    callback && callback();
 	                });
 	            } else {
 	                bookmark = bookmark[0];
@@ -87,11 +99,10 @@
 	                st.sync.set({
 	                    bookmark: bookmarkConfig
 	                }, function () {
-	                    console.log('set initial bookmarkConfig');
+	                    console.log('otherwise');
+	                    callback && callback();
 	                });
-	                callback && callback();
 	            }
-	            self.setBadgeText();
 	        });
 	    },
 
@@ -105,14 +116,9 @@
 	            });
 	        });
 	    },
-
-	    optionsEvent: function optionsEvent() {
-
-	        st.sync.get(null, function (result) {
-	            if (utils.isEmpty(result)) {
-	                st.sync.set(conf);
-	            }
-	        });
+	    bindEvents: function bindEvents() {
+	        this.contextMenuEvent();
+	        this.bookmarkModifyEvent();
 	    },
 
 	    contextMenuEvent: function contextMenuEvent() {
@@ -128,7 +134,7 @@
 	    bookmarkModifyEvent: function bookmarkModifyEvent() {
 	        var self = this;
 	        utils.afterBookmarkModify(function () {
-	            self.initStash();
+	            self.initOptions();
 	        });
 	    }
 	};

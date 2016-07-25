@@ -9,14 +9,26 @@ var bookmarkConfig = conf.bookmark;
 var background = {
 
     init: function() {
-        this.initStash();
-        this.bindEvents();
+        var self = this;
+        self.initOptions();
+        self.bindEvents();
     },
 
-    bindEvents: function () {
-        this.optionsEvent();
-        this.contextMenuEvent();
-        this.bookmarkModifyEvent();
+    initOptions: function(){
+        var self = this;
+        st.sync.get(null, function(result){
+            if(utils.isEmpty(result)){
+                st.sync.set(conf, function () {
+                    self.initStash(function () {
+                        self.setBadgeText();
+                    });
+                });
+            }else{
+                self.initStash(function () {
+                    self.setBadgeText();
+                });
+            }
+        });
     },
 
     initStash: function(callback){
@@ -30,8 +42,8 @@ var background = {
                         bookmark: bookmarkConfig
                     }, function(){
                         console.log('set initial bookmarkConfig');
+                        callback && callback();
                     });
-                    callback && callback();
                 });
             }else{
                 bookmark = bookmark[0];
@@ -39,11 +51,11 @@ var background = {
                 st.sync.set({
                     bookmark: bookmarkConfig
                 }, function(){
-                    console.log('set initial bookmarkConfig');
+                    console.log('otherwise');
+                    callback && callback();
                 });
-                callback && callback();
+
             }
-            self.setBadgeText();
         });
 
     },
@@ -59,14 +71,9 @@ var background = {
         });
 
     },
-
-    optionsEvent: function(){
-
-        st.sync.get(null, function(result){
-            if(utils.isEmpty(result)){
-                st.sync.set(conf);
-            }
-        });
+    bindEvents: function () {
+        this.contextMenuEvent();
+        this.bookmarkModifyEvent();
     },
 
     contextMenuEvent: function () {
@@ -82,7 +89,7 @@ var background = {
     bookmarkModifyEvent: function(){
         var self = this;
         utils.afterBookmarkModify(function () {
-            self.initStash();
+            self.initOptions();
         });
     }
 };
