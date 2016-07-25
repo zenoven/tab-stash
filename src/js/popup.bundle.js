@@ -15733,6 +15733,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var c = chrome;
 	exports.default = {
 	    props: ['stashItem'],
 	    computed: {
@@ -15748,6 +15749,12 @@
 	        }
 	    },
 	    methods: {
+	        open: function open() {
+	            var tabList = this.stashItem.children;
+	            tabList.forEach(function (tab) {
+	                c.tabs.create({ url: tab.url });
+	            });
+	        },
 	        expand: function expand() {
 	            var self = this;
 	            var vm = self.$root;
@@ -15778,7 +15785,7 @@
 /* 21 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<li class=\"item\">\n    <span class=\"count\">\n        <span class=\"inner\">{{stashItem.children.length}}</span>\n    </span>\n    <h3 class=\"title\"  title=\"{{stashItem.dateAddedFull}} | {{stashItem.title}}\">\n        <span class=\"date\">{{stashItem.dateAddedShort}}</span> |\n        <span class=\"text\">{{stashItem.title}}</span>\n    </h3>\n    <div class=\"control\">\n        <a href=\"#\" title=\"{{ i18n.ExpandList }}\" @click=\"expand\"><i class=\"icon-expand\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Modify }}\" @click=\"modify\"><i class=\"icon-modify\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Delete }}\" @click=\"delete\"><i class=\"icon-delete\"></i></a>\n    </div>\n</li>\n";
+	module.exports = "\n<li class=\"item\">\n    <span class=\"count\">\n        <span class=\"inner\">{{stashItem.children.length}}</span>\n    </span>\n    <h3 class=\"title\"  title=\"{{stashItem.dateAddedFull}} | {{stashItem.title}}\" @click=\"open\">\n        <span class=\"date\">{{stashItem.dateAddedShort}}</span> |\n        <span class=\"text\">{{stashItem.title}}</span>\n    </h3>\n    <div class=\"control\">\n        <a href=\"#\" title=\"{{ i18n.ExpandList }}\" @click=\"expand\"><i class=\"icon-expand\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Modify }}\" @click=\"modify\"><i class=\"icon-modify\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Delete }}\" @click=\"delete\"><i class=\"icon-delete\"></i></a>\n    </div>\n</li>\n";
 
 /***/ },
 /* 22 */

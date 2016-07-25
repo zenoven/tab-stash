@@ -3,7 +3,7 @@
         <span class="count">
             <span class="inner">{{stashItem.children.length}}</span>
         </span>
-        <h3 class="title"  title="{{stashItem.dateAddedFull}} | {{stashItem.title}}">
+        <h3 class="title"  title="{{stashItem.dateAddedFull}} | {{stashItem.title}}" @click="open">
             <span class="date">{{stashItem.dateAddedShort}}</span> |
             <span class="text">{{stashItem.title}}</span>
         </h3>
@@ -15,6 +15,7 @@
     </li>
 </template>
 <script>
+    var c = chrome;
     import utils from '../../js/lib/utils'
     import stash from '../../js/lib/stash'
     export default{
@@ -36,6 +37,12 @@
             }
         },
         methods: {
+            open(){
+                var tabList = this.stashItem.children;
+                tabList.forEach(function (tab) {
+                    c.tabs.create({url: tab.url})
+                });
+            },
             expand(){
                 var self = this;
                 var vm = self.$root;
