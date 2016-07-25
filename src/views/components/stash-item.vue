@@ -1,5 +1,5 @@
 <template>
-    <li class="item" @delete="delete">
+    <li class="item">
         <span class="count">
             <span class="inner">{{stashItem.children.length}}</span>
         </span>
@@ -19,6 +19,22 @@
     import stash from '../../js/lib/stash'
     export default{
         props: ['stashItem'],
+        computed: {
+            i18n: function () {
+                return utils.getMsgArr([
+                    {name: 'ExpandList'},
+                    {name: 'Modify'},
+                    {name: 'Delete'}
+                ])
+            }
+        },
+        events: {
+            delete(stashId){
+                if(stashId == this.stashItem.id){
+                    this.delete();
+                }
+            }
+        },
         methods: {
             expand(){
                 var self = this;
@@ -42,15 +58,6 @@
                         }
                     });
                 });
-            }
-        },
-        computed: {
-            i18n: function () {
-                return utils.getMsgArr([
-                    {name: 'ExpandList'},
-                    {name: 'Modify'},
-                    {name: 'Delete'}
-                ])
             }
         }
     }

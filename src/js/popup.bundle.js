@@ -3925,6 +3925,18 @@
 
 	exports.default = {
 	    props: ['stashItem'],
+	    computed: {
+	        i18n: function i18n() {
+	            return _utils2.default.getMsgArr([{ name: 'ExpandList' }, { name: 'Modify' }, { name: 'Delete' }]);
+	        }
+	    },
+	    events: {
+	        delete: function _delete(stashId) {
+	            if (stashId == this.stashItem.id) {
+	                this.delete();
+	            }
+	        }
+	    },
 	    methods: {
 	        expand: function expand() {
 	            var self = this;
@@ -3949,11 +3961,6 @@
 	                });
 	            });
 	        }
-	    },
-	    computed: {
-	        i18n: function i18n() {
-	            return _utils2.default.getMsgArr([{ name: 'ExpandList' }, { name: 'Modify' }, { name: 'Delete' }]);
-	        }
 	    }
 	};
 
@@ -3961,7 +3968,7 @@
 /* 21 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<li class=\"item\" @delete=\"delete\">\n    <span class=\"count\">\n        <span class=\"inner\">{{stashItem.children.length}}</span>\n    </span>\n    <h3 class=\"title\"  title=\"{{stashItem.dateAddedFull}} | {{stashItem.title}}\">\n        <span class=\"date\">{{stashItem.dateAddedShort}}</span> |\n        <span class=\"text\">{{stashItem.title}}</span>\n    </h3>\n    <div class=\"control\">\n        <a href=\"#\" title=\"{{ i18n.ExpandList }}\" @click=\"expand\"><i class=\"icon-expand\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Modify }}\" @click=\"modify\"><i class=\"icon-modify\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Delete }}\" @click=\"delete\"><i class=\"icon-delete\"></i></a>\n    </div>\n</li>\n";
+	module.exports = "\n<li class=\"item\">\n    <span class=\"count\">\n        <span class=\"inner\">{{stashItem.children.length}}</span>\n    </span>\n    <h3 class=\"title\"  title=\"{{stashItem.dateAddedFull}} | {{stashItem.title}}\">\n        <span class=\"date\">{{stashItem.dateAddedShort}}</span> |\n        <span class=\"text\">{{stashItem.title}}</span>\n    </h3>\n    <div class=\"control\">\n        <a href=\"#\" title=\"{{ i18n.ExpandList }}\" @click=\"expand\"><i class=\"icon-expand\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Modify }}\" @click=\"modify\"><i class=\"icon-modify\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Delete }}\" @click=\"delete\"><i class=\"icon-delete\"></i></a>\n    </div>\n</li>\n";
 
 /***/ },
 /* 22 */
@@ -4322,8 +4329,7 @@
 	                        vm.currentStash.children.$remove(tabItem);
 	                        if (vm.currentStash.children.length === 0) {
 	                            vm.view = 'home';
-	                            vm.$broadcast('delete');
-	                            console.log('sending broadcast...');
+	                            vm.$broadcast('delete', vm.currentStash.id);
 	                        }
 	                    }
 	                });

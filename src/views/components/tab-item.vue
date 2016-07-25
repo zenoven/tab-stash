@@ -29,8 +29,7 @@
                             vm.currentStash.children.$remove(tabItem);
                             if(vm.currentStash.children.length === 0){
                                 vm.view = 'home';
-                                vm.$broadcast('delete');
-                                console.log('sending broadcast...');
+                                vm.$broadcast('delete', vm.currentStash.id);
                             }
                         }
                     });
