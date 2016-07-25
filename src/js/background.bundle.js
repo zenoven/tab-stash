@@ -333,7 +333,6 @@
 	            list.push({
 	                title: item.title,
 	                id: item.id,
-	                dateAdded: item.dateAdded,
 	                dateAddedFull: dateFormat(item.dateAdded, 'yyyy-mm-dd hh:mm:ss'),
 	                dateAddedShort: dateFormat(item.dateAdded, 'mm-dd'),
 	                children: item.children

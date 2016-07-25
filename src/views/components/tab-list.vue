@@ -1,22 +1,14 @@
 <template>
-    <div>
-        <header-component/>
-        <div>this is template body</div>
-        <other-component/>
-    </div>
+    <ul class="tab-list">
+        <tab-item v-for="tabItem in currentStash.children" :tab-item="tabItem" :current-stash-id="currentStash.id"></tab-item>
+    </ul>
 </template>
 <script>
-    import HeaderComponent from './components/header.vue'
-    import OtherComponent from './components/other.vue'
+    import TabItem from './tab-item.vue'
     export default{
-        data(){
-            return{
-                msg:'hello vue'
-            }
-        },
+        props: ['currentStash'],
         components:{
-            'other-component':OtherComponent,
-            HeaderComponent,
+            TabItem
         }
     }
 </script>

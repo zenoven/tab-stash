@@ -23,9 +23,10 @@
                     return this.currentStash.title;
                 },
                 set(newTitle){
-                    if(this.view != 'editor') return '';
+                    var self = this;
                     var stashItem = this.$root.currentStash;
                     stash.modify(this.currentStash.id, newTitle, function () {
+                        self.currentStash.title = newTitle;
                         stashItem.title = newTitle;
                     })
                 }

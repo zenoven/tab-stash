@@ -51,19 +51,20 @@
 	__webpack_require__(8);
 	var App = __webpack_require__(9);
 	var utils = __webpack_require__(3);
-	var emptyData = {
-	    stashList: [],
-	    currentStash: {
-	        dateAddedFull: '--',
-	        dateAddedShort: '--',
-	        title: '--',
-	        children: []
-	    },
-	    view: 'home'
-	};
+
 	var app = new Vue({
 	    el: '#app',
-	    data: emptyData,
+	    data: {
+	        stashList: [],
+	        currentStash: {
+	            title: '--',
+	            id: -1,
+	            dateAddedFull: '--',
+	            dateAddedShort: '--',
+	            children: []
+	        },
+	        view: 'home'
+	    },
 	    components: {
 	        App: App
 	    }
@@ -71,16 +72,6 @@
 
 	stash.getAll(function (r) {
 	    app.$set('stashList', r);
-	});
-
-	utils.afterBookmarkModify(function () {
-	    if (!app.currentStash) {
-	        stash.getAll(function (r) {
-	            app.$set('stashList', r);
-	            app.currentStash = emptyData.currentStash;
-	            app.view = emptyData.view;
-	        });
-	    }
 	});
 
 /***/ },
@@ -281,7 +272,6 @@
 	            list.push({
 	                title: item.title,
 	                id: item.id,
-	                dateAdded: item.dateAdded,
 	                dateAddedFull: dateFormat(item.dateAdded, 'yyyy-mm-dd hh:mm:ss'),
 	                dateAddedShort: dateFormat(item.dateAdded, 'mm-dd'),
 	                children: item.children
@@ -3952,9 +3942,9 @@
 	            var self = this;
 	            var vm = self.$root;
 	            _stash2.default.delete(self.stashItem.id, function () {
-	                vm.$get('list').forEach(function (stashItem, i) {
+	                vm.$get('stashList').forEach(function (stashItem, i) {
 	                    if (stashItem.id === self.stashItem.id) {
-	                        vm.list.$remove(vm.list[i]);
+	                        vm.stashList.$remove(vm.stashList[i]);
 	                    }
 	                });
 	            });
@@ -3971,7 +3961,7 @@
 /* 21 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<li class=\"item\">\n    <span class=\"count\">\n    <span class=\"inner\">{{stashItem.children.length}}</span>\n</span>\n    <h3 class=\"title\"  title=\"{{stashItem.dateAddedFull}} | {{stashItem.title}}\">\n        <span class=\"date\">{{stashItem.dateAddedShort}}</span> |\n        <span class=\"text\">{{stashItem.title}}</span>\n    </h3>\n    <div class=\"control\">\n        <a href=\"#\" title=\"{{ i18n.ExpandList }}\" @click=\"expand\"><i class=\"icon-expand\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Modify }}\" @click=\"modify\"><i class=\"icon-modify\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Delete }}\" @click=\"delete\"><i class=\"icon-delete\"></i></a>\n    </div>\n</li>\n";
+	module.exports = "\n<li class=\"item\" @delete=\"delete\">\n    <span class=\"count\">\n        <span class=\"inner\">{{stashItem.children.length}}</span>\n    </span>\n    <h3 class=\"title\"  title=\"{{stashItem.dateAddedFull}} | {{stashItem.title}}\">\n        <span class=\"date\">{{stashItem.dateAddedShort}}</span> |\n        <span class=\"text\">{{stashItem.title}}</span>\n    </h3>\n    <div class=\"control\">\n        <a href=\"#\" title=\"{{ i18n.ExpandList }}\" @click=\"expand\"><i class=\"icon-expand\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Modify }}\" @click=\"modify\"><i class=\"icon-modify\"></i></a>\n        <a href=\"#\" title=\"{{ i18n.Delete }}\" @click=\"delete\"><i class=\"icon-delete\"></i></a>\n    </div>\n</li>\n";
 
 /***/ },
 /* 22 */
@@ -4035,9 +4025,10 @@
 	                return this.currentStash.title;
 	            },
 	            set: function set(newTitle) {
-	                if (this.view != 'editor') return '';
+	                var self = this;
 	                var stashItem = this.$root.currentStash;
 	                _stash2.default.modify(this.currentStash.id, newTitle, function () {
+	                    self.currentStash.title = newTitle;
 	                    stashItem.title = newTitle;
 	                });
 	            }
@@ -4113,16 +4104,96 @@
 
 	var _stash2 = _interopRequireDefault(_stash);
 
+	var _tabSummary = __webpack_require__(30);
+
+	var _tabSummary2 = _interopRequireDefault(_tabSummary);
+
+	var _tabList = __webpack_require__(33);
+
+	var _tabList2 = _interopRequireDefault(_tabList);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	    props: ['currentStash', 'view'],
 	    computed: {
-	        i18n: function i18n() {
-	            return _utils2.default.getMsgArr([{ name: 'Close' }, { name: 'Open' }, { name: 'Delete' }]);
-	        },
 	        active: function active() {
 	            return this.view == 'detail';
+	        },
+	        tabSummary: function tabSummary() {
+	            return {
+	                title: this.currentStash.title,
+	                dateAddedFull: this.currentStash.dateAddedFull,
+	                dateAddedShort: this.currentStash.dateAddedShort
+	            };
+	        }
+	    },
+	    methods: {
+	        hideDetail: function hideDetail() {
+	            this.$root.view = 'home';
+	        }
+	    },
+	    components: {
+	        TabSummary: _tabSummary2.default,
+	        TabList: _tabList2.default
+	    }
+	};
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"tab-list-wrapper\" :class=\"{ 'show' : active }\" @click.self=\"hideDetail\">\n    <tab-summary :tab-summary=\"tabSummary\"></tab-summary>\n    <tab-list :current-stash=\"currentStash\"></tab-list>\n</div>\n";
+
+/***/ },
+/* 30 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(31)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/views/components/tab-summary.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(32)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "_v-19785e81/tab-summary.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _utils = __webpack_require__(3);
+
+	var _utils2 = _interopRequireDefault(_utils);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	    props: ['tabSummary'],
+	    computed: {
+	        i18n: function i18n() {
+	            return _utils2.default.getMsgArr([{ name: 'Close' }, { name: 'Open' }, { name: 'Delete' }]);
 	        }
 	    },
 	    methods: {
@@ -4133,10 +4204,145 @@
 	};
 
 /***/ },
-/* 29 */
+/* 32 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<div class=\"tab-list-wrapper\" :class=\"{ 'show' : active }\" @click.self=\"hideDetail\">\n    <h4 class=\"tab-list-title\"  title=\"{{currentStash.dateAddedFull}} | {{currentStash.title}}\">\n        <span class=\"date\">{{currentStash.dateAddedShort}}</span> |\n        <span class=\"text\">{{currentStash.title}}</span>\n        <i class=\"icon-close\" title=\"{{ i18n.Close }}\" @click.self=\"hideDetail\"></i>\n    </h4>\n    <ul class=\"tab-list\">\n        <li class=\"tab\" v-for=\"tab in currentStash.children\" data-id=\"{{tab.id}}\">\n            <a class=\"link\" href=\"{{tab.url}}\" title=\"{{ i18n.Open }}>>{{tab.title}}\">{{tab.title}}</a>\n            <a href=\"#\" class=\"delete\" title=\"{{ i18n.Delete }}\"><i class=\"icon-delete\"></i></a>\n        </li>\n    </ul>\n</div>\n";
+	module.exports = "\n<h4 class=\"tab-list-title\"  title=\"{{tabSummary.dateAddedFull}} | {{tabSummary.title}}\">\n    <span class=\"date\">{{tabSummary.dateAddedShort}}</span> |\n    <span class=\"text\">{{tabSummary.title}}</span>\n    <i class=\"icon-close\" title=\"{{ i18n.Close }}\" @click.self=\"hideDetail\"></i>\n</h4>\n";
+
+/***/ },
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(34)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/views/components/tab-list.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(38)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "_v-32789bd3/tab-list.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _tabItem = __webpack_require__(35);
+
+	var _tabItem2 = _interopRequireDefault(_tabItem);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	    props: ['currentStash'],
+	    components: {
+	        TabItem: _tabItem2.default
+	    }
+	};
+
+/***/ },
+/* 35 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(36)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/views/components/tab-item.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(37)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "_v-287323c8/tab-item.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 36 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _utils = __webpack_require__(3);
+
+	var _utils2 = _interopRequireDefault(_utils);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var c = chrome;
+	exports.default = {
+	    props: ['tabItem', 'currentStashId'],
+	    computed: {
+	        i18n: function i18n() {
+	            return _utils2.default.getMsgArr([{ name: 'Close' }, { name: 'Delete' }]);
+	        }
+	    },
+	    methods: {
+	        delete: function _delete() {
+	            var self = this;
+	            var vm = self.$root;
+	            c.bookmarks.remove(this.tabItem.id + '', function () {
+	                vm.currentStash.children.forEach(function (tabItem) {
+	                    if (tabItem.id === self.tabItem.id) {
+	                        vm.currentStash.children.$remove(tabItem);
+	                        if (vm.currentStash.children.length === 0) {
+	                            vm.view = 'home';
+	                            vm.$broadcast('delete');
+	                            console.log('sending broadcast...');
+	                        }
+	                    }
+	                });
+	            });
+	        }
+	    }
+	};
+
+/***/ },
+/* 37 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<li class=\"tab\" >\n    <a class=\"link\" href=\"{{tabItem.url}}\" title=\"{{ i18n.Open }}>>{{tabItem.title}}\">{{tabItem.title}}</a>\n    <a href=\"#\" class=\"delete\" title=\"{{ i18n.Delete }}\">\n        <i class=\"icon-delete\" @click.prevent=\"delete\"></i>\n    </a>\n</li>\n";
+
+/***/ },
+/* 38 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<ul class=\"tab-list\">\n    <tab-item v-for=\"tabItem in currentStash.children\" :tab-item=\"tabItem\" :current-stash-id=\"currentStash.id\"></tab-item>\n</ul>\n";
 
 /***/ }
 /******/ ]);

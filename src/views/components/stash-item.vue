@@ -1,8 +1,8 @@
 <template>
-    <li class="item">
+    <li class="item" @delete="delete">
         <span class="count">
-        <span class="inner">{{stashItem.children.length}}</span>
-    </span>
+            <span class="inner">{{stashItem.children.length}}</span>
+        </span>
         <h3 class="title"  title="{{stashItem.dateAddedFull}} | {{stashItem.title}}">
             <span class="date">{{stashItem.dateAddedShort}}</span> |
             <span class="text">{{stashItem.title}}</span>
@@ -36,9 +36,9 @@
                 var self = this;
                 var vm = self.$root;
                 stash.delete(self.stashItem.id, function () {
-                    vm.$get('list').forEach(function (stashItem, i) {
+                    vm.$get('stashList').forEach(function (stashItem, i) {
                         if(stashItem.id === self.stashItem.id) {
-                            vm.list.$remove(vm.list[i]);
+                            vm.stashList.$remove(vm.stashList[i]);
                         }
                     });
                 });
