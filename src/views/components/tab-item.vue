@@ -1,6 +1,6 @@
 <template>
     <li class="tab" >
-        <a class="link" href="{{tabItem.url}}" title="{{ i18n.Open }}>>{{tabItem.title}}">{{tabItem.title}}</a>
+        <a class="link" href="{{tabItem.url}}" title="{{ i18n.Open }}>>{{tabItem.title}}" @click="open">{{tabItem.title}}</a>
         <a href="#" class="delete" title="{{ i18n.Delete }}">
             <i class="icon-delete" @click.prevent="delete"></i>
         </a>
@@ -14,12 +14,16 @@
         computed: {
             i18n() {
                 return utils.getMsgArr([
+                    {name: 'Open'},
                     {name: 'Close'},
                     {name: 'Delete'}
                 ])
             }
         },
         methods: {
+            open(){
+                c.tabs.create({url: this.tabItem.url});
+            },
             delete(){
                 var self = this;
                 var vm = self.$root;
