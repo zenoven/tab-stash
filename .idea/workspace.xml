@@ -2,16 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d5b0af2a-92ab-4dad-9a01-6ffe79b2124f" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/js/lib/helper.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/js/background.bundle.js" afterPath="$PROJECT_DIR$/src/js/background.bundle.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/js/background.js" afterPath="$PROJECT_DIR$/src/js/background.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/js/config.js" afterPath="$PROJECT_DIR$/src/js/config.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/js/lib/stash.js" afterPath="$PROJECT_DIR$/src/js/lib/stash.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/js/lib/utils.js" afterPath="$PROJECT_DIR$/src/js/lib/utils.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/js/popup.bundle.js" afterPath="$PROJECT_DIR$/src/js/popup.bundle.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/manifest.json" afterPath="$PROJECT_DIR$/src/manifest.json" />
     </list>
     <ignored path="tab-stash.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,7 +30,7 @@
       <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
+            <state relative-caret-position="-232">
               <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
               <folding />
             </state>
@@ -52,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="background.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="background.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/js/background.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-216">
-              <caret line="36" column="18" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="18" />
+            <state relative-caret-position="430">
+              <caret line="93" column="0" selection-start-line="93" selection-start-column="3" selection-end-line="99" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -65,14 +60,14 @@
       <file leaf-file-name="utils.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/js/lib/utils.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="78" column="98" selection-start-line="78" selection-start-column="98" selection-end-line="78" selection-end-column="98" />
+            <state relative-caret-position="85">
+              <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="stash.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="stash.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/js/lib/stash.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="238">
@@ -141,11 +136,11 @@
         <option value="$PROJECT_DIR$/src/views/components/tab-item.vue" />
         <option value="$PROJECT_DIR$/src/views/components/stash-item.vue" />
         <option value="$PROJECT_DIR$/src/js/config.js" />
-        <option value="$PROJECT_DIR$/src/js/background.js" />
-        <option value="$PROJECT_DIR$/src/js/lib/utils.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/manifest.json" />
         <option value="$PROJECT_DIR$/src/js/lib/stash.js" />
+        <option value="$PROJECT_DIR$/src/js/lib/utils.js" />
+        <option value="$PROJECT_DIR$/src/js/background.js" />
       </list>
     </option>
   </component>
@@ -718,7 +713,7 @@
       <workItem from="1469266010079" duration="55391000" />
       <workItem from="1469757662201" duration="592000" />
       <workItem from="1469761582948" duration="560000" />
-      <workItem from="1469854371957" duration="2672000" />
+      <workItem from="1469854371957" duration="3358000" />
     </task>
     <task id="LOCAL-00001" summary="add">
       <created>1456049236126</created>
@@ -944,11 +939,18 @@
       <option name="project" value="LOCAL" />
       <updated>1469452518534</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="fix data sync bug">
+      <created>1469857166207</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1469857166207</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="183642000" />
+    <option name="totallyTimeSpent" value="184328000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="773" extended-state="6" />
@@ -994,7 +996,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor style build" />
     <MESSAGE value="update" />
     <MESSAGE value="refactor with vue and es2015" />
     <MESSAGE value="refactor" />
@@ -1019,7 +1020,8 @@
     <MESSAGE value="fix stash cannot open" />
     <MESSAGE value="update version" />
     <MESSAGE value="optimize init config logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="optimize init config logic" />
+    <MESSAGE value="fix data sync bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix data sync bug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1342,18 +1344,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/lib/utils.js">
+    <entry file="file://$PROJECT_DIR$/src/js/lib/stash.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="78" column="98" selection-start-line="78" selection-start-column="98" selection-end-line="78" selection-end-column="98" />
+        <state relative-caret-position="238">
+          <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
+        <state relative-caret-position="-232">
           <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/lib/utils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
           <folding />
         </state>
       </provider>
@@ -1368,16 +1378,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/js/background.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-216">
-          <caret line="36" column="18" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/lib/stash.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
+        <state relative-caret-position="430">
+          <caret line="93" column="0" selection-start-line="93" selection-start-column="3" selection-end-line="99" selection-end-column="6" />
           <folding />
         </state>
       </provider>

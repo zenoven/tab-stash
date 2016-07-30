@@ -2,7 +2,13 @@ var c = chrome;
 var st = c.storage;
 var dateFormat = require('dateformat');
 module.exports = {
-
+    debug: function (flag,onFunction,offFunction) {
+        if(flag){
+            onFunction && onFunction();
+        } else{
+            offFunction && offFunction();
+        }
+    },
     isEmpty: function(value) {
         var type;
 

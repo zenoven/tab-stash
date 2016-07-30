@@ -91,6 +91,12 @@ var background = {
     }
 };
 
-background.init();
+// utils.debug(false,function () {
+//     st.sync.clear();
+//     st.local.clear();
+//     // background.init();
+// }, function () {
+//     background.init();
+// });
 
-// st.sync.clear();
+background.init();
