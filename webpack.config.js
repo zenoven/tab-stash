@@ -1,4 +1,5 @@
 var webpack    = require('webpack');
+var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 
 module.exports = {
     entry: {
@@ -24,5 +25,9 @@ module.exports = {
 
     resolve: {
         extensions: ['','.js', '.json', '.scss', '.less']
-    }
+    },
+    plugins: [
+        new CommonsChunkPlugin('common.bundle.js')
+    ]
+
 };

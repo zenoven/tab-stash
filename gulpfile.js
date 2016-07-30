@@ -2,11 +2,14 @@ var gulp = require('gulp');
 var shell = require('gulp-shell');
 var less = require('gulp-less');
 var del = require('del');
+var gutil = require('gulp-util');
 var copy = require('copy');
 var runSequence = require('run-sequence');
 var zip = require('gulp-zip');
 var cleanCSS = require('gulp-clean-css');
 var package = require('./package.json');
+var webpack    = require('webpack');
+var webpackConfig = require('./webpack.config.js');
 
 var src = './src';
 var build = './build';
@@ -50,14 +53,30 @@ gulp.task('compile', function(){
 });
 
 gulp.task('build', function(){
-    runSequence(
-        'clean:locales',
-        'translate',
-        'less',
-        'clean:build',
-        'copy',
-        'zip'
-    );
+    var config = Object.create(webpackConfig);
+    config.plugins = [
+        new webpack.optimize.UglifyJsPlugin({
+
+        })
+    ];
+    webpack(config, function (err, stats) {
+        if(err) {
+            throw new gutil.PluginError('webpack build', err);
+            return;
+        }
+        gutil.log('webpack build', stats.toString({
+            colors: true
+        }));
+        runSequence(
+            'clean:locales',
+            'translate',
+            'less',
+            'clean:build',
+            'copy',
+            'zip'
+        );
+
+    })
 });
 
 gulp.task('dev', ['compile'], function(){

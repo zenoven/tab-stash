@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack -w | gulp dev",
-    "build": "webpack -p | gulp build"
+    "build": "gulp build"
   },
   "default_locale": "en_US",
   "author": "zenoven@gmail.com",
@@ -30,6 +30,7 @@
     "gulp-clean-css": "^2.0.10",
     "gulp-less": "^3.1.0",
     "gulp-shell": "^0.5.2",
+    "gulp-util": "^3.0.7",
     "gulp-zip": "^3.2.0",
     "jsx-loader": "^0.13.2",
     "less": "^2.5.3",

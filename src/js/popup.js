@@ -2,7 +2,6 @@ var stash     = require('./lib/stash');
 var Vue       = require('vue');
 require('./lib/directives');
 var App = require('../views/components/app.vue');
-var utils = require('./lib/utils');
 
 var app = new Vue({
     el: '#app',
