@@ -72,40 +72,42 @@ module.exports = {
     saveTabListToBookmark: function(tabList, activeTabIndex, callback){
         var self = this;
 
-        st.sync.get(null, function(options){
-            console.log('options');
-            console.log(options);
-            c.bookmarks.create({title: tabList[activeTabIndex].title, parentId: options.bookmark.id}, function (result) {
-                for(var i = 0; i < tabList.length; i++) {
-                    (function(index,length){
-                        // todo: 根据options来判断保留的tab
-                        console.log(options.preserveTab);
-                        console.log(index);
-                        if(options.preserveTab ==='blank' && index === 0) {
-                            console.log('should create tab');
-                            c.tabs.create({active: false},null);
-                        }
-                        self.saveTabToBookmark(tabList[index], result.id, function(tab){
-                            index===length-1 && callback && callback();
+        st.sync.get(null, function(syncOptions){
+            console.log('syncOptions');
+            console.log(syncOptions);
+            st.local.get(null, function (localOptions) {
+                c.bookmarks.create({title: tabList[activeTabIndex].title, parentId: localOptions.bookmarkId}, function (result) {
+                    for(var i = 0; i < tabList.length; i++) {
+                        (function(index,length){
+                            // todo: 根据options来判断保留的tab
+                            console.log(syncOptions.preserveTab);
+                            console.log(index);
+                            if(syncOptions.preserveTab ==='blank' && index === 0) {
+                                console.log('should create tab');
+                                c.tabs.create({active: false},null);
+                            }
+                            self.saveTabToBookmark(tabList[index], result.id, function(tab){
+                                index===length-1 && callback && callback();
 
-                            if(options.preserveTab ==='first' && index === 0) {
-                                return;
-                            }
-                            if(options.preserveTab ==='last' && index === length-1) {
-                                return;
-                            }
-                            if(options.preserveTab ==='fixed' && tab.pinned) {
-                                return;
-                            }
-                            if(options.preserveTab ==='all') {
-                                return;
-                            }
+                                if(syncOptions.preserveTab ==='first' && index === 0) {
+                                    return;
+                                }
+                                if(syncOptions.preserveTab ==='last' && index === length-1) {
+                                    return;
+                                }
+                                if(syncOptions.preserveTab ==='fixed' && tab.pinned) {
+                                    return;
+                                }
+                                if(syncOptions.preserveTab ==='all') {
+                                    return;
+                                }
 
-                            c.tabs.remove(tab.id);
+                                c.tabs.remove(tab.id);
 
-                        });
-                    })(i, tabList.length);
-                }
+                            });
+                        })(i, tabList.length);
+                    }
+                });
             });
         });
     },

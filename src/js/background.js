@@ -37,21 +37,18 @@ var background = {
         c.bookmarks.search({title: bookmarkConfig.title}, function (bookmark) {
             if(bookmark.length ===0){
                 c.bookmarks.create({title: bookmarkConfig.title}, function(result){
-                    bookmarkConfig.id = result.id;
-                    st.sync.set({
-                        bookmark: bookmarkConfig
+                    st.local.set({
+                        bookmarkId: result.id
                     }, function(){
-                        console.log('set initial bookmarkConfig');
+                        console.log('set initial local storage {bookmarkId: "'+ result.id +'"}');
                         callback && callback();
                     });
                 });
             }else{
-                bookmark = bookmark[0];
-                bookmarkConfig.id = bookmark.id;
-                st.sync.set({
-                    bookmark: bookmarkConfig
+                st.local.set({
+                    bookmarkId: bookmark[0].id
                 }, function(){
-                    console.log('otherwise');
+                    console.log('otherwise, reset local storage: {bookmarkId: "'+ bookmark[0].id +'"}');
                     callback && callback();
                 });
 
@@ -95,3 +92,5 @@ var background = {
 };
 
 background.init();
+
+// st.sync.clear();

@@ -12,8 +12,8 @@ module.exports = {
     },
 
     getAll: function(callback){
-        st.sync.get('bookmark', function(result){
-            c.bookmarks.getSubTree(result.bookmark.id, function(bookmark) {
+        st.local.get('bookmarkId', function(result){
+            c.bookmarks.getSubTree(result.bookmarkId, function(bookmark) {
                 callback && callback(utils.convertBookmarkToStash(bookmark));
             });
         });
