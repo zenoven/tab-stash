@@ -54,11 +54,14 @@ gulp.task('compile', function(){
 
 gulp.task('build', function(){
     var config = Object.create(webpackConfig);
-    config.plugins = [
+    config.plugins = config.plugins.concat([
         new webpack.optimize.UglifyJsPlugin({
-
-        })
-    ];
+            compress: {
+                warnings: false
+            }
+        }),
+        new webpack.optimize.OccurenceOrderPlugin()
+    ]);
     webpack(config, function (err, stats) {
         if(err) {
             throw new gutil.PluginError('webpack build', err);

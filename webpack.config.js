@@ -24,7 +24,8 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['','.js', '.json', '.scss', '.less']
+        extensions: ['','.js', '.json', '.scss', '.less'],
+        modulesDirectories: ["node_modules"]
     },
     plugins: [
         new CommonsChunkPlugin('common.bundle.js')
