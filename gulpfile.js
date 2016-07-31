@@ -83,5 +83,11 @@ gulp.task('build', function(){
 });
 
 gulp.task('dev', ['compile'], function(){
-    gulp.watch(src + '/{styles/*.less,dictionary.json}', ['compile']);
+    gulp.watch(src + '/styles/**/*.less', ['less']);
+    gulp.watch(src + '/dictionary.json', function () {
+        runSequence(
+            'clean:locales',
+            'translate'
+        );
+    });
 });

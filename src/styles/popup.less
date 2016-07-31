@@ -1,6 +1,7 @@
 @import (less) '../../node_modules/normalize.css/normalize.css';
 @import 'base/var';
 @import 'base/icons';
+@import 'base/buttons';
 @import 'base/mixins';
 @import 'base/base';
 
@@ -11,7 +12,7 @@ body {
     height: 360px;
     padding: 0;
     margin: 0;
-    background: #F2F2F2;
+    background: @gray;
 }
 header,
 main {
@@ -23,23 +24,13 @@ header {
     top: 5px;
     height: 48px;
     line-height: 48px;
-    .btn {
-        display: block;
-        height: 100%;
-        background: @btn-bg;
-        font-family: 'PingFangTC-Regular';
-        font-size: 18px;
-        color: #fff;
-        text-align: center;
-        cursor: pointer;
-        .round();
-    }
+
 }
 main {
     top: 58px;
     bottom: 5px;
     overflow: auto;
-    border: 1px solid #DCDCDC;
+    border: @border-darker;
     background: #fff;
     .round();
 
@@ -50,7 +41,7 @@ main {
         font-family: 'STHeitiSC-Light';
         font-size: 12px;
         color: #B8B8B8;
-        background: #f8f8f8;
+        background: @gray-light;
     }
     .stash-list {
         list-style: none;
@@ -65,9 +56,9 @@ main {
             line-height: 36px;
             margin: 0;
             padding: 0 4px 0 10px;
-            border-top: 1px solid  #F2F2F2;
+            border-top: @border;
             &:last-child{
-                border-bottom: 1px solid  #F2F2F2;
+                border-bottom: @border;
             }
 
             .count {
@@ -230,7 +221,7 @@ main {
         align-items: center;
         position: relative;
         z-index: 10;
-        border-top: 1px solid  #F2F2F2;
+        border-top: @border;
 
         .link {
             height: 32px;
@@ -266,7 +257,7 @@ main {
             border-color: rgba(73, 143, 226, 0.16);
         }
         &:last-child {
-            border-bottom: 1px solid  #F2F2F2;
+            border-bottom: @border;
         }
     }
 }

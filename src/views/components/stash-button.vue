@@ -1,9 +1,10 @@
 <template>
-    <span class="btn btn-primary js-add-stash" @click="createStash" >{{ i18n.StashBtn }}</span>
+    <Button  @click="createStash" >{{ i18n.StashBtn }}</Button>
 </template>
 <script>
     import utils from '../../js/lib/utils'
     import stash from '../../js/lib/stash'
+    import Button from './button.vue'
     export default{
         data(){
             return{
@@ -16,6 +17,9 @@
             createStash(){
                 stash.create();
             }
+        },
+        components: {
+            Button
         }
     }
 </script>
