@@ -23,7 +23,7 @@ gulp.task('clean:build', function () {
 });
 
 gulp.task('less', function () {
-    return gulp.src(src + '/styles/*.less')
+    return gulp.src(src + '/styles/!(_)*.less')
             .pipe(less())
             .pipe(cleanCSS())
             .pipe(gulp.dest(src + '/styles'));
