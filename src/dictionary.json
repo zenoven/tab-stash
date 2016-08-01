@@ -94,6 +94,14 @@
                 "en_US": "Open",
                 "zh_CN": "打开"
             }
+        },
+        "Options": {
+            "description": "Options",
+            "locales": {
+                "en": "Options",
+                "en_US": "Options",
+                "zh_CN": "选项"
+            }
         }
     }
 }

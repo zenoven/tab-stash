@@ -2,18 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
-
+    <title>{{i18n.Options}}</title>
 </head>
 <body>
+<select id="color">
+    <option value="red">red</option>
+    <option value="green">green</option>
+    <option value="blue">blue</option>
+    <option value="yellow">yellow</option>
+</select>
 
-    <section id="wrapper"></section>
-
-<script type="text/html" id="title">{{ 'extName' | translte: [] }}</script>
-
-<script type="text/html" id="main">
-
-</script>
+<label>
+    <input type="checkbox" id="like">
+    I like colors.
+</label>
+<div id="status"></div>
+<button id="save">Save</button>
 
 <script src="../js/common.bundle.js"></script>
 <script src="../js/options.bundle.js"></script>

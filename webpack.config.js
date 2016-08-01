@@ -26,6 +26,9 @@ module.exports = {
         modulesDirectories: ["node_modules"]
     },
     plugins: [
+        new webpack.ProvidePlugin({
+            Vue: 'vue'
+        }),
         new CommonsChunkPlugin('common.bundle.js')
     ]
 

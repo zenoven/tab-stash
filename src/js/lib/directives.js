@@ -1,4 +1,3 @@
-var Vue = require('vue');
 var directives = {
     focus(val){
         if(val) {
