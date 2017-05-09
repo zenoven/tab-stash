@@ -9,7 +9,7 @@ var zip = require('gulp-zip');
 var cleanCSS = require('gulp-clean-css');
 var package = require('./package.json');
 var webpack    = require('webpack');
-var webpackConfig = require('./webpack.config.js');
+var webpackConfig = require('./config/webpack.config.js');
 
 var src = './src';
 var build = './build';

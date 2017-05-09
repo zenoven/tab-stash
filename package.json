@@ -4,6 +4,7 @@
   "description": "a chrome extension to stash your tab list",
   "main": "index.js",
   "scripts": {
+    "dev": "node scripts/dev-server",
     "start": "webpack -w | gulp dev",
     "build": "gulp build"
   },
@@ -15,7 +16,7 @@
     "jquery": "^2.1.4",
     "normalize.css": "^3.0.3",
     "vue": "^1.0.26-csp",
-    "webpack": "^1.12.6"
+    "webpack": "^2.5.1"
   },
   "devDependencies": {
     "babel-loader": "^6.2.4",
@@ -25,13 +26,16 @@
     "copy": "^0.2.3",
     "css-loader": "^0.23.0",
     "del": "^2.2.1",
+    "express": "^4.15.2",
     "file-loader": "^0.8.5",
+    "glob": "^7.1.1",
     "gulp": "^3.9.1",
     "gulp-clean-css": "^2.0.10",
     "gulp-less": "^3.1.0",
     "gulp-shell": "^0.5.2",
     "gulp-util": "^3.0.7",
     "gulp-zip": "^3.2.0",
+    "js-yaml": "^3.8.4",
     "jsx-loader": "^0.13.2",
     "less": "^2.5.3",
     "less-loader": "^2.2.2",
@@ -41,6 +45,7 @@
     "vue-hot-reload-api": "^2.0.5",
     "vue-html-loader": "^1.2.3",
     "vue-loader": "^8.5.3",
-    "vue-style-loader": "^1.0.0"
+    "vue-style-loader": "^1.0.0",
+    "webpack-dev-server": "^2.4.5"
   }
 }

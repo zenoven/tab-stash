@@ -1,5 +1,17 @@
 var webpack    = require('webpack');
 var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
+var glob = require('glob');
+var path = require('path');
+var root = path.join(__dirname, '../');
+var srcPath = path.join(root, 'src');
+var entryPath = path.join(srcPath, 'js');
+var entries = [];
+glob.sync('*.js', {
+    cwd: entryPath
+}).forEach(function (filePath) {
+    var chunk = filePath.slice(0, -3);
+    entries[chunk]
+})
 
 module.exports = {
     entry: {
